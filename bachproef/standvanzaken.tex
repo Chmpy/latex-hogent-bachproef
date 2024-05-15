@@ -108,8 +108,24 @@ AI wordt ook uitgebreid toegepast in de beeldverwerking op mobiele apparaten, vo
 
 \section{Model Conversie en Optimalisatie}
 
-- **Model Conversie**: Stappen voor het converteren van modellen naar formaten die compatibel zijn met mobiele apparaten (bijv. TensorFlow Lite, ONNX).
-- **Optimalisatietechnieken**: Beschrijving van optimalisatietechnieken zoals kwantisering, snoeien, en clustering om modelgrootte en inferentiesnelheid te verbeteren.
+\subsection{Model Conversie}
+
+Het converteren van AI-modellen naar formaten die compatibel zijn met mobiele apparaten is een cruciale stap om de implementatie van machine learning in mobiele applicaties te faciliteren. Veelgebruikte formaten voor compatibiliteit omvatten TensorFlow Lite en ONNX (Open Neural Network Exchange). TensorFlow Lite is een lichtgewicht oplossing die speciaal is ontworpen voor mobiele en ingebedde apparaten, en biedt tools die modellen optimaliseren voor on-device uitvoering. ONNX daarentegen is een open formaat dat ontworpen is om modelportabiliteit en interoperabiliteit te ondersteunen, zodat ontwikkelaars modellen kunnen gebruiken over verschillende frameworks en tools heen zonder dat modelconversie nodig is. Dit proces omvat gewoonlijk het vereenvoudigen, verminderen van de grootte, en verzekeren dat het model efficiënt werkt binnen de beperkingen van een mobiel apparaat \autocite{Dalwadi2021}.
+
+\subsection{Optimalisatietechnieken}
+
+Naast conversie zijn geavanceerde optimalisatietechnieken essentieel om de prestaties van AI-modellen op mobiele apparaten te verbeteren. Deze omvatten:
+
+\begin{enumerate}
+    \item \textbf{Kwantisatie}: Dit proces converteert een model van drijvende-kommagetalindeling naar een gehele getallen indeling, wat de modelgrootte vermindert en de inferentie snelheid verhoogt zonder significante verlies van nauwkeurigheid. Verschillende vormen van kwantisatie, zoals uniforme en niet-uniforme, kunnen worden toegepast, afhankelijk van de specifieke vereisten van de toepassing \autocite{Wang2022}.
+    
+    \item \textbf{Snoeien}: Door onnodige, redundante of minder belangrijke gewichten uit het neurale netwerk te verwijderen, vermindert snoeien de complexiteit en grootte van het model, wat resulteert in snellere verwerkingstijden. Deze techniek kan zowel gestructureerd als ongestructureerd worden toegepast om verschillende niveaus van compressie te bereiken, afhankelijk van de doelstellingen met betrekking tot modelprestatie en -compressie.
+    
+    \item \textbf{Clustering}: Deze techniek groepeert de gewichten van het neurale netwerk in een beperkt aantal clusters om de algehele grootte van het model te verminderen en de inferentie snelheid te verhogen. Clustering kan worden gecombineerd met kwantisatie om verdere compressie en prestatieverbeteringen te bereiken \autocite{Ye2018}.
+\end{enumerate}
+
+Deze technieken dragen bij aan de efficiëntie van AI-modellen door het verminderen van hun rekenlast en geheugenvereisten, waardoor ze beter geschikt zijn voor gebruik op mobiele apparaten met beperkte resources.
+
 
 \section{Integratie van het Model in een Android Applicatie}
 
