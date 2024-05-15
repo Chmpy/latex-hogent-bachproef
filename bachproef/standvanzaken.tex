@@ -19,7 +19,7 @@ Let er ook op: het \texttt{cite}-commando voor de punt, dus binnen de zin. Je ve
 
 \subsection{Definitie en Belang van NLP}
 
-Natural Language Processing (NLP) is een cruciale subdiscipline binnen de kunstmatige intelligentie die zich bezighoudt met de interactie tussen computers en menselijke (natuurlijke) talen. Het stelt machines in staat om menselijke taal te begrijpen en interpreteren, wat essentieel is voor het efficiënt verwerken van grote hoeveelheden tekstuele en spraakgegevens. De ontwikkeling van NLP heeft de manier waarop machines menselijke taal analyseren fundamenteel veranderd, waardoor ze niet alleen tekst kunnen begrijpen maar, ook reageren in een manier die voorheen voorbehouden was aan menselijke interactie \autocite{Sanadi2022}.
+Natural Language Processing (NLP) is een cruciale subdiscipline binnen de kunstmatige intelligentie die zich bezighoudt met de interactie tussen computers en menselijke (natuurlijke) talen. Het stelt machines in staat om menselijke taal te begrijpen en interpreteren, wat essentieel is voor het efficiënt verwerken van grote hoeveelheden tekstuele en spraakgegevens. De ontwikkeling van NLP heeft de manier waarop machines menselijke taal analyseren fundamenteel veranderd, w\-aar\-door ze niet alleen tekst kunnen begrijpen maar, ook reageren in een manier die voorheen voorbehouden was aan menselijke interactie \autocite{Sanadi2022}.
 
 \subsection{Toepassingen van NLP}
 
@@ -76,30 +76,39 @@ Deze diverse benaderingen van modeldistillatie illustreren de veelzijdigheid en 
 Ondanks de efficiëntievoordelen van gedistilleerde modellen zoals RobBERTje, is het belangrijk om aandacht te besteden aan de bias die deze modellen kunnen bevatten. Het minimaliseren van bias terwijl de efficiëntie wordt gemaximaliseerd, blijft een belangrijk aandachtspunt voor de ontwikkeling van toekomstige NLP-modellen. Efficiëntie in training en inferentie is cruciaal voor de bruikbaarheid van deze modellen in real-world toepassingen, vooral op mobiele apparaten waar rekenkracht en geheugen beperkt zijn.
 
 
-\subsection{Privacy en Gegevensbescherming}
+\section{Privacy en Gegevensbescherming}
 
-- **Belang van Privacy**: Waarom lokale verwerking belangrijk is voor privacy en gegevensbescherming.
-- **Gevoelige Data Verwerking**: Best practices voor het omgaan met gevoelige gegevens, inclusief data-encryptie en veilige communicatieprotocollen.
-- **Privacy-overwegingen**: Overwegingen en maatregelen om de privacy van gebruikers te waarborgen.
+\subsection{Belang van Privacy}
 
-\subsection{Huidige Oplossingen en Beperkingen}
+Lokale verwerking van gegevens wordt steeds belangrijker voor privacy en gegevensbescherming, vooral in het tijdperk van Internet der Dingen (IoT) en edge computing. Door gegevens lokaal te verwerken, wordt de noodzaak voor gegevensoverdracht over het netwerk verminderd, wat niet alleen de efficiëntie verbetert maar ook het risico op gegevenslekken vermindert. Dit is essentieel in situaties waar de privacy van gebruikers cruciaal is, zoals in gezondheidszorg en financiële diensten \autocite{Bi2020}.
+
+\subsection{Gevoelige Data Verwerking}
+
+Het beheren van gevoelige gegevens vereist een zorgvuldige aanpak om privacy van de gebruiker te waarborgen. Best practices omvatten het gebruik van data-encryptie en veilige communicatieprotocollen om te verzekeren dat gegevens tijdens de overdracht en opslag beschermd zijn. Technieken zoals de Advanced Encryption Standard (AES) en Secure Sockets Layer (SSL) zijn cruciaal voor het veilig overbrengen en opslaan van gegevens. Daarnaast is de implementatie van lokale differentiële privacytechnieken een effectieve manier om te zorgen voor anonimiteit van gegevens, terwijl de bruikbaarheid van ervan behouden blijft \autocite{Shah2014}.
+
+\subsection{Privacy-overwegingen}
+
+Bij het ontwerpen van systemen die gevoelige gegevens verwerken, moeten ontwikkelaars diverse privacy-overwegingen in acht nemen. Dit omvat het minimaliseren van gegevensverzameling, het verzekeren van transparantie over hoe gegevens worden gebruikt, en het implementeren van robuuste toegangscontrolesystemen. Het is ook belangrijk om privacy by design-principes te adopteren, wat betekent dat privacybescherming vanaf het begin geïntegreerd wordt bij het systeemontwerp. Methoden zoals het minimaliseren van de verzamelde gegevens en het verzekeren van een sterke gebruikerstoestemming voor het gebruik van hun gegevens zijn essentieel voor het handhaven van vertrouwen en integriteit in data gedreven systemen \autocite{Edwards2019}.
+
+
+\section{Huidige Oplossingen en Beperkingen}
 
 - **Bestaande Methoden**: Analyse van bestaande toepassingen en methoden voor het integreren van AI op mobiele apparaten.
 - **Voor- en Nadelen**: Voor- en nadelen van huidige oplossingen, inclusief technische en gebruiksaspecten.
 
-\subsection{Model Conversie en Optimalisatie}
+\section{Model Conversie en Optimalisatie}
 
 - **Model Conversie**: Stappen voor het converteren van modellen naar formaten die compatibel zijn met mobiele apparaten (bijv. TensorFlow Lite, ONNX).
 - **Optimalisatietechnieken**: Beschrijving van optimalisatietechnieken zoals kwantisering, snoeien, en clustering om modelgrootte en inferentiesnelheid te verbeteren.
 
-\subsection{Integratie van het Model in een Android Applicatie}
+\section{Integratie van het Model in een Android Applicatie}
 
 - **Mobiel-vriendelijke Deep Learning Frameworks**: Overzicht van frameworks zoals TensorFlow Lite en ONNX Runtime voor Android.
 - **API's en Tools**: Beschikbare API's en tools voor modelimplementatie in Android-applicaties.
 - **Preprocessing en Postprocessing**: Methoden voor data preprocessing, model inferentie, en output postprocessing.
 - **Prestaties en Batterijoptimalisatie**: Technieken voor prestatie- en batterijoptimalisatie, zoals caching, achtergrondverwerking, en efficiënt geheugenbeheer.
 
-\subsection{Soorten Android-diensten}
+\section{Soorten Android-diensten}
 
 - **Android Input Method Editor (IME)**:
 - **Voordelen en Nadelen**: Voor- en nadelen van het ontwikkelen van een IME voor tekstinvoer en taalmodelintegratie.
@@ -108,7 +117,7 @@ Ondanks de efficiëntievoordelen van gedistilleerde modellen zoals RobBERTje, is
 - **Voordelen en Nadelen**: Voor- en nadelen van het ontwikkelen van een systeemdienst voor taalmodelgebaseerde functies.
 - **Implementatiestappen**: Stappen voor het opzetten en integreren van een systeemdienst.
 
-\subsection{Case Studies en Voorbeelden}
+\section{Case Studies en Voorbeelden}
 
 - **Relevante Voorbeelden**: Analyse van bestaande mobiele applicaties die AI-modellen lokaal draaien, inclusief succesverhalen en mislukkingen.
 - **Lessons Learned**: Belangrijke lessen die getrokken kunnen worden uit bestaande case studies.
