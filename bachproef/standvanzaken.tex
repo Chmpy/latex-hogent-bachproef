@@ -121,19 +121,81 @@ Deze technieken dragen bij aan de efficiëntie van AI-modellen door het verminde
 
 \section{Integratie van het Model in een Android Applicatie}
 
-- **Mobiel-vriendelijke Deep Learning Frameworks**: Overzicht van frameworks zoals TensorFlow Lite en ONNX Runtime voor Android.
-- **API's en Tools**: Beschikbare API's en tools voor modelimplementatie in Android-applicaties.
-- **Preprocessing en Postprocessing**: Methoden voor data preprocessing, model inferentie, en output postprocessing.
-- **Prestaties en Batterijoptimalisatie**: Technieken voor prestatie- en batterijoptimalisatie, zoals caching, achtergrondverwerking, en efficiënt geheugenbeheer.
+\subsection{Mobiel-vriendelijke Deep Learning Frameworks en Tools}
+
+Voor de integratie van AI-modellen op Android-apparaten zijn TensorFlow Lite en ONNX Runtime de meest prominente frameworks, ontworpen om modelcompatibiliteit en efficiënte uitvoering op mobiele en embedded apparaten te ondersteunen. TensorFlow Lite optimaliseert modellen specifiek voor snelle prestaties met beperkte middelen, terwijl ONNX Runtime een efficiënte modelinfrastructuur biedt die de interoperabiliteit tussen verschillende frameworks zoals PyTorch en TensorFlow bevordert. Deze faciliteren niet alleen hardwareversnelling die essentieel is voor diepe neurale netwerken, maar bieden ook uitgebreide API's die eenvoudig te integreren zijn in de Android ontwikkelomgeving voor standaard modelinvoer, -inferentie en -uitvoer. Voor custom modellen, vooral die complexe tekstuele inferentie vereisen, zijn de beschikbare middelen echter beperkt en is er vaak aanzienlijke aanpassing nodig. Dit kan een leercurve voor ontwikkelaars verhogen vanwege de beperkte documentatie die specifieke implementatiedetails behandelt \autocite{Openja2022}.
+
+\subsection{Preprocessing en Postprocessing}
+
+Data preprocessing omvat het formatteren en normaliseren van invoergegevens zodat deze compatibel zijn met het AI-model. Voor beeldverwerking kan dit inhouden dat afbeeldingen worden geschaald of genormaliseerd naar een specifiek kleurbereik. Postprocessing aan de andere kant, houdt zich bezig met het interpreteren van de modeloutput, zoals het omzetten van ruwe scores naar bruikbare inzichten of beslissingen.
+
+\subsection{Prestaties en Batterijoptimalisatie}
+
+Het optimaliseren van prestaties en batterijduur is cruciaal voor mobiele applicaties. Technieken zoals kwantisatie, het gebruik van efficiënt geheugenbeheer en het minimaliseren van de achtergrondactiviteiten kunnen helpen om de energie-efficiëntie te verbeteren en de responsiviteit ervan te verhogen. Caching van frequente query's en het slim plannen van achtergrondtaken kunnen ook bijdragen aan een langere batterijduur en een soepelere gebruikerservaring.
+
 
 \section{Soorten Android-diensten}
 
-- **Android Input Method Editor (IME)**:
-- **Voordelen en Nadelen**: Voor- en nadelen van het ontwikkelen van een IME voor tekstinvoer en taalmodelintegratie.
-- **Implementatiestappen**: Stappen voor het opzetten en integreren van een IME.
-- **Android System-level Service**:
-- **Voordelen en Nadelen**: Voor- en nadelen van het ontwikkelen van een systeemdienst voor taalmodelgebaseerde functies.
-- **Implementatiestappen**: Stappen voor het opzetten en integreren van een systeemdienst.
+\subsection{Android Input Method Editor (IME)}
+
+De Android Input Method Editor (IME) is een programma dat gebruikers in staat stelt tekens en symbolen in te voeren op mobiele apparaten. IME's zijn vooral belangrijk voor talen met uitgebreide karakters, zoals Chinees, Japans en Koreaans.
+
+\subsubsection{Voordelen en Nadelen}
+
+\textbf{Voordelen}:
+\begin{itemize}
+    \item \textbf{Gebruiksvriendelijkheid}: IME's verbeteren de tekstinvoersnelheid en -nauw\-keu\-rig\-heid door voorspellende tekst en automatische correctie te bieden, wat de algehele gebruikerservaring verbetert.
+    \item \textbf{Flexibiliteit}: Ze bieden ondersteuning voor meerdere talen en aangepaste toetsenbordlay-outs, waardoor ze breed inzetbaar zijn voor diverse gebruikersbehoeften.
+    \item \textbf{Personalisatie}: IME's kunnen worden aangepast op basis van gebruikersgedrag en voorkeuren, wat resulteert in een meer gepersonaliseerde gebruikerservaring \autocite{Jo2015}.
+\end{itemize}
+
+\textbf{Nadelen}:
+\begin{itemize}
+    \item \textbf{Privacyrisico's}: Omdat IME's toegang hebben tot alle getypte gegevens, kunnen ze gevoelige informatie blootstellen aan privacyrisico's, vooral als de IME op een cloud draait \autocite{Kawamoto2014}.
+    \item \textbf{Prestatie}: Sommige IME's kunnen de prestaties van apparaten beïnvloeden door verhoogd geheugen- en CPU-gebruik.
+    \item \textbf{Beveiligingsrisico's}: IME's zijn kwetsbaar voor beveiligingsproblemen zoals keylogging en gegevensinbreuken, vooral wanneer derde partijen betrokken zijn \autocite{Diao2015}.
+\end{itemize}
+
+\subsubsection{Implementatiestappen}
+
+\begin{enumerate}
+    \item \textbf{Opzetten van het IME Framework}: Begin met het instellen van de basisstructuur van het IME door de benodigde Android API's te integreren.
+    \item \textbf{Ontwikkeling van het Toetsenbordinterface}: Ontwerp en implementeer het toetsenbordinterface, inclusief de lay-out en interactie-elementen.
+    \item \textbf{Integratie van Taalmodellen}: Voeg voorspellende tekst- en autocorrectiefuncties toe door modellen te integreren
+    \item \textbf{Testen en Optimaliseren}: Voer uitgebreide tests uit om de prestaties, nauwkeurigheid en beveiliging van het IME te waarborgen.
+    \item \textbf{Publicatie en Onderhoud}: Publiceer de IME op Google Play Store en zorg voor regelmatige updates en onderhoud om bugs en beveiligingsproblemen aan te pakken.
+\end{enumerate}
+
+\subsection{Android System-level Service}
+
+Android System-level Services zijn processen die op systeemniveau draaien en die door meerdere applicaties kunnen worden gebruikt. Ze bieden belangrijke functies zoals locatiebepaling, netwerkbeheer en gegevenssynchronisatie.
+
+\subsubsection{Voordelen en Nadelen}
+
+\textbf{Voordelen}:
+\begin{itemize}
+    \item \textbf{Hoge Efficiëntie}: System-level services zijn geoptimaliseerd voor prestaties en kunnen efficiënt functioneren zonder significante impact op de systeembronnen.
+    \item \textbf{Gedeelde Functionaliteit}: Deze services kunnen door meerdere applicaties worden gebruikt, wat redundantie vermindert en de consistentie verbetert.
+    \item \textbf{Betere Integratie}: System-level services kunnen naadloos integreren met andere systeemcomponenten, wat resulteert in een meer coherente gebruikerservaring.
+\end{itemize}
+
+\textbf{Nadelen}:
+\begin{itemize}
+    \item \textbf{Complexiteit van Implementatie}: Het opzetten van systeemdiensten vereist diepgaande kennis van het Android-platform en kan complex zijn.
+    \item \textbf{Beperkte Toegang}: Omdat systeemdiensten op een hoger beveiligingsniveau draaien, hebben ze beperkte toegang tot bepaalde gebruikersgegevens en -functies.
+    \item \textbf{Moeilijkheid bij Debuggen}: Problemen met systeemdiensten kunnen soms moeilijker te debuggen zijn vanwege hun integratie op laag niveau met het besturingssysteem.
+\end{itemize}
+
+\subsubsection{Implementatiestappen}
+
+\begin{enumerate}
+    \item \textbf{Definiëren van de Service}: Stel de specificaties en functionaliteiten van de systeemdienst vast.
+    \item \textbf{Ontwikkeling van de Service}: Gebruik de Android API's om de basisstructuur en functionaliteit van de service te implementeren.
+    \item \textbf{Integratie met Systeemcomponenten}: Zorg voor integratie van de service met andere relevante systeemcomponenten.
+    \item \textbf{Testen en Optimaliseren}: Voer grondige tests uit om ervoor te zorgen dat de service stabiel, efficiënt en veilig is.
+    \item \textbf{Implementatie en Onderhoud}: Implementeer de service op apparaten en zorg voor regelmatig onderhoud en updates om optimale prestaties te garanderen.
+\end{enumerate}
+
 
 \section{Case Studies en Voorbeelden}
 
