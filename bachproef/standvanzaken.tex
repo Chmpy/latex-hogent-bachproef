@@ -33,12 +33,20 @@ Een belangrijke ontwikkeling binnen NLP is de implementatie van deze technologie
 
 De integratie van NLP in zowel dagelijkse als gespecialiseerde technologieën heeft aanzienlijke voordelen voor het begrijpen en verwerken van menselijke taal. Door deze systemen lokaal te implementeren, kunnen ontwikkelaars en eindgebruikers genieten van zowel functionele als privacy-voordelen, wat essentieel is in onze steeds meer verbonden en gegevensgevoelige wereld.
 
+\section{AI-Modellen voor Mobiele Apparaten: Een Focus op BERT, DistilBERT en TinyBERT}
 
-\subsection{ AI-modellen voor Mobiele Apparaten}
+\subsection{Overzicht van Modellen}
 
-- **Overzicht van Modellen**: Beschrijving van bestaande AI-modellen zoals BERT, DistilBERT, en TinyBERT, en hun geschiktheid voor mobiele toepassingen.
-- **Criteria voor Modelkeuze**: Belangrijke criteria voor het kiezen van een taalmodel, zoals modelgrootte, precisie, en vereiste rekenkracht.
-- **Vergelijking van Modellen**: Gedetailleerde vergelijking van BERT, DistilBERT, TinyBERT, en andere relevante modellen.
+Recente ontwikkelingen in AI-modellen hebben geleid tot aanzienlijke vooruitgang in natuurlijke taalverwerking (NLP). Modellen zoals BERT (Bidirectional Encoder Representations from Transformers) en zijn afgeleiden, DistilBERT en TinyBERT, spelen een cruciale rol. BERT-modellen zijn met name effectief in het begrijpen van de context van een woord binnen een zin, wat hen zeer geschikt maakt voor complexe NLP-taken. Echter, vanwege hun grootte en complexiteit, zijn deze modellen vaak niet direct geschikt voor gebruik op mobiele apparaten met beperkte bronnen. Om dit probleem aan te pakken, zijn DistilBERT en TinyBERT ontwikkeld als kleinere, efficiëntere versies die beter geschikt zijn voor mobiele toepassingen. TinyBERT, bijvoorbeeld, is speciaal ontworpen voor kennisdestillatie van Transformer-gebaseerde modellen, wat resulteert in een model dat aanzienlijk kleiner en sneller is dan zijn voorganger, zonder aanzienlijke compromissen in de prestaties \autocite{Jiao2019TinyBERT}
+
+\subsection{Criteria voor Modelkeuze}
+
+Bij het kiezen van een taalmodel voor mobiele apparaten zijn er enkele belangrijke criteria te overwegen, waaronder modelgrootte, nauwkeurigheid en de benodigde rekenkracht. Kleinere modellen zoals TinyBERT en DistilBERT zijn vaak de voorkeursopties omdat ze minder opslagruimte en verwerkingscapaciteit vereisen. Deze modellen behouden een aanzienlijke mate van nauwkeurigheid, terwijl ze aanzienlijk sneller en lichter zijn, wat essentieel is voor toepassingen op mobiele apparaten \autocite{Sun2020MobileBERT}
+
+\subsection{Vergelijking van Modellen}
+
+TinyBERT en DistilBERT bieden beide aanzienlijke voordelen ten opzichte van het oorspronkelijke BERT-model wat betreft inzetbaarheid op mobiele apparaten. TinyBERT, bijvoorbeeld, biedt vergelijkbare prestaties als BERT-Base maar met slechts 28\% van de parameters en 31\% van de inferentietijd. DistilBERT daarentegen behoudt ongeveer 97\% van de taalbegripscapaciteit van BERT, terwijl het 40\% kleiner is en 60\% sneller dan het originele BERT-model. Deze modellen illustreren hoe kennisdestillatie kan worden gebruikt om krachtige, doch lichte modellen te creëren die geschikt zijn voor gebruik in resource-beperkte omgevingen zoals mobiele apparaten \autocite{Sanh2019DistilBERT}
+
 
 \subsection{ BERT, RobBERT, RobBERTje}
 
