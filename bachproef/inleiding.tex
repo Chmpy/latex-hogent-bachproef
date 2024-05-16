@@ -5,32 +5,42 @@
 \chapter{\IfLanguageName{dutch}{Inleiding}{Introduction}}%
 \label{ch:inleiding}
 
-De inleiding moet de lezer net genoeg informatie verschaffen om het onderwerp te begrijpen en in te zien waarom de onderzoeksvraag de moeite waard is om te onderzoeken. In de inleiding ga je literatuurverwijzingen beperken, zodat de tekst vlot leesbaar blijft. Je kan de inleiding verder onderverdelen in secties als dit de tekst verduidelijkt. Zaken die aan bod kunnen komen in de inleiding~\autocite{Pollefliet2011}:
+In de moderne digitale samenleving zijn mobiele toetsenborden op Android-app\-ara\-ten een essentieel hulpmiddel voor dagelijkse communicatie. Deze toetsenborden bieden functionaliteiten voor spelling- en grammaticacontrole, maar brengen ook uitdagingen met zich mee op het gebied van privacybescherming. Gebruikers vertrouwen erop dat hun persoonlijke gegevens veilig blijven, terwijl ontwikkelaars de verantwoordelijkheid dragen om deze privacy te waarborgen.
 
-\begin{itemize}
-  \item context, achtergrond
-  \item afbakenen van het onderwerp
-  \item verantwoording van het onderwerp, methodologie
-  \item probleemstelling
-  \item onderzoeksdoelstelling
-  \item onderzoeksvraag
-  \item \ldots
-\end{itemize}
+De ontwikkeling van een privacybewust spelling- en grammaticacontrole-toet\-sen\-bord voor Android, met een initiële focus op de Nederlandse taal, vormt het centrale thema van dit onderzoek. Dit toetsenbord maakt gebruik van RobBERT, een Nederlandstalige variant van het BERT-model (Bidirectional Encoder Representations from Transformers), om nauwkeurige taalverwerking mogelijk te maken zonder afbreuk te doen aan de privacy van gebruikers.
 
 \section{\IfLanguageName{dutch}{Probleemstelling}{Problem Statement}}%
 \label{sec:probleemstelling}
 
-Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde heeft voor een concrete doelgroep. De doelgroep moet goed gedefinieerd en afgelijnd zijn. Doelgroepen als ``bedrijven,'' ``KMO's'', systeembeheerders, enz.~zijn nog te vaag. Als je een lijstje kan maken van de personen/organisaties die een meerwaarde zullen vinden in deze bachelorproef (dit is eigenlijk je steekproefkader), dan is dat een indicatie dat de doelgroep goed gedefinieerd is. Dit kan een enkel bedrijf zijn of zelfs één persoon (je co-promotor/opdrachtgever).
+De huidige generatie mobiele toetsenborden centraliseert de verwerking van gebruikersgegevens, wat privacyrisico's met zich meebrengt. Gebruikers hebben weinig controle over hoe en waar hun gegevens worden verwerkt, wat leidt tot bezorgdheid over datalekken en ongewenste toegang. De vraag is hoe een spelling- en grammaticacontrole-toetsenbord kan worden ontwikkeld dat zowel nauwkeurig als privacybewust is, en dat offline kan functioneren om de controle over persoonlijke gegevens volledig bij de gebruiker te houden.
 
 \section{\IfLanguageName{dutch}{Onderzoeksvraag}{Research question}}%
 \label{sec:onderzoeksvraag}
 
-Wees zo concreet mogelijk bij het formuleren van je onderzoeksvraag. Een onderzoeksvraag is trouwens iets waar nog niemand op dit moment een antwoord heeft (voor zover je kan nagaan). Het opzoeken van bestaande informatie (bv. ``welke tools bestaan er voor deze toepassing?'') is dus geen onderzoeksvraag. Je kan de onderzoeksvraag verder specifiëren in deelvragen. Bv.~als je onderzoek gaat over performantiemetingen, dan 
+Dit onderzoek richt zich op de volgende hoofdvraag: Hoe kan een privacybewust spelling- en grammaticacontrole-toetsenbord voor Android worden ontwikkeld dat nauwkeurige taalverwerking biedt en offline functioneert? Deze hoofdvraag wordt verder opgesplitst in deelvragen:
+\begin{enumerate}
+    \item Welke taalproblemen kunnen worden gecorrigeerd met technologieën zoals BERT, RobBERT en RobBERTje?
+    \item Hoe kan een dergelijk toetsenbord initieel de Nederlandse taal ondersteunen met de flexibiliteit voor uitbreiding naar andere talen?
+    \item Op welke wijze kan dit toetsenbord worden aangepast voor diverse gebruikssituaties buiten de initiële implementatie?
+    \item Wat is de ideale balans tussen nauwkeurigheid en privacy in de ontwikkeling van dit toetsenbord?
+    \item Hoe kan de gebruiker de controle over zijn of haar persoonlijke data behouden?
+    \item Wat zijn de gevolgen voor de prestaties van het toetsenbord bij de integratie van spelling- en grammaticacontrole?
+    \item Is de beoogde oplossing voldoende schaalbaar om meerdere talen en uitgebreide gebruikssituaties te ondersteunen?
+    \item Welke technische uitdagingen moeten worden overwonnen om hoge prestaties en schaalbaarheid te garanderen?
+\end{enumerate}
 
 \section{\IfLanguageName{dutch}{Onderzoeksdoelstelling}{Research objective}}%
 \label{sec:onderzoeksdoelstelling}
 
-Wat is het beoogde resultaat van je bachelorproef? Wat zijn de criteria voor succes? Beschrijf die zo concreet mogelijk. Gaat het bv.\ om een proof-of-concept, een prototype, een verslag met aanbevelingen, een vergelijkende studie, enz.
+Het doel van dit onderzoek is de ontwikkeling van een proof-of-concept voor een privacybewust spelling- en grammaticacontrole-toetsenbord voor Android. Dit toetsenbord zal idealiter gebruik maken van een geoptimaliseerde vorm van het Rob\-BERT-model, zodat het op mobiele apparaten kan functioneren en offline taalverwerking kan bieden. De verwachte resultaten zijn:
+\begin{itemize}
+    \item Een werkend prototype van het toetsenbord dat nauwkeurige spelling- en grammaticacontrole biedt.
+    \item Volledige controle van de gebruiker over persoonlijke gegevens, zonder dat deze extern worden verwerkt.
+    \item Flexibiliteit voor uitbreiding naar meerdere talen en gebruikssituaties.
+    \item Inzichten in de balans tussen nauwkeurigheid en privacy in taalverwerkingsmodellen.
+\end{itemize}
+
+Dit onderzoek draagt bij aan de ontwikkeling van privacybewuste technologieën door de eindgebruiker meer controle te geven over hun gegevens en tegelijkertijd geavanceerde taalverwerkingsfunctionaliteiten te bieden. Het uiteindelijke doel is niet alleen een werkend prototype, maar ook de versterking van gebruikersautonomie in een steeds meer data-gedreven wereld.
 
 \section{\IfLanguageName{dutch}{Opzet van deze bachelorproef}{Structure of this bachelor thesis}}%
 \label{sec:opzet-bachelorproef}
