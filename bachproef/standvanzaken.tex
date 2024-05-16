@@ -9,21 +9,26 @@
 
 \section{Natural Language Processing: Een Overzicht en Toepassingen}
 
+Natural Language Processing (NLP) speelt een essentiële rol bij de interactie tussen computers en menselijke talen. Dit hoofdstuk vormt een basis voor het begrijpen van AI-modellen, cruciaal voor het ontwikkelen van een privacybewust spelling- en grammaticacontroletoetsenbord voor Android. Het vormt de grondslag voor latere bespreking van specifieke AI-modellen en hun toepassingen.
+
+
 \subsection{Definitie en Belang van NLP}
 
 Natural Language Processing (NLP) is een cruciale subdiscipline binnen de kunstmatige intelligentie die zich bezighoudt met de interactie tussen computers en menselijke (natuurlijke) talen. Het stelt machines in staat om menselijke taal te begrijpen en interpreteren, wat essentieel is voor het efficiënt verwerken van grote hoeveelheden tekstuele en spraakgegevens. De ontwikkeling van NLP heeft de manier waarop machines menselijke taal analyseren fundamenteel veranderd, w\-aar\-door ze niet alleen tekst kunnen begrijpen maar, ook reageren in een manier die voorheen voorbehouden was aan menselijke interactie \autocite{Sanadi2022}.
 
 \subsection{Toepassingen van NLP}
 
-De toepassingen van NLP zijn divers en invloedrijk in verschillende domeinen, van machine vertaling en sentiment analyse tot stem gestuurde assistenten. Deze technologieën worden steeds vaker geïmplementeerd in apparaten en diensten die we dagelijks gebruiken, wat aantoont hoe diepgaand NLP de interactie tussen mens en machine heeft getransformeerd. Door de integratie van NLP in deze applicaties kunnen apparaten complexe menselijke commando's begrijpen en hierop reageren, wat de bruikbaarheid en toegankelijkheid van technologie verbetert \autocite{Feng2020}.
+De toepassingen van NLP zijn divers en invloedrijk in verschillende domeinen, van machine vertaling en sentiment analyse tot stem gestuurde assistenten. Deze technologieën worden steeds vaker geïmplementeerd in apparaten en diensten die we dagelijks gebruiken, wat aantoont hoe diepgaand NLP de interactie tussen mens en machine heeft getransformeerd. Door de integratie van NLP in deze applicaties kunnen apparaten complexe menselijke commando's begrijpen en hierop reageren, wat de bruikbaarheid en toegankelijkheid van technologie verbetert \hfill \break \autocite{Feng2020}.
 
 \subsection{Privacyvoordelen van Lokale NLP}
 
-Een belangrijke ontwikkeling binnen NLP is de implementatie van deze technologieën direct op lokale apparaten, zoals Android smartphones. Door NLP lokaal uit te voeren, kunnen gebruikers profiteren van de voordelen die bij taalverwerking komen, zonder hun gegevens naar externe servers te sturen. Dit biedt aanzienlijke privacyvoordelen, aangezien gevoelige informatie op het apparaat zelf wordt verwerkt en beheerd, waardoor het risico op datalekken en externe toegang tot persoonlijke gegevens wordt verminderd. Deze benadering is vooral belangrijk in toepassingen waarbij gevoelige gegevens worden verwerkt, zoals in medische, financiële of persoonlijke assistent-applicaties \autocite{Locke2021Natural}.
+Een belangrijke ontwikkeling binnen NLP is de implementatie van deze technologieën direct op lokale apparaten, zoals Android smartphones. Door NLP lokaal uit te voeren, kunnen gebruikers profiteren van de voordelen die bij taalverwerking komen, zonder hun gegevens naar externe servers te sturen. Dit voorziet ons van aanzienlijke privacyvoordelen, aangezien gevoelige informatie op het apparaat zelf wordt verwerkt en beheerd, waardoor het risico op datalekken en externe toegang tot persoonlijke gegevens wordt verminderd. Deze benadering is vooral belangrijk in toepassingen waarbij gevoelige gegevens worden verwerkt, zoals in medische, financiële of persoonlijke assistent-applicaties \autocite{Locke2021Natural}.
 \\ \\
 De integratie van NLP in zowel dagelijkse als gespecialiseerde technologieën heeft aanzienlijke voordelen voor het begrijpen en verwerken van menselijke taal. Door deze systemen lokaal te implementeren, kunnen ontwikkelaars en eindgebruikers genieten van zowel functionele als privacy-voordelen, wat essentieel is in onze s\-t\-ee\-ds meer verbonden en gegevensgevoelige wereld.
 
 \section{AI-Modellen voor Mobiele Apparaten: Een Focus op BERT, DistilBERT en TinyBERT}
+
+Dit hoofdstuk bouwt voort op de basis van NLP en bespreekt AI-modellen zoals BERT, DistilBERT en TinyBERT, die essentieel zijn voor NLP-toepassingen op mobiele apparaten. Deze kennis helpt bij het selecteren en optimaliseren van de juiste modellen voor de toetsenbordapplicatie.
 
 \subsection{Overzicht van Modellen}
 
@@ -40,6 +45,8 @@ TinyBERT en DistilBERT bieden beide aanzienlijke voordelen ten opzichte van het 
 
 \section{BERT, RobBERT, en RobBERTje: Prestaties en Optimalisaties van Nederlandse Taalmodellen}
 
+Voortbouwend op de bespreking van AI-modellen, richt dit hoofdstuk zich op Nederlandse varianten zoals RobBERT en RobBERTje. We onderzoeken hun prestaties en optimalisaties, wat cruciaal is voor de implementatie van effectieve taalmodellen in de toetsenbordapplicatie.
+
 \subsection{Inleiding tot BERT}
 
 BERT (Bidirectional Encoder Representations from Transformers) is een trans\-for\-mer-gebaseerd model dat heeft gezorgd voor aanzienlijke verbeteringen in verschillende natuurlijke taaltaken door zijn vermogen om diepe bidirectionele representaties te pre-trainen. Dit model kan fijn afgesteld worden met slechts één extra outputlaag om toonaangevende resultaten te leveren voor een breed scala aan taken, zoals vraag beantwoording en taal inferentie, zonder substantiële aanpassingen in de taakspecifieke architectuur \autocite{Devlin2019}.
@@ -50,7 +57,7 @@ RobBERT en RobBERTje zijn Nederlandse varianten van het BERT-model, ontwikkeld o
 
 \subsection{Vergelijking van Distillatiearchitecturen}
 
-Distillatiearchitecturen zoals TinyBERT, DistilBERT en RobBERTje hebben elk unieke benaderingen en optimalisaties die hen onderscheiden, vooral in hoe ze presteren en hoe ze worden getraind.
+Distillatiearchitecturen zoals TinyBERT, DistilBERT en RobBERTje hebben elk unie\-ke benaderingen en optimalisaties die hen onderscheiden, vooral in hoe ze presteren en hoe ze worden getraind.
 
 \textbf{TinyBERT} maakt gebruik van een tweefasig leerproces dat zowel tijdens de pre-training als taakspecifieke afstemming plaatsvindt. Deze methode zorgt ervoor dat TinyBERT zowel algemene als taakspecifieke kennis efficiënt kan overnemen van zijn 'leraar'-model. TinyBERT slaagt erin om met slechts 28\% van de parameters en 31\% van de inferentietijd vergeleken met zijn leraar, BERT-Base, toch meer dan 96.8\% van de prestaties te behouden op de GLUE benchmark. Deze indrukwekkende reductie in grootte en snelheid maakt TinyBERT bijzonder geschikt voor mobiele en ingebedde toepassingen \autocite{Jiao2019TinyBERT}.
 
@@ -58,7 +65,7 @@ Distillatiearchitecturen zoals TinyBERT, DistilBERT en RobBERTje hebben elk unie
 
 \textbf{RobBERTje} richt zich op het optimaliseren van de Nederlandse taalmodellen door verschillende distillatiecorpora te onderzoeken. Dit onderzoek heeft aangetoond dat het mengen van opeenvolgende zinnen in een corpus kan leiden tot modellen die sneller trainen en beter presteren op taken met lange sequenties. Dit suggereert dat de structuur van het trainingscorpus aanzienlijk kan bijdragen aan de effectiviteit van gedistilleerde modellen. Interessant is dat RobBERTje ook minder genderstereotype bias vertoont dan zijn leraarsmodel, wat wijst op een bijkomend voordeel van het distillatieproces \autocite{Delobelle2021}.
 
-Deze diverse benaderingen van modeldistillatie illustreren de veelzijdigheid en aanpasbaarheid van distillatiearchitecturen in het verkleinen en versnellen van trans\-for\-mer-gebaseerde modellen, terwijl nog steeds een hoge mate van nauwkeurigheid behouden blijft. Elk van deze modellen biedt unieke voordelen, afhankelijk van de specifieke eisen en beperkingen van de toepassing, zoals geheugenbeperkingen, rekenkracht, en de specifieke kenmerken van de taak of het taaldomein.
+Deze diverse benaderingen van modeldistillatie illustreren de veelzijdigheid en aanpasbaarheid van distillatiearchitecturen in het verkleinen en versnellen van trans\-for\-mer-gebaseerde modellen, terwijl nog steeds een hoge mate van nauwkeurigheid behouden blijft. Elk van deze modellen heeft unieke voordelen, afhankelijk van de specifieke eisen en beperkingen van de toepassing, zoals geheugenbeperkingen, rekenkracht, en de specifieke kenmerken van de taak of het taaldomein.
 
 
 \subsection{Bias en Efficiëntie}
@@ -67,6 +74,8 @@ Ondanks de efficiëntievoordelen van gedistilleerde modellen zoals RobBERTje, is
 
 
 \section{Privacy en Gegevensbescherming}
+
+Na de bespreking van taalmodellen en hun optimalisaties, verschuift dit hoofdstuk de focus naar privacy en gegevensbescherming. We bespreken waarom lokale verwerking belangrijk is voor privacy en hoe gevoelige gegevens veilig kunnen worden verwerkt, wat essentieel is voor een privacybewust toetsenbord.
 
 \subsection{Belang van Privacy}
 
@@ -83,10 +92,12 @@ Bij het ontwerpen van systemen die gevoelige gegevens verwerken, moeten ontwikke
 
 \section{Huidige Oplossingen en Beperkingen}
 
+Gebaseerd op de eerdere bespreking van privacy en modeloptimalisatie, onderzoekt dit hoofdstuk bestaande methoden voor AI-integratie op mobiele apparaten. We analyseren de voor- en nadelen van huidige oplossingen om inzicht te krijgen in de beperkingen en kansen voor verbetering.
+
 \subsection{Bestaande Methoden}
 
 \textbf{Spraakherkenning op Mobiele Apparaten:}
-Spraakherkenningstechnologie, aangedreven door AI, is aanzienlijk verbeterd en wordt gebruikt in diverse toepassingen zoals virtuele assistenten, spraak gestuurde apparaten en dicteer software. Deze technologie maakt gebruik van machine learning-algoritmen die getraind zijn op grote hoeveelheden spraakgegevens om menselijke spraak te herkennen en interpreteren met nauwkeurigheidsniveaus die vergelijkbaar zijn met die van mensen. Automatische spraakherkennings(ASR)-systemen bestaan uit drie hoofdcomponenten: het akoestische model, het taalmodel en de decoder. Deze componenten werken samen om gesproken input te verwerken in geschreven tekst, ondanks uitdagingen zoals spraakvariatie en achtergrondlawaai \autocite{Wang2023}.
+Spraakherkenningstechnologie, aangedreven door AI, is aanzienlijk verbeterd en wordt gebruikt in diverse toepassingen zoals virtuele assistenten, spraak gestuurde apparaten en dicteer software. De\-ze technologie maakt gebruik van machine learning-algoritmen die getraind zijn op grote hoeveelheden spraakgegevens om menselijke spraak te herkennen en interpreteren met nauwkeurigheidsniveaus die vergelijkbaar zijn met die van mensen. Automatische spraakherkennings(ASR)-systemen bestaan uit drie hoofdcomponenten: het akoestische model, het taalmodel en de decoder. Deze componenten werken samen om gesproken input te verwerken in geschreven tekst, ondanks uitdagingen zoals spraakvariatie en achtergrondlawaai \autocite{Wang2023}.
 \\ \\
 \textbf{Beeldverwerking op Mobiele Apparaten:}
 AI wordt ook uitgebreid toegepast in de beeldverwerking op mobiele apparaten, voornamelijk voor functies zoals gezichtsherkenning en objectdetectie. Deze systemen gebruiken diepe leermodellen die zijn geoptimaliseerd voor mobiele apparaten om complexe beeldverwerkingstaken uit te voeren. Door gebruik te maken van convolutionele neurale netwerken (CNN's) kunnen deze modellen patronen in visuele gegevens herkennen en interpreteren, wat van cruciaal belang is voor toepassingen zoals fotografie-apps, gezondheidsmonitoring en interactieve gaming \autocite{Luo2018}. Bovendien versterken geavanceerde AI-strategieën de mogelijkheden van mobiele applicaties door contextbewustzijn en adaptief leren te bieden, wat essentieel is voor gepersonaliseerde gebruikerservaringen \autocite{Sarker2021}.
@@ -100,9 +111,12 @@ AI wordt ook uitgebreid toegepast in de beeldverwerking op mobiele apparaten, vo
 
 \section{Model Conversie en Optimalisatie}
 
+In navolging van de analyse op huidige oplossingen, bespreekt dit hoofdstuk de stappen voor modelconversie en optimalisatietechnieken. Deze technieken zijn cruciaal voor de efficiënte integratie van AI-modellen op mobiele apparaten, zoals besproken in de vorige hoofdstukken.
+
+
 \subsection{Model Conversie}
 
-Het converteren van AI-modellen naar formaten die compatibel zijn met mobiele apparaten is een cruciale stap om de implementatie van machine learning in mobiele applicaties te faciliteren. Veelgebruikte formaten voor compatibiliteit omvatten TensorFlow Lite en ONNX (Open Neural Network Exchange). TensorFlow Lite is een lichtgewicht oplossing die speciaal is ontworpen voor mobiele en ingebedde apparaten, en biedt tools die modellen optimaliseren voor on-device uitvoering. ONNX daarentegen is een open formaat dat ontworpen is om modelportabiliteit en interoperabiliteit te ondersteunen, zodat ontwikkelaars modellen kunnen gebruiken over verschillende frameworks en tools heen zonder dat modelconversie nodig is. Dit proces omvat gewoonlijk het vereenvoudigen, verminderen van de grootte, en verzekeren dat het model efficiënt werkt binnen de beperkingen van een mobiel apparaat \autocite{Dalwadi2021}.
+Het converteren van AI-modellen naar formaten die compatibel zijn met mobiele apparaten is een cruciale stap om de implementatie van machine learning in mobiele applicaties te faciliteren. Veelgebruikte formaten voor compatibiliteit omvatten TensorFlow Lite en ONNX (Open Neural Network Exchange). TensorFlow Lite is een lichtgewicht oplossing die speciaal is ontworpen voor mobiele en ingebedde apparaten, en voorziet tools die modellen optimaliseren voor on-device uitvoering. ONNX daarentegen is een open formaat dat ontworpen is om modelportabiliteit en interoperabiliteit te ondersteunen, zodat ontwikkelaars modellen kunnen gebruiken over verschillende frameworks en tools heen zonder dat modelconversie nodig is. Dit proces omvat gewoonlijk het vereenvoudigen, verminderen van de grootte, en verzekeren dat het model efficiënt werkt binnen de beperkingen van een mobiel apparaat \autocite{Dalwadi2021}.
 
 \subsection{Optimalisatietechnieken}
 
@@ -121,9 +135,11 @@ Deze technieken dragen bij aan de efficiëntie van AI-modellen door het verminde
 
 \section{Integratie van het Model in een Android Applicatie}
 
+Na de bespreking van modelconversie en optimalisatie, richt dit hoofdstuk zich op de praktische aspecten met betrekking tot het integreren van AI-modellen in Android-applicaties. We behandelen de frameworks en tools die nodig zijn voor deze integratie, evenals technieken voor preprocessing, postprocessing en prestatieoptimalisatie.
+
 \subsection{Mobiel-vriendelijke Deep Learning Frameworks en Tools}
 
-Voor de integratie van AI-modellen op Android-apparaten zijn TensorFlow Lite en ONNX Runtime de meest prominente frameworks, ontworpen om modelcompatibiliteit en efficiënte uitvoering op mobiele en embedded apparaten te ondersteunen. TensorFlow Lite optimaliseert modellen specifiek voor snelle prestaties met beperkte middelen, terwijl ONNX Runtime een efficiënte modelinfrastructuur biedt die de interoperabiliteit tussen verschillende frameworks zoals PyTorch en TensorFlow bevordert. Deze faciliteren niet alleen hardwareversnelling die essentieel is voor diepe neurale netwerken, maar bieden ook uitgebreide API's die eenvoudig te integreren zijn in de Android ontwikkelomgeving voor standaard modelinvoer, -inferentie en -uitvoer. Voor custom modellen, vooral die complexe tekstuele inferentie vereisen, zijn de beschikbare middelen echter beperkt en is er vaak aanzienlijke aanpassing nodig. Dit kan een leercurve voor ontwikkelaars verhogen vanwege de beperkte documentatie die specifieke implementatiedetails behandelt \autocite{Openja2022}.
+Voor de integratie van AI-modellen op Android-apparaten zijn TensorFlow Lite en ONNX Runtime de meest prominente frameworks, ontworpen om modelcompatibiliteit en efficiënte uitvoering op mobiele en embedded apparaten te ondersteunen. TensorFlow Lite optimaliseert modellen specifiek voor snelle prestaties met beperkte middelen, terwijl ONNX Runtime een efficiënte modelinfrastructuur bie\-dt die de interoperabiliteit tussen verschillende frameworks zoals PyTorch en TensorFlow bevordert. Deze faciliteren niet alleen hardwareversnelling die essentieel is voor diepe neurale netwerken, maar bieden ook uitgebreide API's die eenvoudig te integreren zijn in de Android ontwikkelomgeving voor standaard modelinvoer, -inferentie en -uitvoer. Voor custom modellen, vooral die complexe tekstuele inferentie vereisen, zijn de beschikbare middelen echter beperkt en is er vaak aanzienlijke aanpassing nodig. Dit kan een leercurve voor ontwikkelaars verhogen vanwege de beperkte documentatie die specifieke implementatiedetails behandelt \autocite{Openja2022}.
 
 \subsection{Preprocessing en Postprocessing}
 
@@ -136,6 +152,9 @@ Het optimaliseren van prestaties en batterijduur is cruciaal voor mobiele applic
 
 \section{Soorten Android-diensten}
 
+Dit hoofdstuk bouwt voort op de praktische integratie van AI-modellen en bespreekt verschillende soorten Android-diensten zoals IME en System-level Services. We onderzoeken hun voordelen, nadelen en implementatiestappen, wat helpt bij het begrijpen van de infrastructuur waarin AI-modellen kunnen worden geïmplementeerd.
+
+
 \subsection{Android Input Method Editor (IME)}
 
 De Android Input Method Editor (IME) is een programma dat gebruikers in staat stelt tekens en symbolen in te voeren op mobiele apparaten. IME's zijn vooral belangrijk voor talen met uitgebreide karakters, zoals Chinees, Japans en Koreaans.
@@ -145,7 +164,7 @@ De Android Input Method Editor (IME) is een programma dat gebruikers in staat st
 \textbf{Voordelen}:
 \begin{itemize}
     \item \textbf{Gebruiksvriendelijkheid}: IME's verbeteren de tekstinvoersnelheid en -nauw\-keu\-rig\-heid door voorspellende tekst en automatische correctie te bieden, wat de algehele gebruikerservaring verbetert.
-    \item \textbf{Flexibiliteit}: Ze bieden ondersteuning voor meerdere talen en aangepaste toetsenbordlay-outs, waardoor ze breed inzetbaar zijn voor diverse gebruikersbehoeften.
+    \item \textbf{Flexibiliteit}: Ze voorzien ondersteuning voor meerdere talen en aangepaste toetsenbordlay-outs, waardoor ze breed inzetbaar zijn voor diverse gebruikersbehoeften.
     \item \textbf{Personalisatie}: IME's kunnen worden aangepast op basis van gebruikersgedrag en voorkeuren, wat resulteert in een meer gepersonaliseerde gebruikerservaring \autocite{Jo2015}.
 \end{itemize}
 
@@ -159,7 +178,7 @@ De Android Input Method Editor (IME) is een programma dat gebruikers in staat st
 \subsubsection{Implementatiestappen}
 
 \begin{enumerate}
-    \item \textbf{Opzetten van het IME Framework}: Begin met het instellen van de basisstructuur van het IME door de benodigde Android API's te integreren.
+    \item \textbf{Opzetten van het IME Framework}: Begin met het instellen van de basisstructuur door benodigde Android API's te integreren.
     \item \textbf{Ontwikkeling van het Toetsenbordinterface}: Ontwerp en implementeer het toetsenbordinterface, inclusief de lay-out en interactie-elementen.
     \item \textbf{Integratie van Taalmodellen}: Voeg voorspellende tekst- en autocorrectiefuncties toe door modellen te integreren
     \item \textbf{Testen en Optimaliseren}: Voer uitgebreide tests uit om de prestaties, nauwkeurigheid en beveiliging van het IME te waarborgen.
@@ -199,5 +218,37 @@ Android System-level Services zijn processen die op systeemniveau draaien en die
 
 \section{Case Studies en Voorbeelden}
 
-- **Relevante Voorbeelden**: Analyse van bestaande mobiele applicaties die AI-modellen lokaal draaien, inclusief succesverhalen en mislukkingen.
-- **Lessons Learned**: Belangrijke lessen die getrokken kunnen worden uit bestaande case studies.
+Het laatste hoofdstuk presenteert case studies en voorbeelden van mobiele applicaties die AI-modellen lokaal draaien. We analyseren succesverhalen en mislukkingen, waaruit belangrijke lessen voor toekomstige implementaties komen. Dit helpt bij het contextualiseren van de besproken technologieën en brengt praktische inzichten voor de toepassing van deze bachelorproef.
+
+
+\subsection{Relevante Voorbeelden}
+
+Er zijn verschillende voorbeelden van mobiele applicaties die AI-modellen lokaal draaien, met zowel succesverhalen als mislukkingen.
+
+\textbf{Succesverhalen}:
+\begin{itemize}
+    \item \textbf{Google Translate}: Google Translate maakt gebruik van een offline modus waarbij neurale machinevertalingsmodellen lokaal op het apparaat worden uitgevoerd. Dit verbetert de vertalingskwaliteit aanzienlijk en geeft gebruikers snelle en betrouwbare vertalingen zonder een internetverbinding. Dit succes is te danken aan de optimalisatie van AI-modellen voor mobiele apparaten, waardoor ze efficiënt werken binnen de beperkingen van mobiele hardware \autocite{Castanyer2021}.
+    
+    \item \textbf{Snapchat Lenses}: Snapchat maakt gebruik van AI-modellen voor gezichtsherkenning en augmentatie, die lokaal op de mobiele apparaten van gebruikers draaien. Deze functie stelt hun in staat om real-time filters en effecten toe te passen op hun selfies, wat resulteert in een vloeiende en interactieve gebruikerservaring. De toepassing van geavanceerde AI-technieken zoals convolutionele neurale netwerken (CNN's) maakt dit mogelijk \autocite{Campos2019}.
+\end{itemize}
+
+\textbf{Mislukkingen}:
+\begin{itemize}
+    \item \textbf{Samsung S Voice}: Samsung S Voice, een vroege poging tot een virtuele assistent, faalde grotendeels omdat het model niet goed genoeg geoptimaliseerd was voor mobiele apparaten waardoor het langzaam en onnauwkeurig werkte. De gebruikerservaring leed onder de lange reactietijden en beperkte functionaliteit, wat uiteindelijk leidde tot de vervanging door Bixby.
+    
+    \item \textbf{Microsoft Tay}: Hoewel Tay geen mobiele applicatie was, is het een relevant voorbeeld van een AI-systeem dat faalde vanwege onvoldoende gegevensbeheer en beveiligingsmaatregelen. Tay werd snel beïnvloed door gebruikers om ongepaste uitspraken te doen, wat ons een belangrijke les leert over de noodzaak van robuuste beveiligings- en controlemechanismen in AI-modellen \autocite{Shiffrin2023}.
+\end{itemize}
+
+\subsection{Lessons Learned}
+
+Uit deze case studies kunnen belangrijke lessen worden getrokken:
+
+\begin{itemize}
+    \item \textbf{Optimalisatie van Modellen}: Succesvolle AI-gebaseerde mobiele applicaties hebben hun modellen geoptimaliseerd voor de beperkingen van mobiele \hfill \break hardware. Dit omvat technieken zoals kwantisatie en snoeien om de grootte en vereiste rekenkracht te verminderen.
+    
+    \item \textbf{Gebruikerservaring}: De snelheid en nauwkeurigheid van AI-modellen zijn cruciaal voor een positieve gebruikerservaring. Applicaties zoals Google Translate en Snapchat Lenses tonen aan dat snelle en nauwkeurige AI-modellen de gebruikerservaring aanzienlijk kunnen verbeteren.
+    
+    \item \textbf{Beveiliging en Privacy}: Onvoldoende beveiligingsmaatregelen kunnen leiden tot misbruik van AI-systemen, zoals het geval was bij Microsoft Tay. Het is essentieel om robuuste beveiligings- en privacymaatregelen te implementeren om dergelijke risico's te minimaliseren.
+    
+    \item \textbf{Gegevensbeheer}: Goede gegevensbeheerpraktijken zijn cruciaal voor de betrouwbaarheid en veiligheid van AI-systemen. Het verzamelen en verwerken van gegevens moet zorgvuldig worden beheerd om ervoor te zorgen dat modellen effectief en ethisch verantwoord werken.
+\end{itemize}
