@@ -1,4 +1,362 @@
+
 \chapter{Integratie van Taalmodellen}
 \label{ch:integratie-taalmodellen}
 
-\lipsum[1-2]
+In dit hoofdstuk beschrijven we hoe het RobBERT-model geïntegreerd kan worden in een Android-applicatie. We behandelen de configuratie van de benodigde libraries, de toevoegingen aan de build-bestanden, en de implementatie van de activiteiten en helperklassen die nodig zijn voor de uitvoering van het model op een mobiel apparaat.
+
+\section{Configuratie van Bibliotheken}
+
+De eerste stap is het toevoegen van de benodigde TensorFlow- en Gson-bibliotheken aan de projectconfiguratie. Deze bibliotheken zijn cruciaal voor het laden en uitvoeren van het model en voor het verwerken van de JSON-bestanden die de woordenschat bevatten.
+
+\subsection{Toevoegingen aan de TOML-bestanden}
+
+De benodigde bibliotheken worden gedefinieerd in de TOML-bestanden. Hieronder staan de toevoegingen die nodig zijn om TensorFlow en Gson te integreren.
+
+\begin{lstlisting}[language=Toml, caption={Toevoegingen aan de TOML-bestanden}]
+    # Tensorflow
+    tensorflow = "2.3.0"
+    tensorflow-lite-support = "0.4.4"
+    tensorflow-lite-select-tf-ops = "2.16.1"
+    # Gson
+    gson = "2.8.9"
+    
+    # Tensorflow
+    tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref = "tensorflow" }
+    tensorflow-lite-gpu = { module = "org.tensorflow:tensorflow-lite-gpu", version.ref = "tensorflow" }
+    tensorflow-lite-support = { module = "org.tensorflow:tensorflow-lite-support", version.ref = "tensorflow-lite-support" }
+    tensorflow-lite-select-tf-ops = { module = "org.tensorflow:tensorflow-lite-select-tf-ops", version.ref = "tensorflow-lite-select-tf-ops" }
+    # Gson
+    gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+\end{lstlisting}
+
+\subsection{Toevoegingen aan build.gradle.kts}
+
+Om de TensorFlow- en Gson-bibliotheken in het project te importeren, moeten de volgende regels worden toegevoegd aan de \texttt{build.gradle.kts}.
+
+\begin{lstlisting}[language=Groovy, caption={Toevoegingen aan build.gradle.kts}]
+    implementation(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.gpu)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.select.tf.ops)
+    implementation(libs.gson)
+\end{lstlisting}
+
+\section{Implementatie van de Activity}
+
+De volgende stap is het implementeren van een activity die fungeert als toegangspunt voor de inferentie van het RobBERT-model. De \texttt{BertActivity} klasse wordt gebruikt om de tekst van een gebruiker te verwerken met behulp van het model.
+
+\begin{lstlisting}[language=Kotlin, caption={Implementatie van BertActivity}]
+    import android.content.Intent
+    import android.os.Bundle
+    import androidx.appcompat.app.AppCompatActivity
+    
+    class BertActivity : AppCompatActivity() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            val text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT) // Haal de tekst op van de intent
+            val bertHelper = BertHelper(this) // Initialiseer BertHelper
+            val feedback = bertHelper.runBertInference(text.toString()) // Voer de inferentie uit en krijg feedback
+            val intent = Intent(Intent.ACTION_PROCESS_TEXT) // Maak een nieuwe intent aan
+            intent.putExtra(Intent.EXTRA_PROCESS_TEXT, feedback) // Voeg de feedback toe aan de intent
+            setResult(RESULT_OK, intent) // Stel het resultaat in
+            finish() // Beëindig de activiteit
+        }
+    }
+\end{lstlisting}
+
+De \texttt{BertActivity} klasse initialiseert de \texttt{BertHelper} klasse om de inferentie uit te voeren. De intent wordt gebruikt om de tekst van de gebruiker door te geven aan de \texttt{BertHelper} klasse, die vervolgens de geanalyseerde feedback retourneert.
+
+\section{Implementatie van de BERT Helper Klasse}
+
+De \texttt{BertHelper} klasse bevat de logica voor het laden van RobBERT, de woordenschat, en het uitvoeren van de inferentie. Deze klasse maakt gebruik van TensorFlow Lite voor het uitvoeren van de modelinference.
+
+\begin{lstlisting}[language=Kotlin, caption={Implementatie van BertHelper}]
+    import android.content.Context
+    import android.util.Log
+    import com.google.gson.Gson
+    import com.google.gson.reflect.TypeToken
+    import org.tensorflow.lite.DataType
+    import org.tensorflow.lite.Interpreter
+    import org.tensorflow.lite.flex.FlexDelegate
+    import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+    import java.io.FileInputStream
+    import java.nio.channels.FileChannel
+    
+    class BertHelper(context: Context) {
+        private var vocab: Map<String, Int>
+        private var bertInterpreter: Interpreter
+        
+        init {
+            vocab = loadVocabulary(context) // Laad de vocabulaire (woordenlijst)
+            bertInterpreter = loadModel(context) // Laad het model
+            Log.d("BertHelper", "BERT interpreter loaded") // Log de status
+        }
+        
+        // Laad de vocabulaire uit een JSON-bestand
+        private fun loadVocabulary(context: Context): Map<String, Int> {
+            val assetManager = context.assets
+            val inputStream = assetManager.open("vocab_2023.json")
+            val json = inputStream.bufferedReader().use { it.readText() }
+            val mapType = object : TypeToken<Map<String, Int>>() {}.type
+            return Gson().fromJson(json, mapType)
+        }
+        
+        // Laad het TFLite-model
+        private fun loadModel(context: Context): Interpreter {
+            val assetFileDescriptor = context.assets.openFd("robbert_model.tflite")
+            val fileChannel = FileInputStream(assetFileDescriptor.fileDescriptor).channel
+            val modelBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, assetFileDescriptor.startOffset, assetFileDescriptor.declaredLength)
+            val opts = Interpreter.Options()
+            opts.setNumThreads(4) // Stel het aantal threads in
+            val flexDelegate = FlexDelegate()
+            opts.addDelegate(flexDelegate)
+            
+            return Interpreter(modelBuffer, opts)
+        }
+        
+        // Voer de inferentie uit op de invoerzin
+        fun runBertInference(input: String): String {
+            Log.d("BertHelper", "Running BERT inference on input: $input")
+            
+            // Tokeniseer de invoertekst
+            val preprocessedInput = BertPreprocessor.preprocess(input, vocab)
+            val inputIds = preprocessedInput.tokenIds
+            val attentionMask = preprocessedInput.attentionMask
+            
+            // Definieer de invoer- en uitvoervormen en datatypes
+            val inputTensorShape = bertInterpreter.getInputTensor(0).shape()
+            val outputTensorShape = bertInterpreter.getOutputTensor(0).shape()
+            
+            // Forceer DataType.FLOAT32 om unsupported INT64 te vermijden
+            val inputDataType = DataType.FLOAT32
+            val outputDataType = DataType.FLOAT32
+            
+            // Pas de invoertensoren aan om overeen te komen met de werkelijke vormen
+            bertInterpreter.resizeInput(0, inputTensorShape)
+            bertInterpreter.resizeInput(1, inputTensorShape)
+            bertInterpreter.allocateTensors()
+            
+            Log.d("BertHelper", "Input tensor shape: ${inputTensorShape.contentToString()}")
+            Log.d("BertHelper", "Output tensor shape: ${outputTensorShape.contentToString()}")
+            Log.d("BertHelper", "Input tensor data type: $inputDataType")
+            Log.d("BertHelper", "Output tensor data type: $outputDataType")
+            
+            // Bereid de invoertensoren voor
+            val inputIdsTensor = TensorBuffer.createFixedSize(inputTensorShape, inputDataType)
+            val attentionMaskTensor = TensorBuffer.createFixedSize(inputTensorShape, inputDataType)
+            val outputTensor = TensorBuffer.createFixedSize(outputTensorShape, outputDataType)
+            
+            // Laad de invoerdata in de invoertensoren
+            inputIdsTensor.loadArray(inputIds, inputTensorShape)
+            attentionMaskTensor.loadArray(attentionMask, inputTensorShape)
+            
+            Log.d("BertHelper", "Input tensor data: ${inputIdsTensor.floatArray.contentToString()}")
+            Log.d("BertHelper", "Attention mask tensor data: ${attentionMaskTensor.floatArray.contentToString()}")
+            Log.d("BertHelper", "Output tensor data: ${outputTensor.floatArray.contentToString()}")
+            
+            // Voer de inferentie uit
+            try {
+                // Voer inferentie alleen uit met inputIds vanwege beperkingen van de bibliotheek
+                bertInterpreter.run(arrayOf(inputIdsTensor.buffer, attentionMaskTensor.buffer), outputTensor.buffer)
+            } catch (e: Exception) {
+                Log.e("BertHelper", "Error running inference: ${e.message}")
+                throw e
+            }
+            
+            // Postprocess de output tensor om het eindresultaat te verkrijgen
+            return BertPostprocessor.postprocess(outputTensor)
+        }
+    }
+\end{lstlisting}
+
+\subsection{Diepere Bespreking van de BertHelper Klasse}
+
+De \texttt{BertHelper} klasse is verantwoordelijk voor het laden van de vocabulaire en het model, en voor het uitvoeren van de inferentie. De \texttt{loadVocabulary} methode laadt de woordenlijst uit een JSON-bestand, wat essentieel is voor de tokenisatie van de invoerzin. De \texttt{loadModel} methode laadt
+
+het TensorFlow Lite-model uit de assets van de Android-applicatie.
+
+\subsubsection{Beperkingen van DataType}
+
+Een belangrijk aspect van de \texttt{BertHelper} klasse is de noodzaak om \texttt{DataType.FLOAT32} te gebruiken voor zowel de invoer- als uitvoertensoren. Dit komt doordat de huidige bibliotheek die beschikbaar is voor Kotlin geen ondersteuning biedt voor modellen die \texttt{INT64} als invoertype nodig hebben. De buffers kunnen alleen \texttt{FLOAT32} en \texttt{UInt8} ontvangen, wat een impact heeft op de nauwkeurigheid van de inferentie. Bovendien kunnen de input buffers maximaal 2 woorden analyseren, omdat de input buffers niet dynamisch gecreëerd kunnen worden. De input- en output buffers moeten even groot zijn om fouten te voorkomen, wat een verdere beperking is van de huidige implementatie.
+
+\section{Implementatie van de PreprocessedInput Data Klasse}
+
+De \texttt{PreprocessedInput} data class wordt gebruikt om de getokeniseerde invoer, segment IDs, en attention masks op te slaan. Deze gegevens worden vervolgens gebruikt als input voor het model.
+
+\begin{lstlisting}[language=Kotlin, caption={Implementatie van PreprocessedInput klasse}]
+    data class PreprocessedInput(
+    val tokenIds: IntArray,
+    val segmentIds: IntArray,
+    val attentionMask: IntArray
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            
+            other as PreprocessedInput
+            
+            if (!tokenIds.contentEquals(other.tokenIds)) return false
+            if (!segmentIds.contentEquals(other.segmentIds)) return false
+            if (!attentionMask.contentEquals(other.attentionMask)) return false
+            
+            return true
+        }
+        
+        override fun hashCode(): Int {
+            var result = tokenIds.contentHashCode()
+            result = 31 * result + segmentIds.contentHashCode()
+            result = 31 * result + attentionMask.contentHashCode()
+            return result
+        }
+    }
+\end{lstlisting}
+
+De \texttt{PreprocessedInput} klasse maakt het mogelijk om de getokeniseerde invoer op een georganiseerde manier te beheren. De \texttt{equals} en \texttt{hashCode} methoden zijn overschreven met betrekking tot het gebruik van een Array in de data klasse, wat een aangeraden praktijk is.
+
+\section{Implementatie van BertPreprocessor Object}
+
+Het \texttt{BertPreprocessor} object is verantwoordelijk voor de preprocessing van de invoertekst, inclusief tokenisatie, toevoegen van speciale tokens, en het maken van segment IDs en attention masks.
+
+\begin{lstlisting}[language=Kotlin, caption={Implementatie van BertPreprocessor object}]
+    import android.util.Log
+    import com.simplemobiletools.keyboard.bert.models.PreprocessedInput
+    
+    /**
+    * Dit object is verantwoordelijk voor de preprocessing van de input voor het BERT model.
+    * Het omvat tokenisatie, toevoegen van speciale tokens, converteren van tokens naar hun bijbehorende IDs,
+    * creëren van segment IDs en attention masks.
+    */
+    object BertPreprocessor {
+        private const val MAX_SEQUENCE_LENGTH = 512  // Maximale sequentielengte voor BERT model
+        
+        /**
+        * Preprocess de invoertekst voor het BERT model.
+        * @param input De invoertekst die moet worden verwerkt.
+        * @return PreprocessedInput object met tokenIds, segmentIds, en attentionMask.
+        */
+        fun preprocess(input: String, vocab: Map<String, Int>): PreprocessedInput {
+            val tokens = tokenize(input)
+            val processedTokens = addSpecialTokens(tokens)
+            val tokenIds = convertToTokenIds(processedTokens, vocab)
+            val segmentIds = createSegmentIds(processedTokens.size)
+            val attentionMask = createAttentionMask(processedTokens.size)
+            
+            Log.d("BertPreprocessor", "Token IDs: ${tokenIds.contentToString()}")
+            Log.d("BertPreprocessor", "Segment IDs: ${segmentIds.contentToString()}")
+            Log.d("BertPreprocessor", "Attention Mask: ${attentionMask.contentToString()}")
+            return PreprocessedInput(tokenIds, segmentIds, attentionMask)
+        }
+        
+        /**
+        * Tokeniseer de invoertekst.
+        * @param input De invoertekst die moet worden getokeniseerd.
+        * @return Lijst van tokens.
+        */
+        private fun tokenize(input: String): List<String> {
+            Log.d("BertPreprocessor", "Tokenizing input: $input")
+            return input.split(" ").toList()
+        }
+        
+        /**
+        * Voeg speciale tokens ([<s>] en [</s>]) toe aan de lijst van tokens.
+        * @param tokens De originele lijst van tokens.
+        * @return Lijst van tokens met speciale tokens toegevoegd.
+        */
+        private fun addSpecialTokens(tokens: List<String>): List<String> {
+            val processedTokens = mutableListOf<String>()
+            processedTokens.add("<s>")
+            processedTokens.addAll(tokens)
+            processedTokens.add("</s>")
+            Log.d("BertPreprocessor", "Processed tokens: $processedTokens")
+            return processedTokens
+        }
+        
+        /**
+        * Converteer tokens naar hun bijbehorende IDs met behulp van byteEncoder.
+        * Gooi een uitzondering als het aantal tokens de MAX_SEQUENCE_LENGTH overschrijdt.
+        * @param tokens De lijst van tokens die moeten worden geconverteerd.
+        * @return Array van token IDs.
+        */
+        private fun convertToTokenIds(tokens: List<String>, vocab: Map<String, Int>): IntArray {
+            return tokens.map { token ->
+                vocab[token] ?: vocab["<unk>"]!!
+            }.toIntArray().apply { require(size <= MAX_SEQUENCE_LENGTH) }
+        }
+        
+        /**
+        * Creëer segment IDs voor het BERT model.
+        * @param tokenCount Het aantal tokens.
+        * @return Array van segment IDs.
+        */
+        private fun createSegmentIds(tokenCount: Int): IntArray {
+            return IntArray(tokenCount) { 0 }
+        }
+        
+        /**
+        * Creëer attention mask voor het BERT model.
+        * @param tokenCount Het aantal tokens.
+        * @return Array van attention masks.
+        */
+        private fun createAttentionMask(tokenCount: Int): IntArray {
+            return IntArray(tokenCount) { 1 }
+        }
+    }
+\end{lstlisting}
+
+\subsection{Diepere Bespreking van BertPreprocessor Object}
+
+De \texttt{BertPreprocessor} klasse omvat de preprocessing stappen die nodig zijn om de invoer in een geschikt formaat voor het BERT-model te krijgen. De \texttt{tokenize} methode splitst de invoertekst in afzonderlijke tokens. De \texttt{addSpecialTokens} methode voegt speciale tokens toe die nodig zijn voor het BERT-model. De \texttt{convertToTokenIds} methode converteert de tokens naar hun bijbehorende IDs met behulp van een woordenlijst. De \texttt{createSegmentIds} en \texttt{createAttentionMask} methoden creëren respectievelijk de segment IDs en attention masks.
+
+De noodzaak om de invoer te beperken tot 2 woorden is een belangrijke beperking vanwege de huidige implementatie. De invoer- en uitvoertensoren moeten dezelfde grootte hebben, en dit kan niet dynamisch worden gecreëerd met de huidige bibliotheken. Deze beperking beïnvloedt de flexibiliteit en het gebruik van het model.
+
+\section{Implementatie van BertPostprocessor Object}
+
+Het \texttt{BertPostprocessor} object is verantwoordelijk voor de postprocessing van de modeloutput. Dit omvat het toepassen van de softmax functie om logits naar waarschijnlijkheden om te zetten en het bepalen van de voorspelde klasse.
+
+\begin{lstlisting}[language=Kotlin, caption={Implementatie van BertPostprocessor object}]
+    import android.util.Log
+    import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+    
+    object BertPostprocessor {
+        fun postprocess(outputTensor: TensorBuffer): String {
+            Log.d("BertPostprocessor", "Postprocessing output tensor, content: ${outputTensor.floatArray.contentToString()}")
+            val outputData = outputTensor.floatArray
+            
+            // Controleer of de output tensor twee waarden heeft (logits voor binaire classificatie)
+            require(outputData.size == 2) { "Expected output tensor to have exactly 2 elements, but got ${outputData.size}" }
+            
+            // Pas de softmax functie toe om logits naar waarschijnlijkheden om te zetten
+            val probabilities = softmax(outputData)
+            
+            // Bepaal de voorspelde klasse (0 of 1) op basis van de hoogste waarschijnlijkheid
+            val predictedClass = probabilities.indices.maxByOrNull { probabilities[it] } ?: -1
+            
+            // Geef het bijbehorende resultaat terug op basis van de voorspelde klasse
+            return when (predictedClass) {
+                0 -> "Negative"
+                1 -> "Positive"
+                else -> "Unknown"
+            }
+        }
+        
+        // Softmax functie om logits naar waarschijnlijkheden om te zetten
+        private fun softmax(logits: FloatArray): FloatArray {
+            val maxLogit = logits.maxOrNull() ?: throw IllegalArgumentException("Logits cannot be empty")
+            val exps = logits.map { kotlin.math.exp(it - maxLogit) }
+            val sumExps = exps.sum()
+            return exps.map { (it / sumExps) }.toFloatArray()
+        }
+    }
+\end{lstlisting}
+
+\subsection{Diepere Bespreking van BertPostprocessor Object}
+
+De \texttt{BertPostprocessor} klasse verwerkt de output van het model door de logits om te zetten naar waarschijnlijkheden met behulp van de softmax functie. De \texttt{postprocess} methode controleert
+
+of de output tensor twee waarden heeft, wat verwacht wordt voor een binaire classificatie. Vervolgens past het de softmax functie toe om de waarschijnlijkheden te berekenen en bepaalt het de voorspelde klasse op basis van de hoogste waarschijnlijkheid.
+
+Deze postprocessing stap is cruciaal om de ruwe modeloutput om te zetten in bruikbare informatie. De implementatie van de softmax functie zorgt ervoor dat de logits worden geschaald naar een probabilistisch formaat, wat essentieel is voor het interpreteren van de modeloutput.
+
+\section{Conclusie}
+
+In dit hoofdstuk hebben we de integratie van het RobBERT-model in een Android-applicatie besproken. We hebben de configuratie van de benodigde bibliotheken, de toevoegingen aan de build-bestanden, en de implementatie van de activiteiten en helperklassen behandeld. Door de beperkingen van de huidige TensorFlow Lite bibliotheken en de noodzaak om FLOAT32 te gebruiken in plaats van INT64, hebben we enkele uitdagingen en beperkingen besproken die de nauwkeurigheid en flexibiliteit van de modelinference beïnvloeden. Deze integratie vormt een representatie van hoe een taalmodel zoals RobBERT in een mobiele omgeving kan worden toegepast, ondanks de huidige beperkingen en uitdagingen.
