@@ -1,4 +1,402 @@
-\chapter{Model Conversie en Optimalisatie }
-\label{ch:modelconversie-optimalisatie}
+\chapter{Model Conversie en Output Verwerking }
+\label{ch:modelconversie-verwerking}
 
-\lipsum[1-2]
+In dit hoofdstuk beschrijven we het conversieproces van een PyTorch-model, specifiek het RobBERT-model, naar TensorFlow Lite en het controleren of de modeloutput correct kan worden verwerkt. RobBERT is een Nederlands taalmodel gebaseerd op de transformer-architectuur. Omdat het originele model in PyTorch is geïmplementeerd, moeten we enkele stappen doorlopen om het naar TensorFlow Lite te converteren, wat lichter en efficiënter is voor mobiele en embedded toepassingen. Bovendien controleren we na de conversie of het model correct werkt door de output te verwerken. Hieronder wordt stap voor stap uitgelegd wat de code doet.
+
+\section{Code voor Model Conversie}
+
+\subsection{Volledige Code}
+
+Hieronder volgt de volledige code voor de conversie van het RobBERT-model naar TensorFlow Lite.
+
+\begin{lstlisting}[language=Python, caption={Volledige conversie code Pytorch naar TensforFlow Lite.}]
+    
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    import torch
+    import onnx
+    import tensorflow as tf
+    import onnx_tf
+    
+    # Laad de tokenizer en het model voor het RobBERT model
+    tokenizer = AutoTokenizer.from_pretrained("DTAI-KULeuven/robbert-2023-dutch-large")
+    model = AutoModelForSequenceClassification.from_pretrained("DTAI-KULeuven/robbert-2023-dutch-large")
+    model.eval()
+    
+    # Maak een dummy input voor het model (voorbeeldzin)
+    example_text = "Dit is een voorbeeldzin voor het converteren van het model."
+    inputs = tokenizer(example_text, return_tensors="pt")
+    
+    # Converteer het model naar ONNX formaat met een specifieke opset versie (bijv. 12)
+    onnx_model_path = 'robbert_model.onnx'
+    torch.onnx.export(model, (inputs['input_ids'], inputs['attention_mask']), onnx_model_path,
+    input_names=['input_ids', 'attention_mask'],
+    output_names=['logits'],
+    dynamic_axes={'input_ids': {0: 'batch_size', 1: 'sequence_length'},
+        'attention_mask': {0: 'batch_size', 1: 'sequence_length'},
+        'logits': {0: 'batch_size'}},
+    opset_version=12)
+    
+    # Laad het ONNX model
+    onnx_model = onnx.load(onnx_model_path)
+    
+    # Converteer het ONNX model naar TensorFlow formaat
+    tf_model_path = 'robbert_model'
+    tf_rep = onnx_tf.backend.prepare(onnx_model)
+    tf_rep.export_graph(tf_model_path)
+    
+    # Converteer het TensorFlow model naar TensorFlow Lite formaat
+    converter = tf.compat.v1.lite.TFLiteConverter.from_saved_model(tf_model_path)
+    converter.target_spec.supported_ops = [
+    tf.lite.OpsSet.TFLITE_BUILTINS,  # Schakel TensorFlow Lite operaties in
+    tf.lite.OpsSet.SELECT_TF_OPS  # Schakel TensorFlow Select operaties in
+    ]
+    tflite_model = converter.convert()
+    
+    # Sla het TensorFlow Lite model op in een bestand
+    tflite_model_path = 'robbert_model.tflite'
+    with open(tflite_model_path, 'wb') as f:
+    f.write(tflite_model)
+    
+    print("RobBERT model conversie naar TFLite is voltooid.")
+    
+\end{lstlisting}
+
+\subsection{Stap voor Stap Uitleg}
+
+\subsubsection{Stap 1: Importeren van Nodige Bibliotheken}
+
+De code begint met het importeren van de noodzakelijke bibliotheken. Dit zijn \texttt{transformers} voor het model en de tokenizer, \texttt{torch} voor PyTorch-functionaliteit, \texttt{onnx} voor het werken met het ONNX-formaat, \texttt{tensorflow} voor TensorFlow-functionaliteit, en \texttt{onnx\_tf} voor de conversie van ONNX naar TensorFlow.
+
+\begin{lstlisting}[language=Python, caption={Importeren van benodigde bibliotheken.}]
+    
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    import torch
+    import onnx
+    import tensorflow as tf
+    import onnx_tf
+    
+\end{lstlisting}
+
+\subsubsection{Stap 2: Laden van het RobBERT-Model en de Tokenizer}
+
+Hier laden we de tokenizer en het voorgetrainde RobBERT-model. We gebruiken de \texttt{AutoTokenizer} en \texttt{AutoModelForSequenceClassification} van de \texttt{transformers} bibliotheek om het model en de tokenizer te laden.
+
+\begin{lstlisting}[language=Python, caption={Laden van de tokenizer en het RobBERT-model.}]
+    
+    # Laad de tokenizer en het model voor het RobBERT model
+    tokenizer = AutoTokenizer.from_pretrained("DTAI-KULeuven/robbert-2023-dutch-large")
+    model = AutoModelForSequenceClassification.from_pretrained("DTAI-KULeuven/robbert-2023-dutch-large")
+    model.eval()  # Zet het model in evaluatiemodus
+    
+\end{lstlisting}
+
+\subsubsection{Stap 3: Voorbereiden van een Voorbeeldzin}
+
+Om het model te converteren, hebben we een dummy input nodig. In dit geval gebruiken we een voorbeeldzin in het Nederlands. Deze zin wordt getokeniseerd zodat deze geschikt is als input voor het model.
+
+\begin{lstlisting}[language=Python, caption={Voorbereiden van een voorbeeldzin voor tokenisatie.}]
+    
+    # Maak een dummy input voor het model (voorbeeldzin)
+    example_text = "Dit is een voorbeeldzin voor het converteren van het model."
+    inputs = tokenizer(example_text, return_tensors="pt")  # Tokeniseer de invoertekst
+    
+\end{lstlisting}
+
+\subsubsection{Stap 4: Converteren van het Model naar ONNX-formaat}
+
+Omdat het RobBERT-model in PyTorch is geschreven, moeten we het eerst converteren naar het ONNX-formaat. ONNX (Open Neural Network Exchange) is een open formaat dat compatibiliteit biedt tussen verschillende deep learning frameworks.
+
+\begin{lstlisting}[language=Python, caption={Converteren van het RobBERT-model naar ONNX-formaat.}]
+    
+    # Converteer het model naar ONNX formaat met een specifieke opset versie (bijv. 12)
+    onnx_model_path = 'robbert_model.onnx'
+    torch.onnx.export(model, (inputs['input_ids'], inputs['attention_mask']), onnx_model_path,
+    input_names=['input_ids', 'attention_mask'],
+    output_names=['logits'],
+    dynamic_axes={'input_ids': {0: 'batch_size', 1: 'sequence_length'},
+        'attention_mask': {0: 'batch_size', 1: 'sequence_length'},
+        'logits': {0: 'batch_size'}},
+    opset_version=12)
+    
+\end{lstlisting}
+
+\subsubsection{Stap 5: Laden van het ONNX-model}
+
+Na het converteren van het PyTorch-model naar ONNX, laden we het ONNX-model om het verder te verwerken.
+
+\begin{lstlisting}[language=Python, caption={Laden van het geconverteerde ONNX-model.}]
+    
+    # Laad het ONNX model
+    onnx_model = onnx.load(onnx_model_path)
+    
+\end{lstlisting}
+
+\subsubsection*{Stap 6: Converteren van ONNX naar TensorFlow}
+
+Met behulp van de \texttt{onnx\_tf} bibliotheek converteren we het ONNX-model naar het TensorFlow-formaat. Dit is een noodzakelijke tussenstap omdat TensorFlow Lite geen directe ondersteuning biedt voor ONNX-modellen.
+
+\begin{lstlisting}[language=Python, caption={Converteren van het ONNX-model naar TensorFlow-formaat.}]
+    
+    # Converteer het ONNX model naar TensorFlow formaat
+    tf_model_path = 'robbert_model'
+    tf_rep = onnx_tf.backend.prepare(onnx_model)  # Bereid het ONNX model voor op TensorFlow backend
+    tf_rep.export_graph(tf_model_path)  # Exporteer het model naar een TensorFlow grafiek
+    
+\end{lstlisting}
+
+\subsubsection{Stap 7: Converteren van TensorFlow naar TensorFlow Lite}
+
+Nu we een TensorFlow-model hebben, kunnen we dit converteren naar TensorFlow Lite, wat geoptimaliseerd is voor mobiele en embedded apparaten. We gebruiken de \texttt{TFLiteConverter} om dit te doen.
+
+\begin{lstlisting}[language=Python, caption={Converteren van het TensorFlow-model naar TensorFlow Lite-formaat.}]
+    
+    # Converteer het TensorFlow model naar TensorFlow Lite formaat
+    converter = tf.compat.v1.lite.TFLiteConverter.from_saved_model(tf_model_path)
+    converter.target_spec.supported_ops = [
+    tf.lite.OpsSet.TFLITE_BUILTINS,  # Schakel TensorFlow Lite operaties in
+    tf.lite.OpsSet.SELECT_TF_OPS  # Schakel TensorFlow Select operaties in
+    ]
+    tflite_model = converter.convert()  # Converteer het model naar TFLite
+    
+\end{lstlisting}
+
+\subsubsection{Stap 8: Opslaan van het TensorFlow Lite-model}
+
+Ten slotte slaan we het geconverteerde TensorFlow Lite-model op in een bestand zodat het klaar is voor gebruik.
+
+\begin{lstlisting}[language=Python, caption={Opslaan van het geconverteerde TensorFlow Lite-model.}]
+    
+    # Sla het TensorFlow Lite model op in een bestand
+    tflite_model_path = 'robbert_model.tflite'
+    with open(tflite_model_path, 'wb') as f:
+    f.write(tflite_model)  # Schrijf het geconverteerde model naar een bestand
+    
+    print("RobBERT model conversie naar TFLite is voltooid.")
+    
+\end{lstlisting}
+
+\subsection{Samenvatting van de Conversie}
+
+In deze code hebben we het RobBERT-model, oorspronkelijk in PyTorch, door een serie conversies geleid om uiteindelijk een TensorFlow Lite-model te krijgen. Dit proces omvat het converteren van PyTorch naar ONNX, van ONNX naar TensorFlow, en van TensorFlow naar TensorFlow Lite. Deze conversie is essentieel voor het gebruik van geavanceerde taalmodellen op apparaten met beperkte rekenkracht, zoals smartphones en embedded systemen.
+
+\section{Code voor Model Output Verwerking}
+
+\subsection{Volledige Code}
+
+Hieronder volgt de volledige code voor het controleren en verwerken van modeloutput.
+
+\begin{lstlisting}[language=Python, caption={Code voor het controleren van modeloutput verwerking}]
+    import tensorflow as tf
+    from transformers import AutoTokenizer
+    
+    # Initialiseer de tokenizer
+    tokenizer = AutoTokenizer.from_pretrained("DTAI-KULeuven/robbert-2023-dutch-large")
+    
+    def tokenize_input(text):
+    # Tokeniseer de invoertekst
+    encoding = tokenizer(text, return_tensors='np', padding='max_length', truncation=True, max_length=128)
+    input_ids = encoding['input_ids']
+    attention_mask = encoding['attention_mask']
+    return input_ids, attention_mask
+    
+    # Vraag om invoer in de terminal
+    input_text = input("Please enter the input text: ")
+    
+    # Tokeniseer de invoertekst
+    input_ids, attention_mask = tokenize_input(input_text)
+    
+    # Laad het TFLite model
+    interpreter = tf.lite.Interpreter(model_path="robbert_model.tflite")
+    interpreter.allocate_tensors()
+    
+    # Verkrijg input en output tensors
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    
+    # Print input details om de verwachte inputvormen te begrijpen
+    print("Input details:", input_details)
+    
+    # Verander de grootte van tensors om overeen te komen met de werkelijke inputvormen
+    interpreter.resize_tensor_input(input_details[0]['index'], input_ids.shape)
+    interpreter.resize_tensor_input(input_details[1]['index'], attention_mask.shape)
+    interpreter.allocate_tensors()
+    
+    # Stel de tensor in voor invoergegevens
+    interpreter.set_tensor(input_details[0]['index'], attention_mask)
+    interpreter.set_tensor(input_details[1]['index'], input_ids)
+    
+    # Voer de inferentie uit
+    interpreter.invoke()
+    
+    # Verkrijg de output
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    print("Output:", output_data)
+\end{lstlisting}
+
+\subsection{Stap voor Stap Uitleg}
+
+\subsubsection{Stap 1: Importeren van Nodige Bibliotheken}
+
+De code begint met het importeren van de noodzakelijke bibliotheken.
+
+\begin{lstlisting}[language=Python, caption={Importeren van benodigde bibliotheken}]
+    
+    import tensorflow as tf
+    from transformers import AutoTokenizer
+    
+\end{lstlisting}
+
+\subsubsection{Stap 2: Initialiseer de Tokenizer}
+
+Hier initialiseren we de tokenizer met behulp van het RobBERT-model.
+
+\begin{lstlisting}[language=Python, caption={Initialisatie van de RobBERT tokenizer}]
+    
+    # Initialiseer de tokenizer
+    tokenizer = AutoTokenizer.from_pretrained("DTAI-KULeuven/robbert-2023-dutch-large")
+    
+\end{lstlisting}
+
+\subsubsection{Stap 3: Tokeniseer de Invoertekst}
+
+De functie \texttt{tokenize\_input} tokeniseert de invoertekst zodat deze geschikt is voor het model.
+
+\begin{lstlisting}[language=Python, caption={Tokeniseren van de invoertekst}]
+    
+    def tokenize_input(text):
+    # Tokeniseer de invoertekst
+    encoding = tokenizer(text, return_tensors='np', padding='max_length', truncation=True, max_length=128)
+    input_ids = encoding['input_ids']
+    attention_mask = encoding['attention_mask']
+    return input_ids, attention_mask
+    
+\end{lstlisting}
+
+\subsubsection{Stap 4: Vraag Invoer in de Terminal}
+
+Hier vragen we de gebruiker om invoer in de terminal.
+
+\begin{lstlisting}[language=Python, caption={Vraag om invoer in de terminal}]
+    
+    # Vraag om invoer in de terminal
+    input_text = input("Please enter the input text: ")
+    
+\end{lstlisting}
+
+\subsubsection{Stap 5: Tokeniseer de Invoertekst}
+
+De invoertekst wordt getokeniseerd met behulp van de functie \texttt{tokenize\_input}.
+
+\begin{lstlisting}[language=Python, caption={Tokeniseer de invoertekst}]
+    
+    # Tokeniseer de invoertekst
+    input_ids, attention_mask = tokenize_input(input_text)
+    
+\end{lstlisting}
+
+\subsubsection{Stap 6: Laad het TFLite-model}
+
+Het TFLite-model wordt geladen en de tensors worden toegewezen.
+
+\begin{lstlisting}[language=Python, caption={Laad het TFLite-model}]
+    
+    # Laad het TFLite model
+    interpreter = tf.lite.Interpreter(model_path="robbert_model.tflite")
+    interpreter.allocate_tensors()
+    
+\end{lstlisting}
+
+\subsubsection{Stap 7: Verkrijg Invoer en Uitvoer Tensors}
+
+Hier krijgen we de details van de invoer- en uitvoertensors.
+
+\begin{lstlisting}[language=Python, caption={Verkrijg invoer en uitvoer tensors}]
+    
+    # Verkrijg input en output tensors
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    
+\end{lstlisting}
+
+\subsubsection{Stap 8: Print Input Details}
+
+Print de input details om de verwachte inputvormen te begrijpen.
+
+\begin{lstlisting}[language=Python, caption={Print input details}]
+    
+    # Print input details om de verwachte inputvormen te begrijpen
+    print("Input details:", input_details)
+    
+\end{lstlisting}
+
+\subsubsection{Stap 9: Verander de Grootte van Tensors}
+
+We veranderen de grootte van de tensors om overeen te komen met de werkelijke inputvormen.
+
+\begin{lstlisting}[language=Python, caption={Verander de grootte van tensors}]
+    
+    # Verander de grootte van tensors om overeen te komen met de werkelijke inputvormen
+    interpreter.resize_tensor_input(input_details[0]['index'], input_ids.shape)
+    interpreter.resize_tensor_input(input_details[1]['index'], attention_mask.shape)
+    interpreter.allocate_tensors()
+    
+\end{lstlisting}
+
+\subsubsection{Stap 10: Stel de Tensor in voor Invoergegevens}
+
+Hier stellen we de tensor in voor de invoergegevens.
+
+\begin{lstlisting}[language=Python, caption={Stel de tensor in voor invoergegevens}]
+    
+    # Stel de tensor in voor invoergegevens
+    interpreter.set_tensor(input_details[0]['index'], attention_mask)
+    interpreter.set_tensor(input_details[1]['index'], input_ids)
+    
+\end{lstlisting}
+
+\subsubsection{Stap 11: Voer de Inferentie uit}
+
+We voeren de inferentie uit op het model.
+
+\begin{lstlisting}[language=Python, caption={Voer de inferentie uit}]
+    
+    # Voer de inferentie uit
+    interpreter.invoke()
+    
+\end{lstlisting}
+
+\subsubsection{Stap 12: Verkrijg de Output}
+
+Ten slotte verkrijgen we de output van het model en printen deze.
+
+\begin{lstlisting}[language=Python, caption={Verkrijg de output}]
+    
+    # Verkrijg de output
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    print("Output:", output_data)
+    
+\end{lstlisting}
+
+\subsection{Samenvatting van de Output Verwerking}
+
+In dit deel hebben we het proces beschreven om te controleren of de TensorFlow Lite-versie van het RobBERT-model correct functioneert. We hebben de tokenizer geïnitialiseerd om invoertekst naar het juiste formaat om te zetten. Vervolgens hebben we de getokeniseerde invoer gebruikt om het TFLite-model te testen. Dit omvatte het laden van het model, verkrijgen en instellen van de invoertensors, en het uitvoeren van de inferentie. Ten slotte hebben we de output van het model opgehaald en geverifieerd. Deze stappen zijn essentieel om ervoor te zorgen dat het geconverteerde model correct werkt in een productieomgeving.
+
+\section{Beperkingen en Uitdagingen}
+
+Bij conversie van het model naar TensorFlow Lite moet de bemerking gemaakt worden dat de capaciteiten van het model verminderd worden. Dit betekent concreet dat het enige wat het TensorFlow Lite-model van RobBERT kan doen, is het klassificeren van tekst op basis van zijn training data die hier in acht wordt bij genomen. Door de beperkte kennis van machine learning en modelconversie is het niet gelukt om deze klassificatie te specificeren noch achterhalen welke klassificatie het TensorFlow Lite-model gebruikt tijdens inferentie. Dit vormt de zwakste schakel in de thesis.
+
+Hierdoor was een succesvolle Proof of Concept ook niet mogelijk. Enkele mogelijke oorzaken hiervoor zijn:
+
+\begin{enumerate}
+    \item Onvoldoende ervaring met modelconversie: De conversie van een complex model zoals RobBERT van PyTorch naar TensorFlow Lite vereist diepgaande kennis en ervaring, die ontbrak.
+    \item Complexiteit en beperkte ondersteuning/documentatie: De complexiteit van het conversieproces, gecombineerd met beperkte ondersteuning en documentatie, bemoeilijkte een succesvolle uitvoering.
+\end{enumerate}
+
+Om dergelijke problemen in de toekomst te voorkomen, kunnen de volgende stappen overwogen worden:
+
+\begin{itemize}
+    \item Verbeterde documentatie en ondersteuning: Het ontwikkelen van meer gedetailleerde documentatie en het verkrijgen van betere ondersteuning voor de modelconversieprocessen.
+    \item Stapsgewijze validatie van conversieprocessen: Het opzetten van een proces waarbij elke stap van de modelconversie grondig wordt gevalideerd, om problemen vroegtijdig te identificeren en aan te pakken.
+    \item Samenwerking met experts: Vraag om hulp van experts of werk samen met meerdere specialisten op het gebied van machine learning en modelconversie om technische uitdagingen te overwinnen.
+\end{itemize}
+
