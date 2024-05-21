@@ -1,4 +1,24 @@
 \chapter{Modelselectie}
 \label{ch:modelselectie}
 
-\lipsum[1-2]
+In dit hoofdstuk wordt de selectie van geschikte taalmodellen voor de ontwikkeling van een privacybewust spelling- en grammaticacontrole-toetsenbord voor Android toegelicht. De keuze voor RobBERT, een Nederlandstalige variant van het BERT-model, wordt gemotiveerd, en alternatieve lichte modellen zoals DistilBERT en TinyBERT worden geëvalueerd.
+
+\subsection{Overzicht van Taalmodellen}
+
+Tijdens de literatuurstudie werd duidelijk dat verschillende taalmodellen, zoals BERT en zijn afgeleiden, aanzienlijke verbeteringen hebben gebracht in natuurlijke taalverwerking (NLP). Voor dit project was het essentieel om een model te kiezen dat zowel hoge nauwkeurigheid biedt als geschikt is voor implementatie op mobiele apparaten.
+
+\subsection{Initieel Model: RobBERT v2-dutch-base}
+
+Aanvankelijk werd RobBERT v2-dutch-base geselecteerd vanwege zijn bewezen effectiviteit in Nederlandse taaltaken en de beschikbaarheid van uitgebreide trainingsdata voor het Nederlands. Dit model bood een goede balans tussen nauwkeurigheid en complexiteit, wat het geschikt maakte voor de initiële ontwikkeling van het toetsenbord \autocite{Delobelle2020}.
+
+\subsection{Herziening en Keuze: RobBERT 2023-dutch-large}
+
+Naarmate het onderzoek vorderde, werd RobBERT 2023-dutch-large uitgebracht. Deze nieuwe versie bood verbeteringen in vocabulaire en tokenization, wat de integratie en gebruiksvriendelijkheid zou vergemakkelijken. Hoewel dit model groter was, bracht het geen aanzienlijke nadelen met zich mee, mits correct geconverteerd en geoptimaliseerd voor mobiele apparaten. Daarom werd besloten om over te stappen naar RobBERT 2023-dutch-large, gezien de voordelen die het bood zonder afbreuk te doen aan de prestaties \autocite{Delobelle2023}.
+
+\subsection{Evaluatie van Alternatieve Modellen}
+
+Hoewel de focus op RobBERT lag, werden ook alternatieve modellen zoals DistilBERT en TinyBERT theoretisch geëvalueerd. Deze lichtere versies bieden voordelen in termen van grootte en snelheid, wat hen geschikt maakt voor mobiele toepassingen. De evaluatie was gebaseerd op bestaande benchmarks en literatuur, zonder praktische testen, om tijd en middelen te besparen. DistilBERT bleek bijvoorbeeld ongeveer 97\% van de prestaties ten opzichte van BERT te behouden, met een significant kleinere modelgrootte \autocite{Sanh2019DistilBERT}. TinyBERT bood vergelijkbare voordelen, met nog meer reductie in modelgrootte en inference tijd \autocite{Jiao2019TinyBERT}.
+
+\subsection{Conclusie}
+
+De keuze voor RobBERT 2023-dutch-large als kernmodel voor het privacybewuste spelling- en grammaticacontrole-toetsenbord is gebaseerd op de uitstekende prestaties van het model in Nederlandse taaltaken en de verbeteringen in vocabulaire en tokenization. Hoewel lichte modellen zoals DistilBERT en TinyBERT waardevolle inzichten bieden voor toekomstige uitbreidingen en optimalisaties, maakt de gespecialiseerde aard van RobBERT het de meest geschikte keuze voor dit project.
