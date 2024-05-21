@@ -1,4 +1,37 @@
-\chapter{Gebruikersinterface ontwikkeling}
+\chapter{Gebruikersinterface Ontwikkeling}
 \label{ch:gebruikersinterface-ontwikkeling}
 
-\lipsum[1-2]
+In dit hoofdstuk bespreken we hoe de keuze van zelf een keyboard maken, naar een fork zijn overgegaan. In het begin werd gekozen om zelf een Input Method Editor (IME) te verwezenlijken. Dit leek een goed idee totdat werd ontdekt dat elke toetsaanslag en actie volledig zelf moest worden geïmplementeerd en dat de basis van het Google Keyboard niet kon worden gebruikt om hierop voort te bouwen. Daarom werd ervoor gekozen om een fork te maken van het project op: \url{https://github.com/SimpleMobileTools/Simple-Keyboard}.
+
+\section{NLP-integratie in de Fork}
+
+De bedoeling was om de NLP-integratie in deze fork te proberen, ondanks dat de conversie van het model niet volledig was gelukt. Er werd gestreefd naar een uitwerking die, wanneer het model wel zou werken, eenvoudig kon worden voltooid met de correct werkende variant. Dit zou het mogelijk maken om de functionaliteit van het RobBERT-model te integreren in de gebruikersinterface voor tekstclassificatie en andere NLP-taken.
+
+\section{Functionaliteit Oproepen}
+
+\subsection{Tekstselectie-opties}
+
+De functionaliteit van het model wordt opgeroepen via het selecteren van de tekst, en net zoals men de opties 'knippen' of 'kopiëren' kan gebruiken, krijgt de gebruiker een optie om BERT te gebruiken. Deze optie voert vervolgens de inferentie uit met het RobBERT-model. Dit biedt een naadloze integratie van de NLP-functionaliteit in de bestaande tekstselectie-interface.
+
+\subsection{Aanpassen van de Android Manifest}
+
+Om deze functionaliteit te realiseren, moet het volgende worden toegevoegd aan de manifest van een Android applicatie:
+
+\begin{lstlisting}[language=xml, caption={Toevoegen van BERT aan geselecteerde tekst opties}]
+    <activity
+    android:name=".bert.BertActivity"
+    android:exported="false"
+    android:label="@string/process_text_action_name">
+    <intent-filter>
+    <action android:name="android.intent.action.PROCESS_TEXT" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <data android:mimeType="text/plain" />
+    </intent-filter>
+    </activity>
+\end{lstlisting}
+
+Dit zorgt ervoor dat de nieuwe functionaliteit beschikbaar is in de contextuele acties van tekstselectie, waardoor gebruikers eenvoudig toegang hebben tot de krachtige mogelijkheden van het RobBERT-model.
+
+\section{Conclusie}
+
+Ondanks de uitdagingen bij conversie van het model, biedt deze aanpak een solide basis voor toekomstige integratie. Door de structuur van een bestaand project te gebruiken en de manifest aan te passen, kan de NLP-functionaliteit effectief worden toegevoegd aan de gebruikersinterface. Met verdere verbeteringen en een werkende modelconversie kan dit systeem krachtig en gebruiksvriendelijk worden ingezet. In het volgende hoofdstuk gaan we dieper in op het effectieve gebruik van het model in Kotlin/Android.
