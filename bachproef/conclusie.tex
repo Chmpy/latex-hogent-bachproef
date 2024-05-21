@@ -5,14 +5,67 @@
 \chapter{Conclusie}%
 \label{ch:conclusie}
 
-% TODO: Trek een duidelijke conclusie, in de vorm van een antwoord op de
-% onderzoeksvra(a)g(en). Wat was jouw bijdrage aan het onderzoeksdomein en
-% hoe biedt dit meerwaarde aan het vakgebied/doelgroep? 
-% Reflecteer kritisch over het resultaat. In Engelse teksten wordt deze sectie
-% ``Discussion'' genoemd. Had je deze uitkomst verwacht? Zijn er zaken die nog
-% niet duidelijk zijn?
-% Heeft het onderzoek geleid tot nieuwe vragen die uitnodigen tot verder 
-%onderzoek?
+\section{Antwoord op de Onderzoeksvragen}
 
-\lipsum[76-80]
+Dit onderzoek richtte zich op het ontwikkelen van een privacybewust spelling- en grammaticacontrole-toetsenbord voor Android dat offline kan functioneren. De centrale onderzoeksvraag was hoe een dergelijk toetsenbord kan worden ontwikkeld dat zowel nauwkeurige taalverwerking biedt als de privacy van de gebruiker waarborgt. De deelvragen hebben bijgedragen aan een gedetailleerd begrip van de verschillende aspecten van deze uitdaging.
 
+\begin{enumerate}
+    \item \textbf{Welke taalproblemen kunnen worden gecorrigeerd met technologieën zoals BERT, RobBERT en RobBERTje?}
+    \begin{itemize}
+        \item Met behulp van RobBERT en zijn varianten kunnen complexe taalproblemen zoals contextafhankelijke spellings- en grammaticafouten worden gecorrigeerd. Deze modellen zijn in staat om de betekenis van woorden in context te begrijpen, wat essentieel is voor nauwkeurige taalverwerking.
+    \end{itemize}
+    
+    \item \textbf{Hoe kan een dergelijk toetsenbord initieel de Nederlandse taal ondersteunen met de flexibiliteit voor uitbreiding naar andere talen?}
+    \begin{itemize}
+        \item Het prototype maakt gebruik van RobBERT, een model dat specifiek is getraind op de Nederlandse taal. De modulariteit van de implementatie maakt het mogelijk om het model te vervangen of uit te breiden met andere taalmodellen voor verschillende talen, mits de juiste tokenisatie en vocabulaire worden toegepast.
+    \end{itemize}
+    
+    \item \textbf{Op welke wijze kan dit toetsenbord worden aangepast voor diverse gebruikssituaties buiten de initiële implementatie?}
+    \begin{itemize}
+        \item Hoewel dit niet expliciet is onderzocht in deze thesis, biedt SimpleKeyboard ingebouwde functionaliteit die dergelijke aanpassingen mogelijk maakt. Als modellen klein genoeg zijn, kunnen meerdere modellen worden bijgehouden en gebruikt op basis van de behoefte van de gebruiker.
+    \end{itemize}
+    
+    \item \textbf{Wat is de ideale balans tussen nauwkeurigheid en privacy in de ontwikkeling van dit toetsenbord?}
+    \begin{itemize}
+        \item Dit is een zeer moeilijk te beantwoorden vraag, aangezien het afhangt van de sector waarin de implementatie zou worden gebruikt. In sectoren zoals de medische sector of andere sectoren met gevoelige persoonsgegevens, zou een implementatie met lokaal draaiende NLP-modellen de voorkeur genieten vanwege verhoogde privacy. Voor algemene toepassingen kan het gebruik van een API echter de integratie, snelheid en mogelijk de nauwkeurigheid verbeteren. Het blijft een uitdaging om de juiste balans te vinden en is afhankelijk van toekomstige ontwikkelingen in modeloptimalisatie.
+    \end{itemize}
+    
+    \item \textbf{Hoe kan de gebruiker de controle over zijn of haar persoonlijke data behouden?}
+    \begin{itemize}
+        \item Door alle taalverwerkingsprocessen lokaal op het apparaat uit te voeren, blijft de controle over persoonlijke gegevens bij de gebruiker. Er worden geen gegevens verzonden naar externe servers, wat de kans op datalekken en ongewenste toegang minimaliseert.
+    \end{itemize}
+    
+    \item \textbf{Wat zijn de gevolgen voor de prestaties van het toetsenbord bij de integratie van spelling- en grammaticacontrole?}
+    \begin{itemize}
+        \item De prestaties van het toetsenbord worden beïnvloed door de rekenkracht en het geheugen van het apparaat. Door het model te optimaliseren voor TensorFlow Lite, kan het efficiënt draaien op mobiele apparaten, hoewel er beperkingen zijn op de complexiteit van de verwerkte zinnen.
+    \end{itemize}
+    
+    \item \textbf{Is de beoogde oplossing voldoende schaalbaar om meerdere talen en uitgebreide gebruikssituaties te ondersteunen?}
+    \begin{itemize}
+        \item De oplossing is schaalbaar voor meerdere talen, mits de juiste modellen en vocabulaire worden geïntegreerd. Echter, de huidige technische beperkingen van TensorFlow Lite en de gebruikte bibliotheken beperken de volledige schaalbaarheid en flexibiliteit.
+    \end{itemize}
+    
+    \item \textbf{Welke technische uitdagingen moeten worden overwonnen om hoge prestaties en schaalbaarheid te garanderen?}
+    \begin{itemize}
+        \item We zijn niet in de fase van prestatiemetingen gekomen, maar de technische uitdagingen liggen voornamelijk in de adoptie van meer oplossingen en modellen voor dit soort use cases. De beperkingen van TensorFlow Lite en de noodzaak om FLOAT32 te gebruiken in plaats van INT64, wat de nauwkeurigheid van de inferentie beïnvloedt, blijven significante obstakels.
+    \end{itemize}
+\end{enumerate}
+
+\section{Kritische Reflectie}
+
+Het onderzoek heeft geleid tot een proof-of-concept poging voor een privacybewust spelling- en grammaticacontrole-toetsenbord voor Android, waarbij RobBERT als basis voor taalverwerking is gebruikt. Hoewel de theoretische mogelijkheid om dit te realiseren is aangetoond, kon er geen volledig werkende PoC worden ontwikkeld vanwege technische beperkingen. Deze beperkingen, zoals de ondersteuning van datatypes en bufferbeheer in TensorFlow Lite, hebben geleid tot compromissen in de functionaliteit en nauwkeurigheid van het prototype.
+
+
+\section{Toekomstig Onderzoek}
+
+Dit onderzoek roept nieuwe vragen op die uitnodigen tot verder onderzoek:
+\begin{itemize}
+    \item Hoe kunnen toekomstige verbeteringen in TensorFlow Lite en andere mach\-ine learning frameworks de integratie van complexe taalmodellen verbeteren?
+    \item Welke alternatieve methoden kunnen worden gebruikt om de beperkingen van datatype ondersteuning en bufferbeheer te omzeilen?
+    \item Hoe kunnen we de schaalbaarheid en flexibiliteit van de oplossing verbeteren om een breder scala aan talen en gebruikssituaties te ondersteunen?
+    \item Hoe kunnen deze libraries worden uitgebreid om dergelijke PoCs mogelijk te maken en meer praktische functionaliteiten te realiseren met behulp van lokale modellen?
+\end{itemize}
+
+Toekomstig onderzoek zou zich kunnen richten op het verkennen van nieuwe optimalisatietechnieken en het verbeteren van de integratieprocessen om de nauwkeurigheid en prestaties van dergelijke taalverwerkingsmodellen op mobiele apparaten te verbeteren.
+
+Deze thesis draagt bij aan het onderzoeksdomein door een basis te leggen voor de ontwikkeling van privacybewuste technologieën en toont de mogelijkheden en beperkingen van huidige taalmodellen in mobiele toepassingen. Het biedt waardevolle inzichten en legt de grondslag voor verdere verbeteringen en innovaties op dit gebied.
