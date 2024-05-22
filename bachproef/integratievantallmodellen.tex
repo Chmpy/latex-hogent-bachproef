@@ -124,7 +124,7 @@ De \texttt{BertHelper} klasse bevat de logica voor het laden van RobBERT, de woo
             val attentionMask = preprocessedInput.attentionMask
             
             // Definieer de invoer- en uitvoervormen en datatypes
-            val inputTensorShape = bertInterpreter.getInputTensor(0).shape()
+            val inputTensorShape = intArrayOf(1, inputIds.size)
             val outputTensorShape = bertInterpreter.getOutputTensor(0).shape()
             
             // Forceer DataType.FLOAT32 om unsupported INT64 te vermijden
