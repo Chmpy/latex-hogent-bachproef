@@ -14,11 +14,31 @@ Natural Language Processing (NLP) speelt een essentiële rol bij de interactie t
 
 \subsection{Definitie en Belang van NLP}
 
-Natural Language Processing (NLP) is een cruciale subdiscipline binnen de kunstmatige intelligentie die zich bezighoudt met de interactie tussen computers en menselijke (natuurlijke) talen. Het stelt machines in staat om menselijke taal te begrijpen en interpreteren, wat essentieel is voor het efficiënt verwerken van grote hoeveelheden tekstuele en spraakgegevens. De ontwikkeling van NLP heeft de manier waarop machines menselijke taal analyseren fundamenteel veranderd, w\-aar\-door ze niet alleen tekst kunnen begrijpen maar, ook reageren in een manier die voorheen voorbehouden was aan menselijke interactie \autocite{Sanadi2022}.
+Natural Language Processing is een cruciale subdiscipline binnen de artificiële intelligentie die zich richt op de interactie tussen computers en menselijke (natuurlijke) talen. Het stelt machines in staat om menselijke taal te begrijpen en interpreteren, wat essentieel is voor het efficiënt verwerken van grote hoeveelheden tekstuele en spraakgegevens. De ontwikkeling van NLP heeft de manier waarop machines menselijke taal analyseren fundamenteel veranderd, w\-aar\-door ze niet alleen tekst kunnen begrijpen maar, ook reageren in een manier die voorheen voorbehouden was aan menselijke interactie \autocite{Sanadi2022}.
+
+\subsection{Hoe NLP werkt}
+
+Natural Language Processing combineert linguïstiek, computerwetenschap en artificiële intelligentie om machines in staat te stellen menselijke taal te begrijpen, interpreteren en genereren. De werking van NLP kan worden onderverdeeld in verschillende belangrijke stappen, die hieronder worden beschreven.
+
+\begin{itemize}
+    \item \textbf{Taalkundige Voorverwerking}: Dit is de eerste stap in NLP, waarbij ruwe tekst wordt omgezet in een meer gestructureerde vorm die geschikt is voor verdere analyse. Het omvat verschillende processen zoals tokenisatie, waarbij tekst wordt opgedeeld in kleinere eenheden zoals woorden of zinnen, en normalisatie, waarbij tekst wordt gestandaardiseerd door het verwijderen van leestekens, het omzetten van hoofdletters naar kleine letters, en het corrigeren van spelfouten.
+    
+    \item \textbf{Syntactische Analyse}: Deze stap omvat het analyseren van de grammaticale structuur van zinnen. Dit wordt vaak gedaan door middel van parsing, waarbij een boomstructuur wordt gecreëerd die de relaties tussen woorden binnen een zin weergeeft. Door syntactische analyse kan een systeem de structuur van een zin begrijpen, wat helpt bij het ontleden van de betekenis ervan.
+    
+    \item \textbf{Semantische Analyse}: Bij semantische analyse wordt de betekenis van woorden en zinnen afgeleid. Dit gaat verder dan syntactische analyse door de daadwerkelijke betekenis van de tekst te interpreteren. Het omvat taken zoals woordenschat disambiguatie, waarbij de juiste betekenis van een woord wordt bepaald op basis van de context, en het genereren van synoniemen en parafraseringen.
+    
+    \item \textbf{Pragmatische Analyse}: Dit onderdeel van NLP houdt rekening met de context waarin taal wordt gebruikt, inclusief de intentie van de spreker en de omgevingsfactoren die van invloed kunnen zijn op de interpretatie. Pragmatische analyse helpt bij het begrijpen van de impliciete betekenissen en nuances in de communicatie.
+    
+    \item \textbf{Machine Learning en Deep Learning}: Moderne NLP-modellen maken vaak gebruik van machine learning en deep learning technieken om tekst te verwerken en te begrijpen. Modellen zoals neurale netwerken en transformerarchitecturen (bijvoorbeeld BERT en GPT) worden getraind op grote hoeveelheden tekstgegevens om patronen en structuren in taal te leren herkennen. Deze modellen kunnen vervolgens worden toegepast op een breed scala aan NLP-taken, zoals vertaling, sentimentanalyse, en tekstgeneratie.
+    
+    \item \textbf{Evaluatie en Feedback}: Na de initiële verwerking en analyse, worden de resultaten geëvalueerd en indien nodig bijgesteld. Dit omvat het meten van de prestaties van het model en het verbeteren van de nauwkeurigheid door middel van iteratieve training en fine-tuning. Feedback van gebruikersinteracties kan ook worden gebruikt om de prestaties van NLP-systemen verder te verbeteren.
+\end{itemize}
+
+Door deze stappen te combineren, kan NLP effectief menselijke taal begrijpen en erop reageren, wat essentieel is voor toepassingen zoals een privacybewust spelling- en grammaticacontroletoetsenbord. Lokale verwerking op apparaten biedt hierbij extra voordelen door de privacy van gebruikers te beschermen en het risico op datalekken te minimaliseren \autocite{Hirschberg2015}.
 
 \subsection{Toepassingen van NLP}
 
-De toepassingen van NLP zijn divers en invloedrijk in verschillende domeinen, van machine vertaling en sentiment analyse tot stem gestuurde assistenten. Deze technologieën worden steeds vaker geïmplementeerd in apparaten en diensten die we dagelijks gebruiken, wat aantoont hoe diepgaand NLP de interactie tussen mens en machine heeft getransformeerd. Door de integratie van NLP in deze applicaties kunnen apparaten complexe menselijke commando's begrijpen en hierop reageren, wat de bruikbaarheid en toegankelijkheid van technologie verbetert \hfill \break \autocite{Feng2020}.
+De toepassingen van NLP zijn divers en invloedrijk in verschillende domeinen, van machine vertaling en sentiment analyse tot stemgestuurde assistenten. Deze technologieën worden steeds vaker geïmplementeerd in apparaten en diensten die we dagelijks gebruiken, wat aantoont hoe diepgaand NLP de interactie tussen mens en machine heeft getransformeerd. Door de integratie van NLP in deze applicaties kunnen apparaten complexe menselijke commando's begrijpen en hierop reageren, wat de bruikbaarheid en toegankelijkheid van technologie verbetert \hfill \break \autocite{Feng2020}.
 
 \subsection{Privacyvoordelen van Lokale NLP}
 
@@ -50,6 +70,52 @@ Voortbouwend op de bespreking van AI-modellen, richt dit hoofdstuk zich op Neder
 \subsection{Inleiding tot BERT}
 
 BERT (Bidirectional Encoder Representations from Transformers) is een trans\-for\-mer-gebaseerd model dat heeft gezorgd voor aanzienlijke verbeteringen in verschillende natuurlijke taaltaken door zijn vermogen om diepe bidirectionele representaties te pre-trainen. Dit model kan fijn afgesteld worden met slechts één extra outputlaag om toonaangevende resultaten te leveren voor een breed scala aan taken, zoals vraag beantwoording en taal inferentie, zonder substantiële aanpassingen in de taakspecifieke architectuur \autocite{Devlin2019}.
+
+\subsection{Hoe BERT werkt}
+
+BERT maakt gebruik van de Transformer, een aandachtmechanisme dat helpt bij het begrijpen van de relaties tussen woorden in een tekst. De Transformer bestaat uit een encoder die de tekst leest en een decoder die voorspellingen doet. Omdat BERT een taalmodel wil maken, gebruikt het alleen de encoder.
+
+In tegenstelling tot modellen die de tekst van links naar rechts of van rechts naar links lezen, leest de Transformer-encoder de hele reeks woorden tegelijkertijd. Dit maakt het mogelijk om de context van een woord te begrijpen op basis van de woorden eromheen.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{bert_explained.jpg}
+    \caption{Een overzicht van de Transformer-encoder}
+    \label{fig:bert_explained}
+\end{figure}
+
+Figuur \ref{fig:bert_explained} toont hoe de Transformer-encoder werkt. De invoer is een reeks woorden die worden omgezet in vectoren en vervolgens worden verwerkt in een neurale netwerk. De uitvoer is een reeks vectoren, waarbij elke vector overeenkomt met een invoerwoord.
+
+Bij het trainen van taalmodellen is het moeilijk om een goed voorspellingsdoel te bepalen. Veel modellen voorspellen het volgende woord in een zin, wat de context beperkt. BERT gebruikt twee trainingsstrategieën om dit probleem op te lossen:
+
+\textbf{Masked LM (MLM)}: Voordat de woordreeksen in BERT worden ingevoerd, wordt 15\% van de woorden vervangen door een [MASK]-token. Het model probeert dan de oorspronkelijke woorden te voorspellen op basis van de context van de andere woorden in de reeks. Dit vereist:
+
+\begin{itemize}
+    \item Een classificatielaag bovenop de encoderuitvoer.
+    \item Het vermenigvuldigen van de uitvoervectoren met de embedding-matrix om ze om te zetten naar vocabulaire-dimensies.
+    \item Het berekenen van de waarschijnlijkheid van elk woord met softmax.
+\end{itemize}
+
+De verliesfunctie van BERT houdt alleen rekening met de voorspelling van de gemaskeerde woorden, wat leidt tot een langzamere convergentie maar beter contextbegrip.
+
+\textbf{Next Sentence Prediction (NSP)}: BERT krijgt tijdens de training paren van zinnen en leert te voorspellen of de tweede zin volgt op de eerste. In 50\% van de gevallen volgt de tweede zin, en in de andere 50\% niet. Het model leert het verschil te herkennen door de invoer als volgt te verwerken:
+
+\begin{itemize}
+    \item Een [CLS]-token aan het begin en een [SEP]-token aan het einde van elke zin.
+    \item Een zinsembedding die aangeeft of het de eerste of tweede zin is.
+    \item Een positionele embedding die de positie in de reeks aangeeft.
+\end{itemize}
+
+Om te voorspellen of de tweede zin volgt op de eerste, worden de volgende stappen uitgevoerd:
+
+\begin{itemize}
+    \item De hele invoersequentie gaat door de Transformer.
+    \item De uitvoer van het [CLS]-token wordt omgezet in een vector.
+    \item De waarschijnlijkheid van IsNextSequence wordt berekend met softmax.
+\end{itemize}
+
+BERT traint Masked LM en Next Sentence Prediction samen om de gecombineerde verliesfunctie te minimaliseren \autocite{Devlin2019}.
+
 
 \subsection{RobBERT en RobBERTje}
 
@@ -143,7 +209,7 @@ Voor de integratie van AI-modellen op Android-apparaten zijn TensorFlow Lite en 
 
 \subsection{Preprocessing en Postprocessing}
 
-Data preprocessing omvat het formatteren en normaliseren van invoergegevens zodat deze compatibel zijn met het AI-model. Voor beeldverwerking kan dit inhouden dat afbeeldingen worden geschaald of genormaliseerd naar een specifiek kleurbereik. Postprocessing aan de andere kant, houdt zich bezig met het interpreteren van de modeloutput, zoals het omzetten van ruwe scores naar bruikbare inzichten of beslissingen.
+Data preprocessing omvat het formatteren en normaliseren van invoergegevens zodat deze compatibel zijn met het AI-model. Voor beeldverwerking kan dit inhouden dat afbeeldingen worden geschaald of genormaliseerd naar een specifiek kleurbereik. Postprocessing aan de andere kant, richt zich op het interpreteren van de modeloutput, zoals het omzetten van ruwe scores naar bruikbare inzichten of beslissingen.
 
 \subsection{Prestaties en Batterijoptimalisatie}
 
@@ -170,7 +236,7 @@ De Android Input Method Editor (IME) is een programma dat gebruikers in staat st
 
 \textbf{Nadelen}:
 \begin{itemize}
-    \item \textbf{Privacyrisico's}: Omdat IME's toegang hebben tot alle getypte gegevens, kunnen ze gevoelige informatie blootstellen aan privacyrisico's, vooral als de IME op een cloud draait \autocite{Kawamoto2014}.
+    \item \textbf{Privacyrisico's}: Omdat IME's toegang hebben tot alle getypte gegevens, kunnen ze gevoelige informatie blootstellen aan privacyrisico's, vooral als de IME op een cloud gehost wordt \autocite{Kawamoto2014}.
     \item \textbf{Prestatie}: Sommige IME's kunnen de prestaties van apparaten beïnvloeden door verhoogd geheugen- en CPU-gebruik.
     \item \textbf{Beveiligingsrisico's}: IME's zijn kwetsbaar voor beveiligingsproblemen zoals keylogging en gegevensinbreuken, vooral wanneer derde partijen betrokken zijn \autocite{Diao2015}.
 \end{itemize}

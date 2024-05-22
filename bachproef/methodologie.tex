@@ -15,9 +15,9 @@ Deze fase bestond uit een uitgebreide studie van bestaande literatuur op het geb
 
 Op basis van de literatuurstudie werd RobBERT geselecteerd vanwege de effectiviteit in Nederlandse taaltaken en de mogelijkheid tot optimalisatie voor mobiele apparaten \autocite{Delobelle2020}. Alternatieve lichte modellen zoals DistilBERT en TinyBERT werden ook geëvalueerd \autocite{Sanh2019DistilBERT}.
 
-\subsection{Model Conversie en Optimalisatie}
+\subsection{Model Conversie en Output Verwerking}
 
-Het RobBERT-model werd geconverteerd van PyTorch naar ONNX en vervolgens naar TensorFlow Lite, gebruikmakend van PyTorch, ONNX en TensorFlow libraries. Optimalisatietechnieken zoals kwantisatie en snoeien werden getest om de modelgrootte te verkleinen en de inference snelheid te verbeteren \autocite{Wang2022}.
+Het RobBERT-model werd geconverteerd van PyTorch naar ONNX en vervolgens naar TensorFlow Lite, gebruikmakend van PyTorch, ONNX en TensorFlow libraries. De methode om de output te verwerken werd besproken en de uitdagingen die bij het geheel kwamen kijken.
 
 \subsection{Gebruikersinterface Ontwikkeling}
 
