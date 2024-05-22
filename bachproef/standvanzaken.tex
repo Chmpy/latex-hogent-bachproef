@@ -52,7 +52,7 @@ Dit hoofdstuk bouwt voort op de basis van NLP en bespreekt AI-modellen zoals BER
 
 \subsection{Overzicht van Modellen}
 
-Recente ontwikkelingen in AI-modellen hebben geleid tot aanzienlijke vooruitgang in natuurlijke taalverwerking (NLP). Modellen zoals BERT (Bidirectional Encoder Representations from Transformers) en zijn afgeleiden, DistilBERT en TinyBERT, spelen een cruciale rol. BERT-modellen zijn met name effectief in het begrijpen van de context van een woord binnen een zin, wat hen zeer geschikt maakt voor complexe NLP-taken. Echter, vanwege hun grootte en complexiteit, zijn deze modellen vaak niet direct geschikt voor gebruik op mobiele apparaten met beperkte bronnen. Om dit probleem aan te pakken, zijn DistilBERT en TinyBERT ontwikkeld als kleinere, efficiëntere versies die beter geschikt zijn voor mobiele toepassingen. TinyBERT, bijvoorbeeld, is speciaal ontworpen voor kennisdestillatie van Transformer-gebaseerde modellen, wat resulteert in een model dat aanzienlijk kleiner en sneller is dan zijn voorganger, zonder aanzienlijke compromissen in de prestaties \autocite{Jiao2019TinyBERT}.
+Recente ontwikkelingen in AI-modellen hebben geleid tot aanzienlijke vooruitgang in natuurlijke taalverwerking. Modellen zoals BERT (Bidirectional Encoder Representations from Transformers) en zijn afgeleiden, DistilBERT en TinyBERT, spelen een cruciale rol. BERT-modellen zijn met name effectief in het begrijpen van de context gericht op woorden binnen een zin, wat hen zeer geschikt maakt voor complexe NLP-taken. Echter, vanwege hun grootte en complexiteit, zijn deze modellen vaak niet direct geschikt voor gebruik op mobiele apparaten met beperkte bronnen. Om dit probleem aan te pakken, zijn DistilBERT en TinyBERT ontwikkeld als kleinere, efficiëntere versies die beter geschikt zijn voor mobiele toepassingen. TinyBERT, bijvoorbeeld, is speciaal ontworpen voor kennisdestillatie van Transformer-gebaseerde modellen, wat resulteert in een model dat aanzienlijk kleiner en sneller is dan zijn voorganger, zonder aanzienlijke compromissen in de prestaties \autocite{Jiao2019TinyBERT}.
 
 \subsection{Criteria voor Modelkeuze}
 
@@ -65,7 +65,7 @@ TinyBERT en DistilBERT bieden beide aanzienlijke voordelen ten opzichte van het 
 
 \section{BERT, RobBERT, en RobBERTje: Prestaties en Optimalisaties van Nederlandse Taalmodellen}
 
-Voortbouwend op de bespreking van AI-modellen, richt dit hoofdstuk zich op Nederlandse varianten zoals RobBERT en RobBERTje. We onderzoeken hun prestaties en optimalisaties, wat cruciaal is voor de implementatie van effectieve taalmodellen in de toetsenbordapplicatie.
+Voortbouwend op de bespreking van AI-modellen, richt dit hoofdstuk zich op Nederlandse varianten zoals RobBERT en RobBERTje. We onderzoeken hun prestaties en optimalisaties, wat cruciaal is voor de implementatie van effectieve taalmodellen in de toetsenbord applicatie.
 
 \subsection{Inleiding tot BERT}
 
@@ -73,9 +73,9 @@ BERT (Bidirectional Encoder Representations from Transformers) is een trans\-for
 
 \subsection{Hoe BERT werkt}
 
-BERT maakt gebruik van de Transformer, een aandachtmechanisme dat helpt bij het begrijpen van de relaties tussen woorden in een tekst. De Transformer bestaat uit een encoder die de tekst leest en een decoder die voorspellingen doet. Omdat BERT een taalmodel wil maken, gebruikt het alleen de encoder.
+BERT maakt gebruik van de Transformer, een aandachtsmechanisme dat helpt bij het begrijpen van de relaties tussen woorden in een tekst. De Transformer bestaat uit een encoder die de tekst leest en een decoder die voorspellingen doet.
 
-In tegenstelling tot modellen die de tekst van links naar rechts of van rechts naar links lezen, leest de Transformer-encoder de hele reeks woorden tegelijkertijd. Dit maakt het mogelijk om de context van een woord te begrijpen op basis van de woorden eromheen.
+In tegenstelling tot modellen die de tekst van links naar rechts of van rechts naar links lezen, leest de Transformer-encoder de complete reeks woorden tegelijkertijd. Dit maakt het mogelijk om de context van een woord te begrijpen op basis van de woorden eromheen.
 
 \begin{figure}[ht]
     \centering
@@ -84,7 +84,7 @@ In tegenstelling tot modellen die de tekst van links naar rechts of van rechts n
     \label{fig:bert_explained}
 \end{figure}
 
-Figuur \ref{fig:bert_explained} toont hoe de Transformer-encoder werkt. De invoer is een reeks woorden die worden omgezet in vectoren en vervolgens worden verwerkt in een neurale netwerk. De uitvoer is een reeks vectoren, waarbij elke vector overeenkomt met een invoerwoord.
+Figuur \ref{fig:bert_explained} toont hoe de Transformer-encoder werkt. De invoer is een reeks woorden die worden omgezet in vectoren en vervolgens verwerkt worden in een neuraal netwerk. De uitvoer is een reeks vectoren, waarbij elke vector overeenkomt met een invoerwoord.
 
 Bij het trainen van taalmodellen is het moeilijk om een goed voorspellingsdoel te bepalen. Veel modellen voorspellen het volgende woord in een zin, wat de context beperkt. BERT gebruikt twee trainingsstrategieën om dit probleem op te lossen:
 
@@ -170,7 +170,7 @@ AI wordt ook uitgebreid toegepast in de beeldverwerking op mobiele apparaten, vo
 
 \subsection{Voor- en Nadelen}
 
-\textbf{Voordelen} van deze AI-toepassingen omvatten de mogelijkheid om complexe en natuurlijke interacties met apparaten te faciliteren, wat leidt tot een verbeterde gebruikerservaring. Door lokale verwerking kunnen deze toepassingen ook werken met minimale latency en verhoogde privacy voor de gebruiker.
+\textbf{Voordelen} van deze AI-toepassingen omvatten de mogelijkheid om complexe en natuurlijke interacties met apparaten te faciliteren, wat leidt tot een verbeterde gebruikerservaring. Door lokale verwerking kunnen deze toepassingen ook werken met minimale vertraging en verhoogde privacy voor de gebruiker.
 \\ \\
 \textbf{Nadelen} zijn onder meer de beperkingen in verwerkingskracht en batterijduur van mobiele apparaten, wat de complexiteit en efficiëntie van de uitvoerbare AI-modellen beperkt. Bovendien kunnen deze systemen te maken krijgen met uitdagingen zoals onnauwkeurigheden in moeilijke omgevingscondities en de noodzaak van continue updates om de modellen te verbeteren en adapteren aan nieuwe data \autocite{Castanyer2021}.
 
@@ -218,7 +218,7 @@ Het optimaliseren van prestaties en batterijduur is cruciaal voor mobiele applic
 
 \section{Soorten Android-diensten}
 
-Dit hoofdstuk bouwt voort op de praktische integratie van AI-modellen en bespreekt verschillende soorten Android-diensten zoals IME en System-level Services. We onderzoeken hun voordelen, nadelen en implementatiestappen, wat helpt bij het begrijpen van de infrastructuur waarin AI-modellen kunnen worden geïmplementeerd.
+Dit hoofdstuk bouwt voort op de praktische integratie van AI-modellen en bespr\-eekt verschillende soorten Android-diensten zoals IME en System-level Services. We onderzoeken hun voordelen, nadelen en implementatiestappen, wat helpt bij het begrijpen van de infrastructuur waarin AI-modellen kunnen worden geïmplementeerd.
 
 
 \subsection{Android Input Method Editor (IME)}
@@ -230,7 +230,7 @@ De Android Input Method Editor (IME) is een programma dat gebruikers in staat st
 \textbf{Voordelen}:
 \begin{itemize}
     \item \textbf{Gebruiksvriendelijkheid}: IME's verbeteren de tekstinvoersnelheid en -nauw\-keu\-rig\-heid door voorspellende tekst en automatische correctie te bieden, wat de algehele gebruikerservaring verbetert.
-    \item \textbf{Flexibiliteit}: Ze voorzien ondersteuning voor meerdere talen en aangepaste toetsenbordlay-outs, waardoor ze breed inzetbaar zijn voor diverse gebruikersbehoeften.
+    \item \textbf{Flexibiliteit}: Ze voorzien ondersteuning voor meerdere talen en aangepaste toetsenbord lay-outs, waardoor ze breed inzetbaar zijn voor diverse gebruikersbehoeften.
     \item \textbf{Personalisatie}: IME's kunnen worden aangepast op basis van gebruikersgedrag en voorkeuren, wat resulteert in een meer gepersonaliseerde gebruikerservaring \autocite{Jo2015}.
 \end{itemize}
 

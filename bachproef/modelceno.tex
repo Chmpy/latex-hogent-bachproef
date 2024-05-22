@@ -65,7 +65,7 @@ Hieronder volgt de volledige code voor de conversie van het RobBERT-model naar T
 
 \subsubsection{Stap 1: Importeren van Nodige Bibliotheken}
 
-De code begint met het importeren van de noodzakelijke bibliotheken. Dit zijn \texttt{transformers} voor het model en de tokenizer, \texttt{torch} voor PyTorch-functionaliteit, \texttt{onnx} voor het werken met het ONNX-formaat, \texttt{tensorflow} voor TensorFlow-functionaliteit, en \texttt{onnx\_tf} voor de conversie van ONNX naar TensorFlow.
+De code begint met het importeren van de noodzakelijke bibliotheken. Dit zijn \texttt{transformers} voor het model en de tokenizer, \texttt{torch} voor PyTorch-func\-tio\-naliteit, \texttt{onnx} voor het werken met het ONNX-formaat, \texttt{tensorflow} voor TensorFlow-func\-tio\-naliteit, en \texttt{onnx\_tf} voor de conversie van ONNX naar TensorFlow.
 
 \begin{lstlisting}[language=Python, caption={Importeren van benodigde bibliotheken.}]
     
@@ -379,13 +379,13 @@ Ten slotte verkrijgen we de output van het model en printen deze.
 
 \subsection{Samenvatting van de Output Verwerking}
 
-In dit deel hebben we het proces beschreven om te controleren of de TensorFlow Lite-versie van het RobBERT-model correct functioneert. We hebben de tokenizer geïnitialiseerd om invoertekst naar het juiste formaat om te zetten. Vervolgens hebben we de getokeniseerde invoer gebruikt om het TFLite-model te testen. Dit omvatte het laden van het model, verkrijgen en instellen van de invoertensors, en het uitvoeren van de inferentie. Ten slotte hebben we de output van het model opgehaald en geverifieerd. Deze stappen zijn essentieel om ervoor te zorgen dat het geconverteerde model correct werkt in een productieomgeving.
+In dit deel hebben we het proces beschreven om te controleren of de TensorFlow Lite-versie van het RobBERT-model correct functioneert. We hebben de tokenizer geïnitialiseerd om invoertekst naar het juiste formaat om te zetten. Vervolgens hebben we de getokeniseerde invoer gebruikt om het TFLite-model te testen. Dit omvatte het laden van het model, verkrijgen en instellen van de invoertensors, en het uitvoeren van de inferentie. Ten slotte hebben we de output van het model opgehaald en getoond. Deze stappen zijn essentieel om ervoor te zorgen dat het geconverteerde model correct werkt in een productieomgeving.
 
 \section{Beperkingen en Uitdagingen}
 
 Bij conversie van het model naar TensorFlow Lite moet de bemerking gemaakt worden dat de capaciteiten van het model verminderd worden. Dit betekent concreet dat het enige wat het TensorFlow Lite-model van RobBERT kan doen, is het klassificeren van tekst op basis van zijn training data die hier in acht wordt bij genomen. Door de beperkte kennis van machine learning en modelconversie is het niet gelukt om deze klassificatie te specificeren noch achterhalen welke klassificatie het TensorFlow Lite-model gebruikt tijdens inferentie. Dit vormt de zwakste schakel in de thesis.
 
-Hierdoor was een succesvolle Proof of Concept opleveren, niet mogelijk. Enkele mogelijke oorzaken hiervoor zijn:
+Hierdoor was een succesvolle proof-of-concept opleveren, niet mogelijk. Enkele mogelijke oorzaken hiervoor zijn:
 
 \begin{enumerate}
     \item Onvoldoende ervaring met modelconversie: De conversie van een complex model zoals RobBERT van PyTorch naar TensorFlow Lite vereist diepgaande kennis en ervaring, die ontbrak.

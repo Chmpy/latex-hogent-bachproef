@@ -6,7 +6,7 @@ In dit hoofdstuk beschrijven we hoe het RobBERT-model geïntegreerd kan worden i
 
 \section{Configuratie van Bibliotheken}
 
-De eerste stap is het toevoegen van de benodigde TensorFlow- en Gson-bibliotheken aan de projectconfiguratie. Deze bibliotheken zijn cruciaal voor het laden en uitvoeren van het model en voor het verwerken van de JSON-bestanden die de woordenschat bevatten.
+De eerste stap is het toevoegen van de benodigde TensorFlow- en Gson-biblio\-the\-ken aan de projectconfiguratie. Deze bibliotheken zijn cruciaal voor het laden en uitvoeren van het model en voor het verwerken van de JSON-bestanden die woordenschat bevatten.
 
 \subsection{Toevoegingen aan de TOML-bestanden}
 
@@ -68,7 +68,7 @@ De \texttt{BertActivity} klasse initialiseert de \texttt{BertHelper} klasse om d
 
 \section{Implementatie van de BERT Helper Klasse}
 
-De \texttt{BertHelper} klasse bevat de logica voor het laden van RobBERT, de woordenschat, en het uitvoeren van de inferentie. Deze klasse maakt gebruik van TensorFlow Lite voor het uitvoeren van de modelinference.
+De \texttt{BertHelper} klasse bevat de logica voor het laden van RobBERT, de woordenschat, en het uitvoeren van de inferentie. Deze klasse maakt gebruik van TensorFlow Lite voor het uitvoeren van de inferentie.
 
 \begin{lstlisting}[language=Kotlin, caption={Implementatie van BertHelper}]
     import android.content.Context
@@ -171,13 +171,11 @@ De \texttt{BertHelper} klasse bevat de logica voor het laden van RobBERT, de woo
 
 \subsection{Diepere Bespreking van de BertHelper Klasse}
 
-De \texttt{BertHelper} klasse is verantwoordelijk voor het laden van de vocabulaire en het model, en voor het uitvoeren van de inferentie. De \texttt{loadVocabulary} methode laadt de woordenlijst uit een JSON-bestand, wat essentieel is voor de tokenisatie van de invoerzin. De \texttt{loadModel} methode laadt
-
-het TensorFlow Lite-model uit de assets van de Android-applicatie.
+De \texttt{BertHelper} klasse is verantwoordelijk voor het laden van de vocabulaire en het model, en voor het uitvoeren van de inferentie. De \texttt{loadVocabulary} methode laadt de woordenlijst uit een JSON-bestand, wat essentieel is voor de tokenisatie van de invoerzin. De \texttt{loadModel} methode laadt het TensorFlow Lite-model uit de assets van de Android-applicatie.
 
 \subsubsection{Beperkingen van DataType}
 
-Een belangrijk aspect van de \texttt{BertHelper} klasse is de noodzaak om \texttt{DataType.FLOAT32} te gebruiken voor zowel de invoer- als uitvoertensoren. Dit komt doordat de huidige bibliotheek die beschikbaar is voor Kotlin geen ondersteuning biedt voor modellen die \texttt{INT64} als invoertype nodig hebben. De buffers kunnen alleen \texttt{FLOAT32} en \texttt{UInt8} ontvangen, wat een impact heeft op de nauwkeurigheid van de inferentie. Bovendien kunnen de input buffers maximaal 2 woorden analyseren, omdat de input buffers niet dynamisch gecreëerd kunnen worden. De input- en output buffers moeten even groot zijn om fouten te voorkomen, wat een verdere beperking is van de huidige implementatie.
+Een belangrijk aspect van de \texttt{BertHelper} klasse is de noodzaak om \hfill \break \texttt{DataType.FLOAT32} te gebruiken voor zowel de invoer- als uitvoertensoren. Dit komt doordat de huidige bibliotheek die beschikbaar is voor Kotlin geen ondersteuning biedt voor modellen die \texttt{INT64} als invoertype nodig hebben. De buffers kunnen alleen \texttt{FLOAT32} en \texttt{UInt8} ontvangen, wat een impact heeft op de nauwkeurigheid van de inferentie. Bovendien kunnen de input buffers maximaal 2 woorden analyseren, omdat de input buffers niet dynamisch gecreëerd kunnen worden. De input- en output buffers moeten even groot zijn om fouten te voorkomen, wat een verdere beperking is van de huidige implementatie.
 
 \section{Implementatie van de PreprocessedInput Data Klasse}
 
@@ -351,9 +349,7 @@ Het \texttt{BertPostprocessor} object is verantwoordelijk voor de postprocessing
 
 \subsection{Diepere Bespreking van BertPostprocessor Object}
 
-De \texttt{BertPostprocessor} klasse verwerkt de output van het model door de logits om te zetten naar waarschijnlijkheden met behulp van de softmax functie. De \texttt{postprocess} methode controleert
-
-of de output tensor twee waarden heeft, wat verwacht wordt voor een binaire classificatie. Vervolgens past het de softmax functie toe om de waarschijnlijkheden te berekenen en bepaalt het de voorspelde klasse op basis van de hoogste waarschijnlijkheid.
+De \texttt{BertPostprocessor} klasse verwerkt de output van het model door de logits om te zetten naar waarschijnlijkheden met behulp van de softmax functie. De \texttt{postprocess} methode controleert of de output tensor twee waarden heeft, wat verwacht wordt voor een binaire classificatie. Vervolgens past het de softmax functie toe om de waarschijnlijkheden te berekenen en bepaalt het de voorspelde klasse op basis van de hoogste waarschijnlijkheid.
 
 Deze postprocessing stap is cruciaal om de ruwe modeloutput om te zetten in bruikbare informatie. De implementatie van de softmax functie zorgt ervoor dat de logits worden geschaald naar een probabilistisch formaat, wat essentieel is voor het interpreteren van de modeloutput.
 
