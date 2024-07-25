@@ -19,22 +19,25 @@ NLP heeft zich ontwikkeld van eenvoudige batchverwerking naar geavanceerde real-
 
 Wat NLP bijzonder relevant maakt voor het privacyprobleem is de mogelijkheid om deze technologie lokaal te implementeren. In plaats van afhankelijk te zijn van externe servers voor gegevensverwerking, kan een lokaal NLP-systeem draaien op het Android-apparaat zelf. Dit betekent dat de gevoelige tekstgegevens van de gebruiker niet extern worden verzonden voor verwerking, wat de controle over persoonlijke data vergroot en pri\-va\-cy\-risico's ver\-min\-dert ~\autocite{Cistac2019}.
 
-% Een inleiding geven over BERT, RobBERT, RoBERTje (RoBERTa varianten) en wat gelijkvormige modellen kunnen en niet kunnen doen, hoe diveregeren ze van de meer bekende GPT varianten. (De soorten tasks die ze kunnen doen) Waarom zou je een pretrained variant gebruiken die later gefinetuned kunnen worden
 \section{BERT en RobBERT}
 
-BERT (Bidirectional Encoder Representations from Transformers) is een transformer-gebaseerd model dat aanzienlijke vooruitgang heeft geboekt in verschillende Natural Language Processing (NLP) taken. Het model is ontworpen om contextuele informatie in beide richtingen van een tekst te begrijpen, wat resulteert in verbeterde prestaties vergeleken met eerdere modellen. ~\autocite{Delobelle2020}.
+BERT (Bidirectional Encoder Representations from Transformers) is een transformer-gebaseerd model dat aanzienlijke vooruitgang heeft geboekt in verschillende NLP-taken. Het model is ontworpen om contextuele informatie in beide richtingen van een tekst te begrijpen, wat resulteert in verbeterde prestaties vergeleken met eerdere modellen ~\autocite{Delobelle2020}.
 
-Volgends ~\textcite{Singh2023} zijn transformer neurale netwerken een deep learning-netwerk dat uitblinkt in multimodale activiteiten, taalinterpretatie en beeldverwerking.
+Volgens ~\textcite{Singh2023} zijn transformer neurale netwerken een soort deep learning-netwerk dat uitblinkt in multimodale activiteiten, taalinterpretatie en beeldverwerking.
 
 RobBERT is een Nederlands taalmodel gebaseerd op RoBERTa, een geoptimaliseerde versie van BERT. Het doel van RobBERT is om de prestaties van natuurlijke taalverwerkingstaken in het Nederlands te verbeteren door gebruik te maken van een specifiek op de Nederlandse taal getraind model ~\autocite{Delobelle2021}.
 
 \subsection{Waarom RobBERT}
 
+RobBERT is specifiek getraind op Nederlandse tekstcorpora, waardoor het beter presteert op Nederlandse NLP-taken dan modellen die getraind zijn op meerdere talen tegelijk. Dit gespecialiseerde model maakt gebruik van de geoptimaliseerde RoBERTa-architectuur, wat resulteert in betere prestaties en efficiëntere verwerking ~\autocite{Delobelle2021}.
 
+RobBERT en soortgelijke modellen kunnen diverse NLP-taken uitvoeren, zoals sentimentanalyse, naamherkenning en co-referentie resolutie. Deze modellen verschillen van meer bekende GPT-varianten, die voornamelijk worden gebruikt voor generatieve taken zoals tekstcreatie en vertaling. Terwijl GPT-modellen vaak worden gebruikt om nieuwe tekst te genereren, zijn BERT-achtige modellen, zoals RobBERT, beter geschikt voor taken waarbij begrip en analyse van bestaande tekst centraal staan ~\autocite{Devlin2019}.
+
+Een belangrijk voordeel van een voorgetraind model zoals RobBERT is dat het eenvoudig kan worden aangepast aan specifieke taken door middel van fine-tuning ~\autocite{Howard2018}. Dit elimineert de noodzaak om het model telkens opnieuw vanaf het begin te trainen. Dit proces maakt gebruik van relatief kleine, gelabelde datasets om het model verder te trainen voor specifieke toepassingen, wat resulteert in snellere en nauwkeurigere resultaten. Fine-tuning zorgt ervoor dat de kracht en efficiëntie van het voorgetrainde model behouden blijven, terwijl het model wordt geoptimaliseerd voor specifieke taken zoals sentimentanalyse, naamherkenning of co-referentie resolutie ~\autocite{Delobelle2022}.
 
 \subsection{Hoe werkt BERT: Theoretisch overzicht}
 
-Zoals eerder vermeld maakt BERT gebruik van een transformer, dit is aandachtsmechanisme dat helpt bij het begrijpen van de relaties tussen woorden in een tekst. De transformer bestaat uit een encoder die de tekst leest en een decoder die voorspellingen doet ~\autocite{Horev2018}.
+Zoals eerder vermeld maakt BERT gebruik van een transformer, dit is een aandachtsmechanisme dat helpt bij het begrijpen van de relaties tussen woorden in een tekst. De transformer bestaat uit een encoder die de tekst leest en een decoder die voorspellingen doet ~\autocite{Horev2018}.
 
 In tegenstelling tot modellen die de tekst van links naar rechts of van rechts naar links lezen, leest de transformer-encoder de complete reeks woorden tegelijkertijd. Dit maakt het mogelijk om de context van een woord te begrijpen op basis van de woorden eromheen ~\autocite{Horev2018}. 
 
@@ -79,7 +82,7 @@ Bijvoorbeeld, in een taak waarbij we willen bepalen of het correcte verwijswoord
 
 Omdat het model niet specifiek is getraind om enkel "die" en "dat" te onderscheiden, zal het logits genereren voor alle mogelijke woorden die het kent. Deze kunnen dan worden gebruikt om de waarschijnlijkheid van elk woord te bepalen en uiteindelijk te kiezen welk woord het beste past in context van de zin.
 
-De inferentie kwaliteit is sterk afhankelijk van hoe nauwkeurig het model is hoe representatief de trainingsdata is. Een goed getraind RobBERT-model kan complexe taalkundige patronen in Nederlandse teksten herkennen en nauwkeurige voorspellingen doen over welk woord correct is in verschillende contexten ~\autocite{Leeb2005}.
+De inferentie kwaliteit is sterk afhankelijk van hoe nauwkeurig het model is hoe representatief de trainingsdata is. Een goed getraind RobBERT-model kan complexe taalkundige patronen in Nederlandse teksten herkennen en nauwkeurige voorspellingen doen over welk woord correct is in verschillende contexten ~\autocite{Delobelle2020}
 
 Inferentie vereist ook dat het model efficiënt kan omgaan met de gegeven invoerdata. Dit betekent dat zowel de preprocessing, het attentiemasker, als de tensorconversie nauwkeurig moeten zijn uitgevoerd om ervoor te zorgen dat het model de data correct interpreteert en verwerkt. Eventuele fouten in deze stappen kunnen leiden tot onnauwkeurige of verkeerde voorspellingen, wat de betrouwbaarheid van het model vermindert ~\autocite{Jain2020}.
 
