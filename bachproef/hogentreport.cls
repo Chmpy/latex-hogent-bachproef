@@ -24,8 +24,8 @@
 \def\@classname{hogentreport}
 \ProvidesClass{hogentreport}[2022/06/20 Hogeschool Gent report/thesis class]
 
-\RequirePackage{xkeyval}
 \RequirePackage{iflang}
+\RequirePackage{xkeyval}
 
 %% Ensure the variables can be checked with \ifx\@variable\@empty
 \let\@author\@empty
