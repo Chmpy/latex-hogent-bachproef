@@ -63,8 +63,22 @@ Nu we een minimaal theoretisch overzicht hebben over hoe een model werkt, kunnen
 
 \subsubsection{Tokenization en Preprocessing}
 
-Preprocessing verwijst naar de stap waarbij ruwe data wordt omgezet in een bruikbaar formaat voor verdere analyse, dit includeert tokeniseren ~\autocite{Chai2022}. \textcite{Friedman2023} beaamd dat dit een cruciale eerste stap in de verwerking van programmeertalen en inputgegevens voor neurale netwerken. Het helpt bij reduceren van complexe vormen tot hun basiselementen, wat essentieel is voor verdere analyse en verwerking. In deze context betekent dit dat elk woord omgezet wordt, met behulp van een woordenboek dat gekoppeld is aan het specifieke model, naar een geheel getal die dit woord representeert.
-Verdere preprocessing gebeurt in de vorm van woorden die gelabeld zijn voor maskering, zoals in ons voorbeeld “die” en “dat”, worden omgevormd naar een token dat de maskeringstoken numeriek in het woordenboek vertegenwoordigt.
+Preprocessing verwijst naar de stap waarbij ruwe data wordt omgezet in een bruikbaar formaat voor verdere analyse, inclusief tokenisatie \autocite{Chai2022}. \textcite{Friedman2023} benadrukt dat dit een cruciale eerste stap is in de verwerking van programmeertalen en inputgegevens voor neurale netwerken. Het helpt complexe vormen te reduceren tot hun basiselementen, wat essentieel is voor verdere analyse en verwerking. Hierbij wordt elk woord, met behulp van een woordenboek dat gekoppeld is aan het specifieke model, omgezet in een geheel getal dat het woord vertegenwoordigt.
+
+Verdere preprocessing omvat het labelen van woorden voor maskering. Bijvoorbeeld, woorden zoals "die" en "dat" worden omgezet naar een token dat de maskeringstoken numeriek vertegenwoordigt in het woordenboek.
+
+Een belangrijk onderdeel van RobBERT's preprocessing is het tokenisatieproces, dat gebruik maakt van Byte-Pair Encoding (BPE). BPE is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden \autocite{Sennrich2016}.
+
+De BPE-tokenizer werkt als volgt:
+\begin{enumerate}
+    \item \textbf{Initialisatie}: Begin met een woordenboek van individuele karakters en hun frequenties in de trainingscorpus.
+    \item \textbf{Samenvoeging}: Zoek naar het paar van opeenvolgende karakters of subwoorden met de hoogste frequentie en voeg ze samen tot een nieuw subwoord. Voeg dit nieuwe subwoord toe aan het woordenboek.
+    \item \textbf{Herhaling}: Herhaal het samenvoegen totdat een vooraf bepaald aantal merges is bereikt of totdat er geen verdere samenvoegingen mogelijk zijn \autocite{Huggingface}.
+\end{enumerate}
+
+Dit proces resulteert in een woordenboek dat niet alleen individuele karakters bevat, maar ook veelvoorkomende subwoorden en volledige woorden. Dit verbetert de efficiëntie van de tokenisatie en versterkt de modellering van contextuele relaties.
+
+Bij de evolutie van RobBERT werd deze tokenizer uitgebreid om de veranderingen in de Nederlandse taal te reflecteren. Nederlandse woorden worden opgesplitst in subwoorden, zodat het model effectiever kan omgaan met de variaties en nuances van de taal. Door woorden op te splitsen in subwoorden, kan RobBERT nieuwe woorden begrijpen door hun samenstellende delen te analyseren, wat resulteert in een robuuster en flexibeler taalmodel \autocite{Delobelle2022}.
 
 \subsubsection{Data preperation}
 
@@ -103,10 +117,10 @@ waarbij \(z_i\) de logit is voor de \(i\)-de klasse, en de som in de noemer loop
 In onze use case, waarbij we willen bepalen of het correcte verwijswoord in een zin "die" of "dat" moet zijn, genereren we logits voor het volledige vocabulaire van het model. Dit betekent dat we de waarschijnlijkheid verkrijgen voor elk woord in het vocabulaire. Na de softmax-functie toe te passen, kunnen we deze waarschijnlijkheden gebruiken om te bepalen welk woord het beste zou passen volgens het model
 
 Het proces van postprocessing verloopt als volgt:
-\begin{itemize}
+\begin{enumerate}
 \item \textbf{Bereken de softmax-waarden}: Pas de softmax-functie toe op de logits om een waarschijnlijkheidsverdeling te krijgen.
 \item \textbf{Selecteer de voorspelling}: Kies de klasse met de hoogste waarschijnlijkheid.
-\end{itemize}
+\end{enumerate}
 
 Door deze stappen kunnen we de waarschijnlijkheden terugbotsen tegen het vocabulaire van het model en de voorspelling teruggeven aan de gebruiker, wat ons helpt om het correcte verwijswoord in een zin te bepalen.
     
