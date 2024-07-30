@@ -57,7 +57,7 @@ Nu we een minimaal theoretisch overzicht hebben over hoe een model werkt, kunnen
 \begin{figure}[ht]
    \centering
     \includegraphics[width=1\textwidth]{robbert_example}
-    \caption{High-level RobBERT workflow: Tokeniseren en voorverwerken van invoertekst, aanmaak van attentiemasker, omzetten naar tensors, uitvoeren van inferentie voor logits, toepassen van softmax, en resultaten van gemaskeerde positie teruggeven.}
+    \caption[High-level RobBERT workflow voorbeeld]{High-level RobBERT workflow voorbeeld:  Tokeniseren en voorverwerken van invoertekst, aanmaak van attentiemasker, omzetten naar tensors, uitvoeren van inferentie voor logits, toepassen van softmax, en resultaten van gemaskeerde positie teruggeven.}
     \label{fig:robbert_example}
 \end{figure}
 
@@ -73,7 +73,7 @@ De BPE-tokenizer werkt als volgt:
 \begin{enumerate}
     \item \textbf{Initialisatie}: Begin met een woordenboek van individuele karakters en hun frequenties in de trainingscorpus.
     \item \textbf{Samenvoeging}: Zoek naar het paar van opeenvolgende karakters of subwoorden met de hoogste frequentie en voeg ze samen tot een nieuw subwoord. Voeg dit nieuwe subwoord toe aan het woordenboek.
-    \item \textbf{Herhaling}: Herhaal het samenvoegen totdat een vooraf bepaald aantal merges is bereikt of totdat er geen verdere samenvoegingen mogelijk zijn ~\autocite{HuggingFace}.
+    \item \textbf{Herhaling}: Herhaal het samenvoegen totdat een vooraf bepaald aantal merges is bereikt of totdat er geen verdere samenvoegingen mogelijk zijn ~\autocite{HuggingFace2023BPE}.
 \end{enumerate}
 
 
@@ -122,24 +122,102 @@ Het proces van postprocessing verloopt als volgt:
 \end{enumerate}
 
 Door deze stappen kunnen we de waarschijnlijkheden terugbotsen tegen het vocabulaire van het model en de voorspelling teruggeven aan de gebruiker, wat ons helpt om het correcte verwijswoord in een zin te bepalen.
+
+\subsection{Conclusie}
+
+BERT en RobBERT zijn belangrijke vooruitgangen in natuurlijke taalverwerking. BERT's bidirectionele aanpak maakt het mogelijk om contextuele informatie uit beide richtingen van een tekst te begrijpen, wat leidt tot betere prestaties in diverse NLP-taken. RobBERT, getraind op Nederlandse tekst, verbetert de prestaties voor Nederlandse NLP-taken door gebruik te maken van de geoptimaliseerde RoBERTa-architectuur.
+
+Het voorgetrainde RobBERT-model kan eenvoudig worden aangepast aan specifieke toepassingen door fine-tuning, wat zowel tijd als rekenkracht bespaart. We hebben een voorbeeld besproken van het gebruik van RobBERT om fouten met de verwijswoorden "die" en "dat" in het Nederlands te detecteren. Door de invoerdata te tokeniseren, voor te verwerken en door het model te halen, kunnen we nauwkeurig bepalen welk verwijswoord correct is in de context.
+
+RobBERT toont aan hoe gespecialiseerde taalmodellen bijdragen aan nauwkeurige en efficiënte taalverwerking, essentieel voor toepassingen zoals tekstanalyse en sentimentanalyse.
     
-% Praten over Tensorflow en TFLite, wat is het verschil, workflow, etc
 \section{Tensorflow en TFlite: Workflow en Verschillen}
 
-%Praat over technische implicaties van Tensorflow en conversie naar TFlite, vermeld optimum van HuggingFace, fine tuning die nodig is voor RobBERT om de resultaten te behalen. Waarom is er een limitatie bij TFLite. Vermeld dat zelf al is RobBERTje, klein, het is geen tflite model
+Nu we wat meer weten over BERT en RobBERT stappen we over naar het ontdekken van Tensorflow, meer specifiek TensorflowLite (TFLite). We bekijken wat Tensorflow is, de conversie naar TFlite, de bekende limitaties en voorgestelde optimisatie.
 
-%Android app mogelijkheden 
-%Soorten android diensten wel bespreken, maar beknopter
-\section{Integratie van TFlite in een Android Application}
+\subsection{Wat is Tensorflow?}
 
-% Bespreek de tensorflow library, geef de mogelijkheid voor en native applicatie, IME, of service en welke voordeel elk biedt
+Tensorflow is een open-source softwarebibliotheek ontwikkeld door Google Brain voor machine learning en artificiële intelligentie toepassingen. Het biedt een uitgebreide, flexibele ecosysteem van hulpmiddelen, bibliotheken en community resources die onderzoekers en ontwikkelaars in staat stellen om ML-aangedreven applicaties te bouwen en in te zetten. Tensorflow ondersteunt zowel deep learning-models als neurale netwerken en biedt een robuuste infrastructuur voor het trainen en implementeren van deze modellen op verschillende platforms, van datacenters tot edge devices ~\autocite{TensorFlow2024About}.
+
+\subsection{TensorflowLite: Een Inleiding}
+
+TensorflowLite (TFLite) is een set van tools die zijn ontworpen om Tensorflow-modellen te helpen uitvoeren op mobiele, embedded en IoT-apparaten. TFLite biedt optimalisaties die de inferentieprestaties verbeteren en de latentie verminderen, wat essentieel is voor resource-beperkte apparaten ~\autocite{TensorFlowLite2024Android}. Het doel is om machine learning-modellen lichter en sneller te maken zodat ze kunnen draaien op apparaten met beperkte rekenkracht.
+
+\subsection{Conversie van Tensorflow naar TensorflowLite}
+
+De conversie van Tensorflow-modellen naar TFLite-modellen omvat verschillende stappen, waaronder model optimalisatie en kwantisering. Het proces begint met een getraind Tensorflow-model, dat wordt geconverteerd naar een Tensorflow Lite FlatBuffer-bestand met behulp van de TFLite Converter ~\autocite{TensorFlowLite2024Conversion}. Dit bestand kan vervolgens worden uitgevoerd op mobiele en embedded apparaten. De onderstaande figuur \ref{fig:tensorflowconvertworkflowdiag} bevat deze high-level workflow.
+
+\begin{figure} [ht]
+    \centering
+    \includegraphics[width=1\linewidth]{../graphics/tensorflow_convert_workflow_diag}
+    \caption{High-level stappen voor het converteren van een tensorflow model van ~\autocite{TensorFlowLite2024Conversion}}
+    \label{fig:tensorflowconvertworkflowdiag}
+\end{figure}
+
+
+De TFLite Converter biedt verschillende optimalisatie technieken zoals kwantisering, pruning, en clustering om de modelgrootte te verkleinen en de uitvoersnelheid te verbeteren ~\autocite{TensorFlowLite2024Optimization}. De converter kan worden gebruikt via een Python API of via de command line ~\autocite{TensorFlowLite2024CLI}.
+
+\subsection{Limitaties van TensorflowLite}
+
+Hoewel TFLite veel voordelen biedt, zijn er ook enkele beperkingen. Een belangrijke beperking is dat niet alle Tensorflow-operatoren worden ondersteund in TFLite, wat betekent dat sommige modellen niet volledig kunnen worden geconverteerd zonder aanpassingen ~\autocite{TensorFlowLite2024FAQ}. Daarnaast kunnen de optimalisaties soms leiden tot een verlies aan nauwkeurigheid, vooral wanneer agressieve kwantiseringstechnieken worden toegepast.
+
+\subsection{Optimalisatie met HuggingFace Optimum}
+
+HuggingFace Optimum is een toolkit die geavanceerde optimalisatietechnieken biedt voor het verbeteren van de prestaties van transformer-modellen. Het ondersteunt de export van modellen naar verschillende formaten, waaronder TFLite. Optimum maakt gebruik van kwantisatie en andere technieken om modellen efficiënter te maken zonder significante verliezen in nauwkeurigheid ~\autocite{HuggingFace2024Overview}.
+
+In dit onderzoek maken we gebruik van HuggingFace Optimum omdat dit de gemakkelijkste manier was die we vonden om een TFLite-versie van een model te verkrijgen. Dit maakt het ook eenvoudiger om met RobBERT te werken, aangezien, behalve het originele model, alle andere versies alleen beschikbaar zijn in Pytorch-formaat. Dit zou anders nog meer stappen voor conversie betekenen.
+
+\subsection{Conclusie}
+
+Tensorflow en TFLite vormen een krachtig duo voor het ontwikkelen en implementeren van machine learning-modellen op een breed scala aan apparaten. Terwijl Tensorflow een robuuste infrastructuur biedt voor modeltraining, maakt TFLite het mogelijk om deze modellen efficiënt uit te voeren op mobiele en embedded apparaten. Ondanks enkele beperkingen, kunnen tools zoals HuggingFace Optimum helpen bij het overwinnen van deze uitdagingen door geavanceerde optimalisatietechnieken te bieden.
+
+\section{Integratie van TFlite in een Android Applicatie}
+
+Het voorgaande hoofdstuk beschreef wat TFLite is en wat het kan, nu gaan we dieper in op hoe dit exact werkt en welke mogelijkheden er zijn om ons model op Android te draaien.
+
+\subsection{Uitvoeren van Modellen op Android}
+
+Een TFLite model in een Android-app neemt gegevens in, verwerkt ze en genereert een voorspelling op basis van het model. Hiervoor is een speciale runtime-omgeving nodig, en de gegevens die naar het model worden doorgegeven moeten in een specifiek formaat zijn, een tensor genaamd. Bij het uitvoeren van een inferentie genereert het model resultaten als nieuwe tensors, die vervolgens door de Android-app worden gebruikt om actie te ondernemen, zoals het tonen van resultaten aan de gebruiker of het uitvoeren van extra logica ~\autocite{TensorFlowLite2024Android}. In figuur \ref{fig:tensorflowandroidexecutionworkflow} wordt dit visueel weergegven.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{tensorflow_android_execution_workflow}
+    \caption{Functionele uitvoeringsstroom voor TFLite modellen in Android apps van \autocite{TensorFlowLite2024Android}.}
+    \label{fig:tensorflowandroidexecutionworkflow}
+\end{figure}
+
+\subsection{Runtime-omgevingen}
+
+Er zijn verschillende manieren om een runtime-omgeving voor het uitvoeren van modellen in je Android-app te gebruiken:
+
+\begin{itemize}
+    \item \textbf{TFLite in Google Play services runtime omgeving}: Deze optie is ruimte-efficiënt omdat het dynamisch wordt geladen, wat de app-grootte kleiner houdt. Google Play services gebruikt automatisch de meest recente stabiele versie van de TFLite runtime, wat extra functies en betere prestaties biedt.
+    \item \textbf{Stand-alone TFLite runtime omgeving}: Deze optie voegt extra code toe aan je app, waardoor je meer controle hebt over de ML-runtime in je app, maar de app-downloadgrootte toeneemt. Dit is nuttig voor apparaten zonder Google Play services of als je de ML-runtime nauwkeurig wilt beheren. ~\autocite{TensorFlowLite2024Android}.
+\end{itemize}
+
+Hoewel de Google Play services aanbevolen worden, zullen wij de stand-alone TFLite runtime gebruiken, verdere uitleg volgt later.
+
+\subsection{Ontwikkeling API's}
+
+Er zijn twee Application Programming Interfaces (API's) die je kunt gebruiken om TFlite modellen in je Android-app te integreren:
+
+\begin{itemize}
+    \item \textbf{TFLite Task API}: Biedt high-level programmeren aan voor het uitvoeren van veelvoorkomende machine learning taken op visuele, audio- en tekstgegevens. 
+    \item \textbf{TFLitee Interpreter API}: Biedt klassen en methoden voor het uitvoeren van inferenties met bestaande TFLite modellen aan ~\autocite{TensorFlowLite2024Android}.
+\end{itemize}
+
+Hoewel de Task API wordt aanbevolen voor de meeste gebruikssituaties, zullen wij de Interpreter API gebruiken omdat deze beter aansluit bij onze behoeften. Dit wordt later verder uitgelegd.
+
+\subsection{Conclusie}
+
+In dit hoofdstuk hebben we besproken hoe TensorFlow Lite kan worden geïntegreerd in Android-applicaties. We hebben gekeken naar de uitvoering van modellen, de verschillende runtime-omgevingen en de ontwikkelings-API's die beschikbaar zijn. Voor onze toepassing kiezen we voor de stand-alone TFLite runtime en de Interpreter API om meer controle en flexibiliteit te hebben bij het uitvoeren van ML-modellen op Android. Verdere details en uitleg over deze keuzes zullen duidelijk worden in de Proof of Concept (PoC).
+
+\section{Android Development}
 
 \section{Case Studies en Voorbeelden}
 % Andere huidige oplossing op mobile en wat bestaat er
 
 %Case studies blijven gebruiken
-
-
 
 \begin{figure} [ht]
     \centering
