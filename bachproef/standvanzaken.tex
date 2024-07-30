@@ -63,22 +63,21 @@ Nu we een minimaal theoretisch overzicht hebben over hoe een model werkt, kunnen
 
 \subsubsection{Tokenization en Preprocessing}
 
-Preprocessing verwijst naar de stap waarbij ruwe data wordt omgezet in een bruikbaar formaat voor verdere analyse, inclusief tokenisatie \autocite{Chai2022}. \textcite{Friedman2023} benadrukt dat dit een cruciale eerste stap is in de verwerking van programmeertalen en inputgegevens voor neurale netwerken. Het helpt complexe vormen te reduceren tot hun basiselementen, wat essentieel is voor verdere analyse en verwerking. Hierbij wordt elk woord, met behulp van een woordenboek dat gekoppeld is aan het specifieke model, omgezet in een geheel getal dat het woord vertegenwoordigt.
+Preprocessing verwijst naar de stap waarbij ruwe data wordt omgezet in een bruikbaar formaat voor verdere analyse, inclusief tokenisatie ~\autocite{Chai2022}. ~\textcite{Friedman2023} benadrukt dat dit een cruciale eerste stap is in de verwerking van programmeertalen en inputgegevens voor neurale netwerken. Het helpt complexe vormen te reduceren tot hun basiselementen, wat essentieel is voor verdere analyse en verwerking. Hierbij wordt elk woord, met behulp van een woordenboek dat gekoppeld is aan het specifieke model, omgezet in een geheel getal dat het woord vertegenwoordigt.
 
 Verdere preprocessing omvat het labelen van woorden voor maskering. Bijvoorbeeld, woorden zoals "die" en "dat" worden omgezet naar een token dat de maskeringstoken numeriek vertegenwoordigt in het woordenboek.
 
-Een belangrijk onderdeel van RobBERT's preprocessing is het tokenisatieproces, dat gebruik maakt van Byte-Pair Encoding (BPE). BPE is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden \autocite{Sennrich2016}.
+Een belangrijk onderdeel van RobBERT's preprocessing is het tokenisatieproces, dat gebruik maakt van Byte-Pair Encoding (BPE). BPE is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden ~\autocite{Sennrich2016}.
 
 De BPE-tokenizer werkt als volgt:
 \begin{enumerate}
     \item \textbf{Initialisatie}: Begin met een woordenboek van individuele karakters en hun frequenties in de trainingscorpus.
     \item \textbf{Samenvoeging}: Zoek naar het paar van opeenvolgende karakters of subwoorden met de hoogste frequentie en voeg ze samen tot een nieuw subwoord. Voeg dit nieuwe subwoord toe aan het woordenboek.
-    \item \textbf{Herhaling}: Herhaal het samenvoegen totdat een vooraf bepaald aantal merges is bereikt of totdat er geen verdere samenvoegingen mogelijk zijn \autocite{Huggingface}.
+    \item \textbf{Herhaling}: Herhaal het samenvoegen totdat een vooraf bepaald aantal merges is bereikt of totdat er geen verdere samenvoegingen mogelijk zijn ~\autocite{HuggingFace}.
 \end{enumerate}
 
-Dit proces resulteert in een woordenboek dat niet alleen individuele karakters bevat, maar ook veelvoorkomende subwoorden en volledige woorden. Dit verbetert de efficiëntie van de tokenisatie en versterkt de modellering van contextuele relaties.
 
-Bij de evolutie van RobBERT werd deze tokenizer uitgebreid om de veranderingen in de Nederlandse taal te reflecteren. Nederlandse woorden worden opgesplitst in subwoorden, zodat het model effectiever kan omgaan met de variaties en nuances van de taal. Door woorden op te splitsen in subwoorden, kan RobBERT nieuwe woorden begrijpen door hun samenstellende delen te analyseren, wat resulteert in een robuuster en flexibeler taalmodel \autocite{Delobelle2022}.
+Bij de evolutie van RobBERT werd deze tokenizer uitgebreid om de veranderingen in de Nederlandse taal te reflecteren. Nederlandse woorden worden opgesplitst in subwoorden, zodat het model effectiever kan omgaan met de variaties en nuances van de taal. Door woorden op te splitsen in subwoorden, kan RobBERT nieuwe woorden begrijpen door hun samenstellende delen te analyseren, wat resulteert in een robuuster en flexibeler taalmodel ~\autocite{Delobelle2022}.
 
 \subsubsection{Data preperation}
 
@@ -86,7 +85,7 @@ Naast het preprocessen en tokeniseren van de gegevens zijn er nog enkele stappen
 
 \subsubsection{Tensor Conversion}
 
-Nu alle data voorbereid is, komen we bij de laatste stap voordat we het model kunnen gebruiken: het omzetten van deze data naar tensors. Een tensor kan worden beschouwd als een multidimensionale array waarin alle gegevens worden opgeslagen, zodat deze begrijpelijk zijn voor het model \autocite{Kolda2009}. Tensors worden gebruikt omdat ze efficiënt omgaan met grote hoeveelheden gegevens en complexe relaties tussen deze gegevens kunnen vertegenwoordigen, wat essentieel is voor het trainen en infereren van diepe neurale netwerken ~\autocite{Panagakis2021}.
+Nu alle data voorbereid is, komen we bij de laatste stap voordat we het model kunnen gebruiken: het omzetten van deze data naar tensors. Een tensor kan worden beschouwd als een multidimensionale array waarin alle gegevens worden opgeslagen, zodat deze begrijpelijk zijn voor het model ~\autocite{Kolda2009}. Tensors worden gebruikt omdat ze efficiënt omgaan met grote hoeveelheden gegevens en complexe relaties tussen deze gegevens kunnen vertegenwoordigen, wat essentieel is voor het trainen en infereren van diepe neurale netwerken ~\autocite{Panagakis2021}.
 
 \subsubsection{Inference}
 
