@@ -9,11 +9,11 @@
 
 \section{Natural Language Processing}
 
-\Glsxtrlong{nlp} is een tak van \glsxtrlong{ml} die computers de capaciteit geeft om menselijke taal te interpreteren, manipuleren en begrijpen. In de hedendaagse samenleving verzamelen organisaties aanzienlijke hoeveelheden spraak- en tekstgegevens uit diverse communicatiekanalen zoals e-mails, tekstberichten, sociale media-feeds, video's, audio-op\-na\-mes, en meer. \glsxtrshort{nlp}-software wordt ingezet om deze gegevens automatisch te verwerken, de intentie of sentiment in de boodschap te analyseren, en in real-time te reageren op menselijke communicatie ~\autocite{AWSI2023}. 
+\Glsxtrfull{nlp} is een tak van \glsxtrfull{ml} die computers de capaciteit geeft om menselijke taal te interpreteren, manipuleren en begrijpen. In de hedendaagse samenleving verzamelen organisaties aanzienlijke hoeveelheden spraak- en tekstgegevens uit diverse communicatiekanalen zoals e-mails, tekstberichten, sociale media-feeds, video's, audio-op\-na\-mes, en meer. \glsxtrshort{nlp}-software wordt ingezet om deze gegevens automatisch te verwerken, de intentie of sentiment in de boodschap te analyseren, en in real-time te reageren op menselijke communicatie ~\autocite{AWSI2023}. 
 
 \subsection{Evolutie en Toepassingen van NLP}
 
-\glsxtrlong{nlp} heeft zich ontwikkeld van eenvoudige batchverwerking naar geavanceerde real-time verwerking, met toepassingen in machinevertaling, spamdetectie, informatie-extractie, samenvatting, en vraag-antwoord systemen ~\autocite{Cambria2014, Khurana2017}. In deze studie wordt er gekeken naar gemaskeerde taalmodellering en toepassingen hiervan.
+\glsxtrshort{nlp} heeft zich ontwikkeld van eenvoudige batchverwerking naar geavanceerde real-time verwerking, met toepassingen in machinevertaling, spamdetectie, informatie-extractie, samenvatting, en vraag-antwoord systemen ~\autocite{Cambria2014, Khurana2017}. In deze studie wordt er gekeken naar gemaskeerde taalmodellering en toepassingen hiervan.
 
 \subsection{Relevantie voor privacy}
 
@@ -53,6 +53,14 @@ Figuur \ref{fig:bert_explained} toont hoe de \gls{transformer}-encoder werkt. De
 \subsection{Hoe werkt RobBERT: Praktisch voorbeeld}
 
 Nu we een minimaal theoretisch overzicht hebben over hoe een model werkt, kunnen we deze informatie relateren aan een praktisch voorbeeld van hoe het \gls{robbert}-model kan worden toegepast om een veelgemaakte fout met de woorden "die" en "dat" in het Nederlands te detecteren. In de onderstaande figuur \ref{fig:robbert_example} is een high-level workflow te zien.
+
+\subsubsection{Wat kan RobBERT en wat is MLM?}
+
+\gls{robbert} is in staat tot verschillende \glsxtrshort{nlp}-taken, waaronder de \glsxtrfull{mlm} taak, ook bekend als de \textit{fill-mask} taak. Bij deze taak wordt een woord in een zin gemaskeerd en het model moet het ontbrekende woord voorspellen. Dit helpt het model om een dieper begrip van de context en de relaties tussen woorden in een zin te ontwikkelen. Een voorbeeld hiervan is het invullen van de zin "Ik heb een vriend <mask> altijd te laat komt." waarbij het model het gemaskeerde woord "<mask>" moet vervangen door "die" ~\autocite{HuggingFace2024FillMask}.
+
+RobBERT kan verder worden getraind voor specifieke taken zoals \gls{text-classification} en \gls{qa} systemen. \Gls{text-classification} omvat het toewijzen van categorieën aan tekstfragmenten, zoals het bepalen van de sentiment (positief of negatief) van een recensie. ~\autocite{HuggingFace2024TextClass} \Gls{qa} systemen houden in dat het model antwoorden geeft op vragen op basis van een gegeven tekstpassage ~\autocite{HuggingFace2024QA}.
+
+In deze studie zullen we echter geen verdere \gls{fine-tuning} uitvoeren omdat dit buiten het domein van onze studie valt.
     
 \begin{figure}[ht]
    \centering
@@ -67,7 +75,7 @@ Preprocessing verwijst naar de stap waarbij ruwe data wordt omgezet in een bruik
 
 Verdere preprocessing omvat het labelen van woorden voor maskering. Bijvoorbeeld, woorden zoals "die" en "dat" worden omgezet naar een token dat de maskeringstoken numeriek vertegenwoordigt in het woordenboek.
 
-Een belangrijk onderdeel van \gls{robbert}'s preprocessing is het tokenisatieproces, dat gebruik maakt van \glsxtrlong{bpe}. \glsxtrshort{bpe} is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden ~\autocite{Sennrich2016}.
+Een belangrijk onderdeel van \gls{robbert}'s preprocessing is het tokenisatieproces, dat gebruik maakt van \glsxtrfull{bpe}. \glsxtrshort{bpe} is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden ~\autocite{Sennrich2016}.
 
 De \glsxtrshort{bpe}-tokenizer werkt als volgt:
 \begin{enumerate}
@@ -85,7 +93,7 @@ Naast het preprocessen en tokeniseren van de gegevens zijn er nog enkele stappen
 
 \subsubsection{Tensor Conversion}
 
-Nu alle data voorbereid is, komen we bij de laatste stap voordat we het model kunnen gebruiken: het omzetten van deze data naar \glspl{tensor}s. Een \gls{tensor} kan worden beschouwd als een multidimensionale array waarin alle gegevens worden opgeslagen, zodat deze begrijpelijk zijn voor het model ~\autocite{Kolda2009}. \Glspl{tensor} worden gebruikt omdat ze efficiënt omgaan met grote hoeveelheden gegevens en complexe relaties tussen deze gegevens kunnen vertegenwoordigen, wat essentieel is voor het trainen en infereren van deep neurale netwerken ~\autocite{Panagakis2021}.
+Nu alle data voorbereid is, komen we bij de laatste stap voordat we het model kunnen gebruiken: het omzetten van deze data naar \glspl{tensor}. Een \gls{tensor} kan worden beschouwd als een multidimensionale array waarin alle gegevens worden opgeslagen, zodat deze begrijpelijk zijn voor het model ~\autocite{Kolda2009}. \Glspl{tensor} worden gebruikt omdat ze efficiënt omgaan met grote hoeveelheden gegevens en complexe relaties tussen deze gegevens kunnen vertegenwoordigen, wat essentieel is voor het trainen en infereren van deep neurale netwerken ~\autocite{Panagakis2021}.
 
 \subsubsection{Inference}
 
@@ -133,7 +141,7 @@ Het voorgetrainde \gls{robbert}-model kan eenvoudig worden aangepast aan specifi
     
 \section{Tensorflow en TensorflowLite: Workflow en Verschillen}
 
-Nu we wat meer weten over \gls{bert} en \gls{robbert} stappen we over naar het ontdekken van \Gls{tensorflow}, meer specifiek \glsxtrlong{tflite}. We bekijken wat \Gls{tensorflow}} is, de conversie naar \glsxtrshort{tflite}, de bekende limitaties en voorgestelde optimisatie.
+Nu we wat meer weten over \gls{bert} en \gls{robbert} stappen we over naar het ontdekken van \Gls{tensorflow}, meer specifiek \glsxtrfull{tflite}. We bekijken wat \Gls{tensorflow}} is, de conversie naar \glsxtrshort{tflite}, de bekende limitaties en voorgestelde optimisatie.
 
 \subsection{Wat is Tensorflow?}
 
@@ -155,7 +163,7 @@ De conversie van \Gls{tensorflow}}-modellen naar \glsxtrshort{tflite}-modellen o
 \end{figure}
 
 
-De \glsxtrshort{tflite} Converter biedt verschillende optimalisatie technieken zoals kwantisering, pruning, en clustering om de modelgrootte te verkleinen en de uitvoersnelheid te verbeteren ~\autocite{TensorFlowLite2024Optimization}. De converter kan worden gebruikt via een Python \glsxtrshort{api} of via de command line ~\autocite{TensorFlowLite2024CLI}.
+De \glsxtrshort{tflite} Converter biedt verschillende optimalisatie technieken zoals kwantisering, pruning, en clustering om de modelgrootte te verkleinen en de uitvoersnelheid te verbeteren ~\autocite{TensorFlowLite2024Optimization}. De converter kan worden gebruikt via een Python \glsxtrfull{api} of via de command line ~\autocite{TensorFlowLite2024CLI}.
 
 \subsection{Limitaties van TFLite}
 
@@ -199,7 +207,7 @@ Hoewel de Google Play services aanbevolen worden, zullen wij de stand-alone \gls
 
 \subsection{Ontwikkeling API's}
 
-Er zijn twee \glsxtrlong{api} die je kunt gebruiken om \glsxtrshort{tflite}-modellen in je Android-app te integreren:
+Er zijn twee \glsxtrshort{api}'s die je kunt gebruiken om \glsxtrshort{tflite}-modellen in je Android-app te integreren:
 
 \begin{itemize}
     \item \textbf{\glsxtrshort{tflite} Task \glsxtrshort{api}}: Biedt high-level programmeren aan voor het uitvoeren van veelvoorkomende \glsxtrshort{ml} taken op visuele, audio- en tekstgegevens. 
@@ -218,7 +226,7 @@ Als laatste bespreken we de vormen waarin \glsxtrshort{tflite} mogelijks kan wor
 
 \subsection{Implementatie-opties}
 
-Er zijn verschillende manieren om \glsxtrshort{tflite} in een Android-applicatie te integreren. We bespreken hier de belangrijkste opties: via een \glsxtrlong{ime}, via \gls{services}, en via de \gls{processtextintent}.
+Er zijn verschillende manieren om \glsxtrshort{tflite} in een Android-applicatie te integreren. We bespreken hier de belangrijkste opties: via een \glsxtrfull{ime}, via \gls{services}, en via de \gls{processtextintent}.
 
 \subsubsection{Input Method Editor}
 
@@ -291,5 +299,6 @@ Elke methode van integratie van \glsxtrshort{tflite} in een Android-applicatie h
         penguins = sns.load_dataset('penguins')
         sns.relplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
     \end{minted}
+    
     \caption[Voorbeeld codefragment]{Voorbeeld van het invoegen van een codefragment.}
 \end{listing}
