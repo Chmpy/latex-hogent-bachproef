@@ -45,6 +45,83 @@
 }
 
 % Other packages not already included can be imported here
+\usepackage[acronym, toc]{glossaries}
+\usepackage[automake]{glossaries-extra}
+
+\makeglossaries
+
+\newglossaryentry{bert}
+{
+    name=BERT,
+    description={Bidirectional Encoder Representations from Transformers, een transformer-gebaseerd model dat contextuele informatie in beide richtingen van een tekst begrijpt}
+}
+
+\newglossaryentry{robbert}
+{
+    name=RobBERT,
+    description={Een Nederlands taalmodel gebaseerd op RoBERTa, geoptimaliseerd voor NLP-taken in het Nederlands}
+}
+
+\newglossaryentry{transformer}
+{
+    name=transformer,
+    description={Een type neurale netwerkarchitectuur die uitblinkt in taalinterpretatie en beeldverwerking}
+}
+
+\newglossaryentry{fine-tuning}
+{
+    name=fine-tuning,
+    description={Het proces van het aanpassen van een voorgetraind model aan specifieke taken met behulp van relatief kleine, gelabelde datasets}
+}
+
+\newglossaryentry{tokenization}
+{
+    name=tokenization,
+    description={Het proces van het opsplitsen van tekst in kleinere eenheden, zoals woorden of subwoorden, die kunnen worden verwerkt door een taalmodel}
+}
+
+\newglossaryentry{tensor}
+{
+    name=tensor,
+    description={Een multidimensionale array die wordt gebruikt om gegevens op te slaan en te verwerken in neurale netwerken}
+}
+
+\newglossaryentry{logit}
+{
+    name=logit,
+    description={De ruwe, niet-genormaliseerde voorspellingen van een model, die de waarschijnlijkheid van elke mogelijke uitkomst vertegenwoordigen}
+}
+
+\newglossaryentry{softmax}
+{
+    name=softmax,
+    description={Een functie die logits omzet in een waarschijnlijkheidsverdeling, waarbij de som van de waarschijnlijkheden gelijk is aan 1}
+}
+
+\newglossaryentry{tensorflow}
+{
+    name=TensorFlow,
+    description={Een open-source softwarebibliotheek ontwikkeld door Google Brain voor machine learning en kunstmatige intelligentie toepassingen}
+}
+
+\newglossaryentry{attentionmask}
+{
+    name=attention mask,
+    description={Een array die aangeeft welke delen van de invoertekst belangrijk zijn voor een model om te focussen op contextuele representaties}
+}
+
+\newglossaryentry{huggingface}
+{
+    name=Hugging Face,
+    description={Een bedrijf en open-source community dat tools en bibliotheken ontwikkelt voor natuurlijke taalverwerking en machine learning}
+}
+
+\newacronym{nlp}{NLP}{Natural Language Processing}
+\newacronym{ml}{ML}{Machine Learning}
+\newacronym{tflite}{TFLite}{TensorFlow Lite}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{bpe}{BPE}{Byte-Pair Encoding}
+
 
 %%---------- Document metadata -------------------------------------------------
 \author{Roy Barneveld}
@@ -109,13 +186,16 @@
 
 % If you included tables and/or source code listings, uncomment the appropriate
 % lines.
-\listoftables
+%%\listoftables
 
 \listoflistings
 
 % Als je een lijst van afkortingen of termen wil toevoegen, dan hoort die
 % hier thuis. Gebruik bijvoorbeeld de ``glossaries'' package.
 % https://www.overleaf.com/learn/latex/Glossaries
+\printglossary[title=Lijst van afkortingen, type=\acronymtype, toctitle=Lijst van afkortingen]
+\printglossary[title=Woordenlijst, toctitle=Woordenlijst]
+
 
 %---------- Kern ---------------------------------------------------------------
 
