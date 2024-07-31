@@ -9,19 +9,19 @@
 
 \section{Natural Language Processing}
 
-\Acrlong{nlp} is een tak van \acrlong{ml} die computers de capaciteit geeft om menselijke taal te interpreteren, manipuleren en begrijpen. In de hedendaagse samenleving verzamelen organisaties aanzienlijke hoeveelheden spraak- en tekstgegevens uit diverse communicatiekanalen zoals e-mails, tekstberichten, sociale media-feeds, video's, audio-op\-na\-mes, en meer. \acrshort{nlp}-software wordt ingezet om deze gegevens automatisch te verwerken, de intentie of sentiment in de boodschap te analyseren, en in real-time te reageren op menselijke communicatie ~\autocite{AWSI2023}. 
+\Glsxtrlong{nlp} is een tak van \glsxtrlong{ml} die computers de capaciteit geeft om menselijke taal te interpreteren, manipuleren en begrijpen. In de hedendaagse samenleving verzamelen organisaties aanzienlijke hoeveelheden spraak- en tekstgegevens uit diverse communicatiekanalen zoals e-mails, tekstberichten, sociale media-feeds, video's, audio-op\-na\-mes, en meer. \glsxtrshort{nlp}-software wordt ingezet om deze gegevens automatisch te verwerken, de intentie of sentiment in de boodschap te analyseren, en in real-time te reageren op menselijke communicatie ~\autocite{AWSI2023}. 
 
 \subsection{Evolutie en Toepassingen van NLP}
 
-\acrlong{nlp} heeft zich ontwikkeld van eenvoudige batchverwerking naar geavanceerde real-time verwerking, met toepassingen in machinevertaling, spamdetectie, informatie-extractie, samenvatting, en vraag-antwoord systemen ~\autocite{Cambria2014, Khurana2017}. In deze studie wordt er gekeken naar gemaskeerde taalmodellering en toepassingen hiervan.
+\glsxtrlong{nlp} heeft zich ontwikkeld van eenvoudige batchverwerking naar geavanceerde real-time verwerking, met toepassingen in machinevertaling, spamdetectie, informatie-extractie, samenvatting, en vraag-antwoord systemen ~\autocite{Cambria2014, Khurana2017}. In deze studie wordt er gekeken naar gemaskeerde taalmodellering en toepassingen hiervan.
 
 \subsection{Relevantie voor privacy}
 
-Wat \acrshort{nlp} bijzonder relevant maakt voor het privacyprobleem is de mogelijkheid om deze technologie lokaal te implementeren. In plaats van afhankelijk te zijn van externe servers voor gegevensverwerking, kan een lokaal \acrshort{nlp}-systeem draaien op het Android-apparaat zelf. Dit betekent dat de gevoelige tekstgegevens van de gebruiker niet extern worden verzonden voor verwerking, wat de controle over persoonlijke data vergroot en pri\-va\-cy\-risico's ver\-min\-dert ~\autocite{Cistac2019}.
+Wat \glsxtrshort{nlp} bijzonder relevant maakt voor het privacyprobleem is de mogelijkheid om deze technologie lokaal te implementeren. In plaats van afhankelijk te zijn van externe servers voor gegevensverwerking, kan een lokaal \glsxtrshort{nlp}-systeem draaien op het Android-apparaat zelf. Dit betekent dat de gevoelige tekstgegevens van de gebruiker niet extern worden verzonden voor verwerking, wat de controle over persoonlijke data vergroot en pri\-va\-cy\-risico's ver\-min\-dert ~\autocite{Cistac2019}.
 
 \section{BERT en RobBERT}
 
-\Gls{bert} (Bidirectional Encoder Representations from Transformers) is een \gls{transformer}-gebaseerd model dat aanzienlijke vooruitgang heeft geboekt in verschillende \acrshort{nlp}-taken. Het model is ontworpen om contextuele informatie in beide richtingen van een tekst te begrijpen, wat resulteert in verbeterde prestaties vergeleken met eerdere modellen ~\autocite{Delobelle2020}.
+\Gls{bert} (Bidirectional Encoder Representations from Transformers) is een \gls{transformer}-gebaseerd model dat aanzienlijke vooruitgang heeft geboekt in verschillende \glsxtrshort{nlp}-taken. Het model is ontworpen om contextuele informatie in beide richtingen van een tekst te begrijpen, wat resulteert in verbeterde prestaties vergeleken met eerdere modellen ~\autocite{Delobelle2020}.
 
 Volgens ~\textcite{Singh2023} zijn \gls{transformer} neurale netwerken een soort deep learning-netwerk dat uitblinkt in multimodale activiteiten, taalinterpretatie en beeldverwerking.
 
@@ -29,9 +29,9 @@ Volgens ~\textcite{Singh2023} zijn \gls{transformer} neurale netwerken een soort
 
 \subsection{Waarom RobBERT}
 
-\gls{robbert} is specifiek getraind op Nederlandse tekstcorpora, waardoor het beter presteert op Nederlandse \acrshort{nlp}-taken dan modellen die getraind zijn op meerdere talen tegelijk. Dit gespecialiseerde model maakt gebruik van de geoptimaliseerde RoBERTa-architectuur, wat resulteert in betere prestaties en efficiëntere verwerking ~\autocite{Delobelle2021}.
+\gls{robbert} is specifiek getraind op Nederlandse tekstcorpora, waardoor het beter presteert op Nederlandse \glsxtrshort{nlp}-taken dan modellen die getraind zijn op meerdere talen tegelijk. Dit gespecialiseerde model maakt gebruik van de geoptimaliseerde RoBERTa-architectuur, wat resulteert in betere prestaties en efficiëntere verwerking ~\autocite{Delobelle2021}.
 
-\gls{robbert} en soortgelijke modellen kunnen diverse \acrshort{nlp}-taken uitvoeren, zoals sentimentanalyse, naamherkenning en co-referentie resolutie. Deze modellen verschillen van meer bekende GPT-varianten, die voornamelijk worden gebruikt voor generatieve taken zoals tekstcreatie en vertaling. Terwijl GPT-modellen vaak worden gebruikt om nieuwe tekst te genereren, zijn \gls{bert}-achtige modellen, zoals \gls{robbert}, beter geschikt voor taken waarbij begrip en analyse van bestaande tekst centraal staan ~\autocite{Devlin2019}.
+\gls{robbert} en soortgelijke modellen kunnen diverse \glsxtrshort{nlp}-taken uitvoeren, zoals sentimentanalyse, naamherkenning en co-referentie resolutie. Deze modellen verschillen van meer bekende GPT-varianten, die voornamelijk worden gebruikt voor generatieve taken zoals tekstcreatie en vertaling. Terwijl GPT-modellen vaak worden gebruikt om nieuwe tekst te genereren, zijn \gls{bert}-achtige modellen, zoals \gls{robbert}, beter geschikt voor taken waarbij begrip en analyse van bestaande tekst centraal staan ~\autocite{Devlin2019}.
 
 Een belangrijk voordeel van een voorgetraind model zoals \gls{robbert} is dat het eenvoudig kan worden aangepast aan specifieke taken door middel van \gls{fine-tuning} ~\autocite{Howard2018}. Dit elimineert de noodzaak om het model telkens opnieuw vanaf het begin te trainen. Dit proces maakt gebruik van relatief kleine, gelabelde datasets om het model verder te trainen voor specifieke toepassingen, wat resulteert in snellere en nauwkeurigere resultaten. \Gls{fine-tuning} zorgt ervoor dat de kracht en efficiëntie van het voorgetrainde model behouden blijven, terwijl het model wordt geoptimaliseerd voor specifieke taken zoals sentimentanalyse, naamherkenning of co-referentie resolutie ~\autocite{Delobelle2022}.
 
@@ -67,9 +67,9 @@ Preprocessing verwijst naar de stap waarbij ruwe data wordt omgezet in een bruik
 
 Verdere preprocessing omvat het labelen van woorden voor maskering. Bijvoorbeeld, woorden zoals "die" en "dat" worden omgezet naar een token dat de maskeringstoken numeriek vertegenwoordigt in het woordenboek.
 
-Een belangrijk onderdeel van \gls{robbert}'s preprocessing is het tokenisatieproces, dat gebruik maakt van \acrlong{bpe}. \acrshort{bpe} is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden ~\autocite{Sennrich2016}.
+Een belangrijk onderdeel van \gls{robbert}'s preprocessing is het tokenisatieproces, dat gebruik maakt van \glsxtrlong{bpe}. \glsxtrshort{bpe} is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden ~\autocite{Sennrich2016}.
 
-De \acrshort{bpe}-tokenizer werkt als volgt:
+De \glsxtrshort{bpe}-tokenizer werkt als volgt:
 \begin{enumerate}
     \item \textbf{Initialisatie}: Begin met een woordenboek van individuele karakters en hun frequenties in de trainingscorpus.
     \item \textbf{Samenvoeging}: Zoek naar het paar van opeenvolgende karakters of subwoorden met de hoogste frequentie en voeg ze samen tot een nieuw subwoord. Voeg dit nieuwe subwoord toe aan het woordenboek.
@@ -125,7 +125,7 @@ Door deze stappen kunnen we de waarschijnlijkheden terugbotsen tegen het vocabul
 
 \subsection{Conclusie}
 
-\gls{bert} en \gls{robbert} zijn belangrijke vooruitgangen in natuurlijke taalverwerking. \gls{bert}'s bidirectionele aanpak maakt het mogelijk om contextuele informatie uit beide richtingen van een tekst te begrijpen, wat leidt tot betere prestaties in diverse \acrshort{nlp}-taken. \gls{robbert}, getraind op Nederlandse tekst, verbetert de prestaties voor Nederlandse \acrshort{nlp}-taken door gebruik te maken van de geoptimaliseerde RoBERTa-architectuur.
+\gls{bert} en \gls{robbert} zijn belangrijke vooruitgangen in natuurlijke taalverwerking. \gls{bert}'s bidirectionele aanpak maakt het mogelijk om contextuele informatie uit beide richtingen van een tekst te begrijpen, wat leidt tot betere prestaties in diverse \glsxtrshort{nlp}-taken. \gls{robbert}, getraind op Nederlandse tekst, verbetert de prestaties voor Nederlandse \glsxtrshort{nlp}-taken door gebruik te maken van de geoptimaliseerde RoBERTa-architectuur.
 
 Het voorgetrainde \gls{robbert}-model kan eenvoudig worden aangepast aan specifieke toepassingen door \gls{fine-tuning}, wat zowel tijd als rekenkracht bespaart. We hebben een voorbeeld besproken van het gebruik van \gls{robbert} om fouten met de verwijswoorden "die" en "dat" in het Nederlands te detecteren. Door de invoerdata te tokeniseren, voor te verwerken en door het model te halen, kunnen we nauwkeurig bepalen welk verwijswoord correct is in de context.
 
@@ -133,19 +133,19 @@ Het voorgetrainde \gls{robbert}-model kan eenvoudig worden aangepast aan specifi
     
 \section{Tensorflow en TensorflowLite: Workflow en Verschillen}
 
-Nu we wat meer weten over \gls{bert} en \gls{robbert} stappen we over naar het ontdekken van \Gls{tensorflow}, meer specifiek \acrlong{tflite}. We bekijken wat \Gls{tensorflow}} is, de conversie naar \acrshort{tflite}, de bekende limitaties en voorgestelde optimisatie.
+Nu we wat meer weten over \gls{bert} en \gls{robbert} stappen we over naar het ontdekken van \Gls{tensorflow}, meer specifiek \glsxtrlong{tflite}. We bekijken wat \Gls{tensorflow}} is, de conversie naar \glsxtrshort{tflite}, de bekende limitaties en voorgestelde optimisatie.
 
 \subsection{Wat is Tensorflow?}
 
-\Gls{tensorflow}} is een open-source softwarebibliotheek ontwikkeld door Google Brain voor \acrshort{ml} en artificiële intelligentie toepassingen. Het biedt een uitgebreide, flexibele ecosysteem van hulpmiddelen, bibliotheken en community resources die onderzoekers en ontwikkelaars in staat stellen om \acrshort{ml}-aangedreven applicaties te bouwen en in te zetten. \Gls{tensorflow}} ondersteunt zowel deep learning-models als neurale netwerken en biedt een robuuste infrastructuur voor het trainen en implementeren van deze modellen op verschillende platforms, van datacenters tot edge devices ~\autocite{TensorFlow2024About}.
+\Gls{tensorflow}} is een open-source softwarebibliotheek ontwikkeld door Google Brain voor \glsxtrshort{ml} en artificiële intelligentie toepassingen. Het biedt een uitgebreide, flexibele ecosysteem van hulpmiddelen, bibliotheken en community resources die onderzoekers en ontwikkelaars in staat stellen om \glsxtrshort{ml}-aangedreven applicaties te bouwen en in te zetten. \Gls{tensorflow}} ondersteunt zowel deep learning-models als neurale netwerken en biedt een robuuste infrastructuur voor het trainen en implementeren van deze modellen op verschillende platforms, van datacenters tot edge devices ~\autocite{TensorFlow2024About}.
 
 \subsection{TFLite: Een Inleiding}
 
-\acrshort{tflite} is een set van tools die zijn ontworpen om \Gls{tensorflow}}-modellen te helpen uitvoeren op mobiele, embedded en IoT-apparaten. \acrshort{tflite} biedt optimalisaties die de inferentieprestaties verbeteren en de latentie verminderen, wat essentieel is voor resource-beperkte apparaten ~\autocite{TensorFlowLite2024Android}. Het doel is om \acrshort{ml}-modellen lichter en sneller te maken zodat ze kunnen draaien op apparaten met beperkte rekenkracht.
+\glsxtrshort{tflite} is een set van tools die zijn ontworpen om \Gls{tensorflow}}-modellen te helpen uitvoeren op mobiele, embedded en IoT-apparaten. \glsxtrshort{tflite} biedt optimalisaties die de inferentieprestaties verbeteren en de latentie verminderen, wat essentieel is voor resource-beperkte apparaten ~\autocite{TensorFlowLite2024Android}. Het doel is om \glsxtrshort{ml}-modellen lichter en sneller te maken zodat ze kunnen draaien op apparaten met beperkte rekenkracht.
 
 \subsection{Conversie van Tensorflow naar TFLite}
 
-De conversie van \Gls{tensorflow}}-modellen naar \acrshort{tflite}-modellen omvat verschillende stappen, waaronder model optimalisatie en kwantisering. Het proces begint met een getraind \Gls{tensorflow}}-model, dat wordt geconverteerd naar een \acrlong{tflite} FlatBuffer-bestand met behulp van de \acrshort{tflite} Converter ~\autocite{TensorFlowLite2024Conversion}. Dit bestand kan vervolgens worden uitgevoerd op mobiele en embedded apparaten. De onderstaande figuur \ref{fig:tensorflowconvertworkflowdiag} bevat deze high-level workflow.
+De conversie van \Gls{tensorflow}}-modellen naar \glsxtrshort{tflite}-modellen omvat verschillende stappen, waaronder model optimalisatie en kwantisering. Het proces begint met een getraind \Gls{tensorflow}}-model, dat wordt geconverteerd naar een \glsxtrlong{tflite} FlatBuffer-bestand met behulp van de \glsxtrshort{tflite} Converter ~\autocite{TensorFlowLite2024Conversion}. Dit bestand kan vervolgens worden uitgevoerd op mobiele en embedded apparaten. De onderstaande figuur \ref{fig:tensorflowconvertworkflowdiag} bevat deze high-level workflow.
 
 \begin{figure} [ht]
     \centering
@@ -155,34 +155,34 @@ De conversie van \Gls{tensorflow}}-modellen naar \acrshort{tflite}-modellen omva
 \end{figure}
 
 
-De \acrshort{tflite} Converter biedt verschillende optimalisatie technieken zoals kwantisering, pruning, en clustering om de modelgrootte te verkleinen en de uitvoersnelheid te verbeteren ~\autocite{TensorFlowLite2024Optimization}. De converter kan worden gebruikt via een Python \acrshort{api} of via de command line ~\autocite{TensorFlowLite2024CLI}.
+De \glsxtrshort{tflite} Converter biedt verschillende optimalisatie technieken zoals kwantisering, pruning, en clustering om de modelgrootte te verkleinen en de uitvoersnelheid te verbeteren ~\autocite{TensorFlowLite2024Optimization}. De converter kan worden gebruikt via een Python \glsxtrshort{api} of via de command line ~\autocite{TensorFlowLite2024CLI}.
 
 \subsection{Limitaties van TFLite}
 
-Hoewel \acrshort{tflite} veel voordelen biedt, zijn er ook enkele beperkingen. Een belangrijke beperking is dat niet alle \Gls{tensorflow}}-operatoren worden ondersteund in \acrshort{tflite}, wat betekent dat sommige modellen niet volledig kunnen worden geconverteerd zonder aanpassingen ~\autocite{TensorFlowLite2024FAQ}. Daarnaast kunnen de optimalisaties soms leiden tot een verlies aan nauwkeurigheid, vooral wanneer agressieve kwantiseringstechnieken worden toegepast.
+Hoewel \glsxtrshort{tflite} veel voordelen biedt, zijn er ook enkele beperkingen. Een belangrijke beperking is dat niet alle \Gls{tensorflow}}-operatoren worden ondersteund in \glsxtrshort{tflite}, wat betekent dat sommige modellen niet volledig kunnen worden geconverteerd zonder aanpassingen ~\autocite{TensorFlowLite2024FAQ}. Daarnaast kunnen de optimalisaties soms leiden tot een verlies aan nauwkeurigheid, vooral wanneer agressieve kwantiseringstechnieken worden toegepast.
 
 \subsection{Optimalisatie met Hugging Face Optimum}
 
-\gls{huggingface} Optimum is een toolkit die geavanceerde optimalisatietechnieken biedt voor het verbeteren van de prestaties van \gls{transformer}-modellen. Het ondersteunt de export van modellen naar verschillende formaten, waaronder \acrshort{tflite}. Optimum maakt gebruik van kwantisatie en andere technieken om modellen efficiënter te maken zonder significante verliezen in nauwkeurigheid ~\autocite{HuggingFace2024Overview}.
+\gls{huggingface} Optimum is een toolkit die geavanceerde optimalisatietechnieken biedt voor het verbeteren van de prestaties van \gls{transformer}-modellen. Het ondersteunt de export van modellen naar verschillende formaten, waaronder \glsxtrshort{tflite}. Optimum maakt gebruik van kwantisatie en andere technieken om modellen efficiënter te maken zonder significante verliezen in nauwkeurigheid ~\autocite{HuggingFace2024Overview}.
 
-In dit onderzoek maken we gebruik van \gls{huggingface} Optimum omdat dit de gemakkelijkste manier was die we vonden om een \acrshort{tflite}-versie van een model te verkrijgen. Dit maakt het ook eenvoudiger om met \gls{robbert} te werken, aangezien, behalve het originele model, alle andere versies alleen beschikbaar zijn in Pytorch-formaat. Dit zou anders nog meer stappen voor conversie betekenen.
+In dit onderzoek maken we gebruik van \gls{huggingface} Optimum omdat dit de gemakkelijkste manier was die we vonden om een \glsxtrshort{tflite}-versie van een model te verkrijgen. Dit maakt het ook eenvoudiger om met \gls{robbert} te werken, aangezien, behalve het originele model, alle andere versies alleen beschikbaar zijn in Pytorch-formaat. Dit zou anders nog meer stappen voor conversie betekenen.
 
 \subsection{Conclusie}
 
-\Gls{tensorflow}} en \acrshort{tflite} vormen een krachtig duo voor het ontwikkelen en implementeren van \acrshort{ml}-modellen op een breed scala aan apparaten. Terwijl \Gls{tensorflow}} een robuuste infrastructuur biedt voor modeltraining, maakt \acrshort{tflite} het mogelijk om deze modellen efficiënt uit te voeren op mobiele en embedded apparaten. Ondanks enkele beperkingen, kunnen tools zoals \gls{huggingface} Optimum helpen bij het overwinnen van deze uitdagingen door geavanceerde optimalisatietechnieken te bieden.
+\Gls{tensorflow}} en \glsxtrshort{tflite} vormen een krachtig duo voor het ontwikkelen en implementeren van \glsxtrshort{ml}-modellen op een breed scala aan apparaten. Terwijl \Gls{tensorflow}} een robuuste infrastructuur biedt voor modeltraining, maakt \glsxtrshort{tflite} het mogelijk om deze modellen efficiënt uit te voeren op mobiele en embedded apparaten. Ondanks enkele beperkingen, kunnen tools zoals \gls{huggingface} Optimum helpen bij het overwinnen van deze uitdagingen door geavanceerde optimalisatietechnieken te bieden.
 
 \section{Integratie van TFlite in een Android Applicatie}
 
-Het voorgaande hoofdstuk beschreef wat \acrshort{tflite} is en wat het kan, nu gaan we dieper in op hoe dit exact werkt en welke mogelijkheden er zijn om ons model op Android te draaien.
+Het voorgaande hoofdstuk beschreef wat \glsxtrshort{tflite} is en wat het kan, nu gaan we dieper in op hoe dit exact werkt en welke mogelijkheden er zijn om ons model op Android te draaien.
 
 \subsection{Uitvoeren van Modellen op Android}
 
-Een \acrshort{tflite} model in een Android-app neemt gegevens in, verwerkt ze en genereert een voorspelling op basis van het model. Hiervoor is een speciale runtime-omgeving nodig, en de gegevens die naar het model worden doorgegeven moeten in een specifiek formaat zijn, een \gls{tensor} genaamd. Bij het uitvoeren van een inferentie genereert het model resultaten als nieuwe \glspl{tensor}, die vervolgens door de Android-app worden gebruikt om actie te ondernemen, zoals het tonen van resultaten aan de gebruiker of het uitvoeren van extra logica ~\autocite{TensorFlowLite2024Android}. In figuur \ref{fig:tensorflowandroidexecutionworkflow} wordt dit visueel weergegven.
+Een \glsxtrshort{tflite} model in een Android-app neemt gegevens in, verwerkt ze en genereert een voorspelling op basis van het model. Hiervoor is een speciale runtime-omgeving nodig, en de gegevens die naar het model worden doorgegeven moeten in een specifiek formaat zijn, een \gls{tensor} genaamd. Bij het uitvoeren van een inferentie genereert het model resultaten als nieuwe \glspl{tensor}, die vervolgens door de Android-app worden gebruikt om actie te ondernemen, zoals het tonen van resultaten aan de gebruiker of het uitvoeren van extra logica ~\autocite{TensorFlowLite2024Android}. In figuur \ref{fig:tensorflowandroidexecutionworkflow} wordt dit visueel weergegven.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{tensorflow_android_execution_workflow}
-    \caption{Functionele uitvoeringsstroom voor \acrshort{tflite} modellen in Android apps van \autocite{TensorFlowLite2024Android}.}
+    \caption{Functionele uitvoeringsstroom voor \glsxtrshort{tflite}-modellen in Android apps van \autocite{TensorFlowLite2024Android}.}
     \label{fig:tensorflowandroidexecutionworkflow}
 \end{figure}
 
@@ -191,39 +191,97 @@ Een \acrshort{tflite} model in een Android-app neemt gegevens in, verwerkt ze en
 Er zijn verschillende manieren om een runtime-omgeving voor het uitvoeren van modellen in je Android-app te gebruiken:
 
 \begin{itemize}
-    \item \textbf{\acrshort{tflite} in Google Play services runtime omgeving}: Deze optie is ruimte-efficiënt omdat het dynamisch wordt geladen, wat de app-grootte kleiner houdt. Google Play services gebruikt automatisch de meest recente stabiele versie van de \acrshort{tflite} runtime, wat extra functies en betere prestaties biedt.
-    \item \textbf{Stand-alone \acrshort{tflite} runtime omgeving}: Deze optie voegt extra code toe aan je app, waardoor je meer controle hebt over de \acrshort{ml}-runtime in je app, maar de app-downloadgrootte toeneemt. Dit is nuttig voor apparaten zonder Google Play services of als je de \acrshort{ml}-runtime nauwkeurig wilt beheren. ~\autocite{TensorFlowLite2024Android}.
+    \item \textbf{\glsxtrshort{tflite} in Google Play services runtime omgeving}: Deze optie is ruimte-efficiënt omdat het dynamisch wordt geladen, wat de app-grootte kleiner houdt. Google Play services gebruikt automatisch de meest recente stabiele versie van de \glsxtrshort{tflite} runtime, wat extra functies en betere prestaties biedt.
+    \item \textbf{Stand-alone \glsxtrshort{tflite} runtime omgeving}: Deze optie voegt extra code toe aan je app, waardoor je meer controle hebt over de \glsxtrshort{ml}-runtime in je app, maar de app-downloadgrootte toeneemt. Dit is nuttig voor apparaten zonder Google Play services of als je de \glsxtrshort{ml}-runtime nauwkeurig wilt beheren. ~\autocite{TensorFlowLite2024Android}.
 \end{itemize}
 
-Hoewel de Google Play services aanbevolen worden, zullen wij de stand-alone \acrshort{tflite} runtime gebruiken, verdere uitleg volgt later.
+Hoewel de Google Play services aanbevolen worden, zullen wij de stand-alone \glsxtrshort{tflite} runtime gebruiken, verdere uitleg volgt later.
 
 \subsection{Ontwikkeling API's}
 
-Er zijn twee \acrlong{api} die je kunt gebruiken om \acrshort{tflite} modellen in je Android-app te integreren:
+Er zijn twee \glsxtrlong{api} die je kunt gebruiken om \glsxtrshort{tflite}-modellen in je Android-app te integreren:
 
 \begin{itemize}
-    \item \textbf{\acrshort{tflite} Task \acrshort{api}}: Biedt high-level programmeren aan voor het uitvoeren van veelvoorkomende \acrshort{ml} taken op visuele, audio- en tekstgegevens. 
-    \item \textbf{\acrshort{tflite} Interpreter \acrshort{api}}: Biedt klassen en methoden voor het uitvoeren van inferenties met bestaande \acrshort{tflite} modellen aan ~\autocite{TensorFlowLite2024Android}.
+    \item \textbf{\glsxtrshort{tflite} Task \glsxtrshort{api}}: Biedt high-level programmeren aan voor het uitvoeren van veelvoorkomende \glsxtrshort{ml} taken op visuele, audio- en tekstgegevens. 
+    \item \textbf{\glsxtrshort{tflite} Interpreter \glsxtrshort{api}}: Biedt klassen en methoden voor het uitvoeren van inferenties met bestaande \glsxtrshort{tflite}-modellen aan ~\autocite{TensorFlowLite2024Android}.
 \end{itemize}
 
-Hoewel de Task \acrshort{api} wordt aanbevolen voor de meeste gebruikssituaties, zullen wij de Interpreter \acrshort{api} gebruiken omdat deze beter aansluit bij onze behoeften. Dit wordt later verder uitgelegd.
+Hoewel de Task \glsxtrshort{api} wordt aanbevolen voor de meeste gebruikssituaties, zullen wij de Interpreter \glsxtrshort{api} gebruiken omdat deze beter aansluit bij onze behoeften. Dit wordt later verder uitgelegd.
 
 \subsection{Conclusie}
 
-In dit hoofdstuk hebben we besproken hoe \acrlong{tflite} kan worden geïntegreerd in Android-applicaties. We hebben gekeken naar de uitvoering van modellen, de verschillende runtime-omgevingen en de ontwikkelings-\acrshort{api}'s die beschikbaar zijn. Voor onze toepassing kiezen we voor de stand-alone \acrshort{tflite} runtime en de Interpreter \acrshort{api} om meer controle en flexibiliteit te hebben bij het uitvoeren van \acrshort{ml}-modellen op Android. Verdere details en uitleg over deze keuzes zullen duidelijk worden in de Proof of Concept (PoC).
+In dit hoofdstuk hebben we besproken hoe \glsxtrlong{tflite} kan worden geïntegreerd in Android-applicaties. We hebben gekeken naar de uitvoering van modellen, de verschillende runtime-omgevingen en de ontwikkelings-\glsxtrshort{api}'s die beschikbaar zijn. Voor onze toepassing kiezen we voor de stand-alone \glsxtrshort{tflite} runtime en de Interpreter \glsxtrshort{api} om meer controle en flexibiliteit te hebben bij het uitvoeren van \glsxtrshort{ml}-modellen op Android. Verdere details en uitleg over deze keuzes zullen duidelijk worden in de Proof of Concept (PoC).
 
 \section{Android Development}
 
-\section{Case Studies en Voorbeelden}
-% Andere huidige oplossing op mobile en wat bestaat er
+Als laatste bespreken we de vormen waarin \glsxtrshort{tflite} mogelijks kan worden geïmplementeerd. We zullen de voordelen en nadelen van de implementaties bespreken. Initieel was er een overtuiging om dit toe te passen in de vorm van een toetsenbord, echter bij het uitbreiden van deze studie blijkt dat dit een intensiever en ingewikkelder proces was dan voorheen gedacht.
 
-%Case studies blijven gebruiken
+\subsection{Implementatie-opties}
 
-\begin{figure} [ht]
+Er zijn verschillende manieren om \glsxtrshort{tflite} in een Android-applicatie te integreren. We bespreken hier de belangrijkste opties: via een \glsxtrlong{ime}, via \gls{services}, en via de \gls{processtextintent}.
+
+\subsubsection{Input Method Editor}
+
+Een \glsxtrshort{ime}, zoals een toetsenbord, kan worden aangepast om \glsxtrshort{tflite} te integreren voor het uitvoeren van \glsxtrshort{ml}-taken zoals tekstvoorspelling of autocorrectie. Het ontwikkelen van een \glsxtrshort{ime} heeft echter aanzienlijke uitdagingen ~\autocite{Android2024IME}:
+
+\begin{table} [ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{grail.jpg}
-    \caption[Voorbeeld figuur.]{\label{fig:grail}Voorbeeld van invoegen van een figuur. Zorg altijd voor een uitgebreid bijschrift dat de figuur volledig beschrijft zonder in de tekst te moeten gaan zoeken. Vergeet ook je bronvermelding niet!}
-\end{figure}
+    \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
+        \toprule
+        \textbf{Voordelen} & \textbf{Nadelen} \\
+        \midrule
+        Directe interactie met gebruikersinvoer, wat snelle feedback mogelijk maakt. &  Hogere kans op prestatierisico's omdat het toetsenbord voortdurend actief is. \\
+        Geschikt voor taken zoals real-time tekstvoorspelling en foutcorrectie. & Vereist diepgaande kennis van de Android input method framework. \\
+        &  Complexe ontwikkeling en onderhoud.\\
+        \bottomrule
+    \end{tabular}
+    \caption[Voordelen en nadelen van \glsxtrshort{ime}]{\label{tab:ime_pros_cons}Voordelen en nadelen van \glsxtrlong{ime}}
+\end{table}
+
+\subsubsection{Services}
+
+Een andere manier om \glsxtrshort{tflite} te integreren is via Android \gls{services}. \Gls{services} zijn ideaal voor het uitvoeren van achtergrondtaken zonder de gebruikersinterface te blokkeren  ~\autocite{Android2024Services}. Enkele soorten \gls{services} zijn:
+
+\begin{itemize}
+    \item \textbf{Foreground \gls{services}}: Voeren taken uit die duidelijk zichtbaar moeten zijn voor de gebruiker, zoals muziek afspelen.
+    \item \textbf{Background \gls{services}}: Voeren taken uit die niet direct zichtbaar zijn voor de gebruiker, zoals gegevenssynchronisatie.
+    \item \textbf{Bound \gls{services}}: Bieden een client-server interface die interactie mogelijk maakt tussen componenten zoals een activiteit en service.
+\end{itemize}
+
+\begin{table} [ht]
+    \centering
+    \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
+        \toprule
+        \textbf{Voordelen} & \textbf{Nadelen} \\
+        \midrule
+        Kan op de achtergrond werken zonder de hoofdinterface te beïnvloeden. & Hogere complexiteit in vergelijking met eenvoudige activiteiten. \\
+        Geschikt voor continue verwerkingstaken zoals monitoring of periodieke analyses. & Mogelijke beperkingen door energiebeheer en achtergrondbeperkingen van Android. \\
+        \bottomrule
+    \end{tabular}
+    \caption[Voordelen en nadelen van \gls{services}]{\label{tab:services_pros_cons}Voordelen en nadelen van \gls{services}}
+\end{table}
+
+\subsubsection{Process Text Intent}
+
+Een minder intensieve optie is het gebruik van de \gls{processtextintent}. Hiermee kan een applicatie tekst ontvangen en verwerken met behulp van een \glsxtrshort{tflite} model ~\autocite{Android2024Intent}. Dit is bijzonder nuttig voor toepassingen zoals tekstclassificatie, sentimentanalyse of simpele tekst correctie.
+
+\begin{table} [ht]
+    \centering
+    \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
+        \toprule
+        \textbf{Voordelen} & \textbf{Nadelen} \\
+        \midrule
+         Geen voortdurende belasting van de systeemprestaties. & Beperkte interactiviteit en directheid in vergelijking met een \glsxtrshort{ime}. \\
+        Kan tekst van verschillende bronnen ontvangen, zoals andere apps. & Afhankelijk van de beschikbaarheid van \textit{intents} van andere applicaties. \\
+        Relatief eenvoudige implementatie. &  \\
+        \bottomrule
+    \end{tabular}
+    \caption[Voordelen en nadelen van \gls{processtextintent}]{\label{tab:intent_pros_cons}Voordelen en nadelen van \gls{processtextintent}}
+\end{table}
+
+\subsection{Conclusie}
+
+Elke methode van integratie van \glsxtrshort{tflite} in een Android-applicatie heeft zijn eigen set van voordelen en nadelen. De keuze hangt af van de specifieke behoeften en beperkingen van de toepassing. Hoewel een \glsxtrshort{ime} directe interactie met de gebruiker biedt, kan de complexiteit ervan een barrière vormen. \Gls{services} bieden achtergrondverwerking, maar kunnen ingewikkelder zijn om te implementeren. De \gls{processtextintent} biedt een eenvoudige en efficiënte manier om tekst te verwerken, maar mist de directe interactie van een \glsxtrshort{ime}. Bij het kiezen van de beste aanpak moet rekening worden gehouden met de specifieke gebruiksscenario's en prestatievereisten van de applicatie.
 
 \begin{listing} [ht]
     \begin{minted}{python}
@@ -235,19 +293,3 @@ In dit hoofdstuk hebben we besproken hoe \acrlong{tflite} kan worden geïntegree
     \end{minted}
     \caption[Voorbeeld codefragment]{Voorbeeld van het invoegen van een codefragment.}
 \end{listing}
-
-\begin{table} [ht]
-    \centering
-    \begin{tabular}{lcr}
-        \toprule
-        \textbf{Kolom 1} & \textbf{Kolom 2} & \textbf{Kolom 3} \\
-        $\alpha$         & $\beta$          & $\gamma$         \\
-        \midrule
-        A                & 10.230           & a                \\
-        B                & 45.678           & b                \\
-        C                & 99.987           & c                \\
-        \bottomrule
-    \end{tabular}
-    \caption[Voorbeeld tabel]{\label{tab:example}Voorbeeld van een tabel.}
-\end{table}
-
