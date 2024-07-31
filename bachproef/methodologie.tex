@@ -5,26 +5,41 @@
 \chapter{\IfLanguageName{dutch}{Methodologie}{Methodology}}%
 \label{ch:methodologie}
 
-%% TODO: In dit hoofstuk geef je een korte toelichting over hoe je te werk bent
-%% gegaan. Verdeel je onderzoek in grote fasen, en licht in elke fase toe wat
-%% de doelstelling was, welke deliverables daar uit gekomen zijn, en welke
-%% onderzoeksmethoden je daarbij toegepast hebt. Verantwoord waarom je
-%% op deze manier te werk gegaan bent.
-%% 
-%% Voorbeelden van zulke fasen zijn: literatuurstudie, opstellen van een
-%% requirements-analyse, opstellen long-list (bij vergelijkende studie),
-%% selectie van geschikte tools (bij vergelijkende studie, "short-list"),
-%% opzetten testopstelling/PoC, uitvoeren testen en verzamelen
-%% van resultaten, analyse van resultaten, ...
-%%
-%% !!!!! LET OP !!!!!
-%%
-%% Het is uitdrukkelijk NIET de bedoeling dat je het grootste deel van de corpus
-%% van je bachelorproef in dit hoofstuk verwerkt! Dit hoofdstuk is eerder een
-%% kort overzicht van je plan van aanpak.
-%%
-%% Maak voor elke fase (behalve het literatuuronderzoek) een NIEUW HOOFDSTUK aan
-%% en geef het een gepaste titel.
+\section{Literatuurstudie}
 
-\lipsum[21-25]
+De eerste fase van het onderzoek bestond uit een literatuurstudie met als doel een basiskennis op te bouwen over \glsxtrlong{ml} en \glsxtrlong{nlp}. In deze fase werd een cursus gevolgd op LinkedIn Learning en werden relevante bronnen verzameld. Er werd tevens een plan opgesteld voor de uitvoering van de Proof of Concept. Deze aanpak hielp bij het beter begrijpen van de kernconcepten en het opbouwen van de benodigde theoretische kennis.
 
+\subsubsection{Deliverables}
+De deliverables van deze fase bestonden uit een verzameling van relevante literatuur, een cursuscertificaat en een overzicht van de belangrijkste concepten die nodig zijn voor dit onderzoek en de Proof of Concept.
+
+\section{Proof of Concept}
+
+Het ontwikkelen van een Proof of Concept (PoC) met \gls{robbert} bestond uit verschillende stappen.
+
+\subsection{Recreëren van RobBERT Resultaten met High-Level API}
+
+In de eerste stap werd getracht de resultaten van \gls{robbert} te reproduceren in Python. Hiervoor werd gebruik gemaakt van de high-level \glsxtrshort{api} van \gls{huggingface}, genaamd pipelines \autocite{HuggingFace2024Pipe}.
+
+\subsubsection{Deliverables}
+Een werkend Python-script dat de prestaties van \gls{robbert} evalueert met behulp van de high-level \glsxtrshort{api}.
+
+\subsection{Overstappen naar Low-Level API}
+
+Vervolgens werd overgestapt naar de Transformer bibliotheek van \gls{huggingface} op een lower-level, dit om het begrip te verbeteren over van de interne werking van de \gls{huggingface} pipeline en om de overstap naar TensorFlow Lite (\glsxtrshort{tflite}) eenvoudiger te maken. Deze bibliotheek biedt uitgebreide tools en \glsxtrshort{api}'s voor het werken met \gls{transformer}-modellen \autocite{HuggingFace2024Transformers}.
+
+\subsubsection{Deliverables}
+Een werkend Python-script dat gebruik maakt van de Transformer bibliotheek op een lower-level om de inferentie van RobBERT te gebruiken.
+
+\subsection{Creëren van een TFLite Variant}
+
+Het doel van deze stap was het creëren van een \glsxtrshort{tflite} variant van het script, aangezien er geen high-level \glsxtrshort{api}'s beschikbaar zijn voor deze modellen in \glsxtrshort{tflite} formaat. Dit omvatte het gebruik van \gls{huggingface} Optimum voor de conversie van modellen naar \glsxtrshort{tflite}. Hierbij werd ook de mogelijkheid voorzien om gekwantiseerde modellen als output te krijgen.
+
+\subsubsection{Deliverables}
+Twee bashscripts om de conversie van modellen te automatiseren en een werkend Python-script dat gebruik maakt van een eigen tokeniser en de \glsxtrshort{tflite} interpreter \glsxtrshort{api}.
+
+\subsection{Implementatie op Android}
+
+Als laatste stap werd de functionaliteit van het \glsxtrshort{tflite}-model gedemonstreerd op een mobiel platform, specifiek Android. De eerder gemaakte code in Python werd aangepast voor gebruik op Android. Er werd gebruik gemaakt van de \glsxtrlong{tflite} Android-bibliotheek om het model te integreren en de eerder geconverteerde modellen lokaal in werking te stellen.
+
+\subsubsection{Deliverables}
+De deliverables omvatten een werkende Android applicatie die inferenties uitvoert met het \glsxtrshort{tflite}-model, zowel via directe integratie binnen de applicatie als via een \gls{processtextintent}.
