@@ -1,6 +1,64 @@
 %%=============================================================================
-%% Proof of concept
+%% Proof of Concept
 %%=============================================================================
 
-\chapter{Proof of concept}%
+\chapter{Proof of Concept}%
 \label{ch:proofofconcept}
+
+De proof of concept bevat een gedetailleerde bespreking van de implementatie van het model, inclusief de vergelijking tussen de verschillende versies van de code, van high-level tot low-level en \glsxtrshort{tflite}. Het doel is om de effectiviteit en efficiëntie van \gls{robbert} op verschillende platformen te evalueren en om de capaciteiten van een niet-gefinetunde \gls{robbert} te concluderen.
+
+\section{Python Implementatie}
+
+\subsection{Vereisten en Setup}
+
+Deze sectie beschrijft de vereiste bibliotheken en hun versies die nodig zijn voor de implementatie van de proof of concept in Python, evenals het utility-bestand dat is geschreven om consistent gedrag over de scripts heen te realiseren.
+
+
+
+\subsection{Reproductie met High-Level Pipeline}
+In deze fase bespreken we het eerste script waarin \gls{robbert} wordt gebruikt. Zoals eerder vermeld, maken we hierbij gebruik van de high-level \glsxtrshort{api} van \gls{huggingface}, genaamd pipelines. Dit script vormde de basis voor verdere ontwikkeling en testing \autocite{HuggingFace2024Pipe}.
+
+
+
+\subsection{Transformer Bibliotheek: Low-Level API}
+In dit script maken we gebruik van de Transformer-bibliotheek van \gls{huggingface} op een lower-level. Dit script verschilt enigszins van het eerste script, dat de high-level \glsxtrshort{api} via pipelines benutte. Door over te stappen naar een lower-level benadering, krijgen we beter inzicht in de interne werking van de \gls{huggingface} pipeline, wat de overgang naar TensorFlow Lite (\glsxtrshort{tflite}) vergemakkelijkt \autocite{HuggingFace2024Transformers}.
+
+
+
+\subsection{Conversie naar TFLite}
+Het doel van deze stap is om de RobBERT-modellen te converteren naar het \glsxtrshort{tflite}-formaat met behulp van \gls{huggingface} Optimum. Deze conversie maakt het mogelijk om de modellen efficiënt te implementeren op mobiele apparaten. Bovendien biedt deze stap de mogelijkheid om gekwantiseerde modellen als output te genereren, wat de prestaties verder kan verbeteren.
+
+
+
+\subsection{Implementatie van TFLite Model in Python}
+Deze sectie beschrijft de implementatie van de geconverteerde \glsxtrshort{tflite}-modellen in een Python-script dat de \glsxtrshort{tflite} interpreter \glsxtrshort{api} gebruikt. Het script voert inferenties uit met deze modellen en maakt gebruik van een aangepaste tokenizer voor de verwerking van invoertekst.
+
+
+
+
+\section{Android Implementatie}
+
+\subsection{Compatibiliteit en Instellingen}
+
+In deze sectie bespreken we de specificaties van de Android-applicatie om compatibiliteit en consistentie met de eerder genoemde scripts en modellen te waarborgen. Het utility-bestand is van cruciaal belang voor het handhaven van uniform gedrag van de \glsxtrshort{tflite}-modellen binnen de applicatie. Daarnaast bevat het manifestbestand de nodige instellingen om de applicatie correct te laten functioneren op mobiele apparaten. Deze elementen zorgen ervoor dat de applicatie consistent presteert in overeenstemming met de Python-implementaties.
+
+
+
+\subsection{Ontwikkeling van de Android-applicatie}
+
+Dit gedeelte beschrijft de ontwikkeling van de Android-applicatie, met de nadruk op de integratie van het \glsxtrshort{tflite}-model. De eerder ontwikkelde Python-code wordt omgezet voor gebruik op Android, met behulp van de \glsxtrlong{tflite} Android-bibliotheek om het model te integreren. De \texttt{MainActivity} fungeert als het centrale onderdeel van de applicatie, waar de inferentie met het \glsxtrshort{tflite}-model wordt uitgevoerd. De inferentieprocedure is consistent met die in de Python-implementatie, met aanvullende functionaliteiten voor Android-specifieke taken.
+
+
+
+\subsection{Integratie met Process Text Intent}
+
+Als laatste binnen dit gedeelte behandelen we de implementatie van de \gls{processtextintent} binnen de Android-applicatie. Deze functionaliteit maakt het mogelijk om inferenties uit te voeren op tekst, zowel direct binnen de applicatie als via externe intents. De inferentieprocedure is gelijk aan die in de \texttt{MainActivity}, maar de gegevensverwerking verschilt enigszins vanwege het gebruik van Android-specifieke methoden. Deze aanpak verzekert dat de applicatie flexibel is en naadloos samenwerkt met andere apps op het Android-platform.
+
+
+
+
+\section{Evaluatie en Vergelijking van Inferentie}
+
+Nu we alle code en implementaties hebben besproken, kunnen we overgaan tot de evaluatie en vergelijking van de prestaties van alle scripts en de Android-applicatie. In deze sectie richten we ons op de verschillen of overeenkomsten in hun prestaties en geven we inzicht in waarom deze prestatieverschillen mogelijk bestaan. We zullen enkele belangrijke bevindingen en relevante metingen delen om inzicht te geven in de effectiviteit van elk script en de applicatie.
+
+
