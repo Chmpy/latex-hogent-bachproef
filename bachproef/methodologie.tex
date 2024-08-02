@@ -43,3 +43,24 @@ Als laatste stap werd de functionaliteit van het \glsxtrshort{tflite}-model gede
 
 \subsubsection{Deliverables}
 De deliverables omvatten een werkende Android applicatie die inferenties uitvoert met het \glsxtrshort{tflite}-model, zowel via directe integratie binnen de applicatie als via een \gls{processtextintent}.
+
+\section{Snelheids- en Kwaliteitstesten van Inferentie}
+
+Nu we de verschillende scripts en de Android-applicatie hebben ontwikkeld, is het essentieel om hun prestaties te evalueren. In deze sectie beschrijven we de methodologie voor het testen van de snelheid en kwaliteit van de inferentie om inzicht te krijgen in de effectiviteit van elke implementatie.
+
+\subsection{Snelheidstesten}
+
+De snelheid van de inferentie werd getest door integraties binnen elk script en de Android-applicatie te implementeren die de verwerkingstijd van elke inferentie en de totale tijd voor een reeks voorbepaalde zinnen meten. Deze aanpak stelt ons in staat om de relatieve snelheid van elke implementatie te evalueren en vergelijkingen te maken.
+
+\subsubsection{Deliverables}
+
+Gedetailleerde metingen van de inferentiesnelheid, inclusief de gemiddelde en totale verwerkingstijd voor elk script en de Android-applicatie. Evenals een vergelijkende analyse van de snelheidsprestaties tussen de verschillende implementaties, ondersteund door grafieken voor een duidelijke presentatie.
+
+\subsection{Kwaliteitstesten}
+
+De kwaliteit van de inferentie was moeilijker te testen vanwege de beperkingen van de beschikbare confidence levels, die alleen toegankelijk waren in de high-level pipeline-implementatie. Daarom werd de kwaliteit manueel geëvalueerd door de resultaten te analyseren en merkbare verschillen tussen de versies en voorspellingen te identificeren. Deze beoordeling is gebaseerd op persoonlijke evaluaties van de meest opvallende verschillen.
+
+\subsubsection{Deliverables}
+
+Beschrijvende evaluatie van de belangrijkste verschillen in de versies en voorspellingen, gebaseerd op persoonlijke observaties en kwalitatieve beoordeling.
+
