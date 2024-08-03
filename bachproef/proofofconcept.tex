@@ -42,43 +42,43 @@ Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de v
 
 \textbf{Voorbeeldzinnen}: De functie \texttt{get\_sentences} levert vooraf bepaalde zinnen aan elk script, zoals weergegeven in codefragment \ref{lst:getsentences}. Deze zinnen worden gebruikt voor het testen van de modellen en demonstreren correcte en incorrecte grammaticale structuren met betrekking tot de woorden "die" en "dat".
 
-\begin{listing}
-    \begin{minted}{python}
+\begin{listing} 
+    \begin{minted}[fontsize=\small]{python}
         # utils.py
         def get_sentences():
-        """Get example sentences."""
-        return [
-            "Ik heb een vriend die altijd te laat komt.",  # Correct
-            "Ik weet die ik het kan.",  # Incorrect
-            "Ik weet dat ik het kan.",  # Correct
-            "Daarom is het belangrijk, je moet goed opletten.",  # Incorrect
-            "Ik ken een man die altijd grapjes maakt.",  # Correct
-            "Ze heeft een jurk gekocht die perfect past.",  # Correct
-            "Er is een boek dat ik je echt kan aanraden.",  # Correct
-            "We bezochten een stad die bekend staat om haar architectuur.",  # Correct
-            "Hij las een artikel dat zijn mening veranderde.",  # Correct
-            "Ze vertelde over een ervaring die haar leven veranderde.",  # Correct
-            "Ik zag een film die mij aan het denken zette.",  # Correct
-            "Hij gebruikt een methode die zeer effectief is.",  # Correct
-            "Het kind dat in de tuin speelt, is mijn neefje.",  # Correct
-            "De vraag die ze stelde, was erg moeilijk.",  # Correct
-            "De beslissing dat hij maakte, was erg moeilijk.",  # Incorrect
-            "Dit is de laptop die ik wil kopen.",  # Correct
-            "Dit is de laptop dat ik wil kopen.",  # Incorrect
-            "Het project dat we gestart zijn, verloopt goed.",  # Correct
-            "De vrouw die je daar ziet, is mijn lerares.",  # Correct
-            "De resultaten dat we behaalden, waren indrukwekkend.",  # Incorrect
-            "De resultaten die we behaalden, waren indrukwekkend.",  # Correct
-            "De bloemen die je hebt meegenomen, zijn prachtig.",  # Correct
-            "De informatie dat hij gaf, was nuttig.",  # Incorrect
-            "De informatie die hij gaf, was nuttig.",  # Correct
-            "Het idee dat ze voorstelde, was briljant.",  # Correct
-            "Het idee die ze voorstelde, was briljant.",  # Incorrect
-            "De kat dat op het dak zit, is van ons.",  # Incorrect
-            "De kat die op het dak zit, is van ons.",  # Correct
-            "De film die we gisteren keken, was spannend.",  # Correct
-            "De auto dat ik gisteren zag, was heel mooi.",  # Incorrect
-        ]
+            """Get example sentences."""
+            return [
+                "Ik heb een vriend die altijd te laat komt.",  # Correct
+                "Ik weet die ik het kan.",  # Incorrect
+                "Ik weet dat ik het kan.",  # Correct
+                "Daarom is het belangrijk, je moet goed opletten.",  # Incorrect
+                "Ik ken een man die altijd grapjes maakt.",  # Correct
+                "Ze heeft een jurk gekocht die perfect past.",  # Correct
+                "Er is een boek dat ik je echt kan aanraden.",  # Correct
+                "We bezochten een stad die bekend staat om haar architectuur.",  # Correct
+                "Hij las een artikel dat zijn mening veranderde.",  # Correct
+                "Ze vertelde over een ervaring die haar leven veranderde.",  # Correct
+                "Ik zag een film die mij aan het denken zette.",  # Correct
+                "Hij gebruikt een methode die zeer effectief is.",  # Correct
+                "Het kind dat in de tuin speelt, is mijn neefje.",  # Correct
+                "De vraag die ze stelde, was erg moeilijk.",  # Correct
+                "De beslissing dat hij maakte, was erg moeilijk.",  # Incorrect
+                "Dit is de laptop die ik wil kopen.",  # Correct
+                "Dit is de laptop dat ik wil kopen.",  # Incorrect
+                "Het project dat we gestart zijn, verloopt goed.",  # Correct
+                "De vrouw die je daar ziet, is mijn lerares.",  # Correct
+                "De resultaten dat we behaalden, waren indrukwekkend.",  # Incorrect
+                "De resultaten die we behaalden, waren indrukwekkend.",  # Correct
+                "De bloemen die je hebt meegenomen, zijn prachtig.",  # Correct
+                "De informatie dat hij gaf, was nuttig.",  # Incorrect
+                "De informatie die hij gaf, was nuttig.",  # Correct
+                "Het idee dat ze voorstelde, was briljant.",  # Correct
+                "Het idee die ze voorstelde, was briljant.",  # Incorrect
+                "De kat dat op het dak zit, is van ons.",  # Incorrect
+                "De kat die op het dak zit, is van ons.",  # Correct
+                "De film die we gisteren keken, was spannend.",  # Correct
+                "De auto dat ik gisteren zag, was heel mooi.",  # Incorrect
+            ]
     \end{minted} 
     \caption[\texttt{get\_sentences()}]{\texttt{get\_sentences()}: Deze functie levert een lijst van voorbeeldzinnen die correct en incorrect gebruik van "die" en "dat" illustreren. Deze zinnen worden gebruikt voor validatie en testing binnen de proof of concept.}
     \label{lst:getsentences}
@@ -86,27 +86,27 @@ Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de v
 
 \textbf{Preprocessing}: De functie \texttt{preprocess\_input} voert uniforme preprocessing uit voor het genereren van een maskeringstoken binnen een zin, zoals getoond in codefragment \ref{lst:preprocessinput}. Deze functie identificeert de positie van de maskeringstoken en vervangt "die" of "dat" door "<mask>", wat essentieel is voor de verwerking door het model.
 
-\begin{listing}
-    \begin{minted}{python}
+\begin{listing} [ht]
+    \begin{minted}[fontsize=\small]{python}
         # utils.py
         def preprocess_input(sentence):
-        """
-        Mask 'die' or 'dat' in the input sentence.
-        
-        Args:
-        sentence (str): Input sentence.
-        
-        Returns:
-        tuple: (preprocessed sentence, mask position or None)
-        """
-        words = sentence.split()
-        mask_position = None
-        for i, word in enumerate(words):
-            if word.lower() in ['die', 'dat']:
-                words[i] = '<mask>'
-                mask_position = i
-                break
-        return ' '.join(words), mask_position
+            """
+            Mask 'die' or 'dat' in the input sentence.
+            
+            Args:
+            sentence (str): Input sentence.
+            
+            Returns:
+            tuple: (preprocessed sentence, mask position or None)
+            """
+            words = sentence.split()
+            mask_position = None
+            for i, word in enumerate(words):
+                if word.lower() in ['die', 'dat']:
+                    words[i] = '<mask>'
+                    mask_position = i
+                    break
+            return ' '.join(words), mask_position
     \end{minted}
     \caption[\texttt{preprocess\_input(sentence)}]{\texttt{preprocess\_input(sentence)}: Deze functie voert preprocessing uit op de invoerzinnen door "die" of "dat" te vervangen met "<mask>". Het retourneert zowel de bewerkte zin als de positie van de maskeringstoken.}
     \label{lst:preprocessinput}
@@ -118,35 +118,35 @@ Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de v
     \begin{minted}{python}
         # utils.py
         def get_top_predictions(logits, vocab, mask_position, top_k=5):
-        """
-        Get top-k predictions for the masked token.
-        
-        Args:
-        logits (numpy.ndarray or torch.Tensor): Model output logits
-        vocab (dict): Vocabulary dictionary
-        mask_position (int): Position of the mask token
-        top_k (int): Number of top predictions to return
-        
-        Returns:
-        list: Top-k predicted words
-        """
-        # Convert logits to tensor if it's not already
-        if not isinstance(logits, (tf.Tensor, torch.Tensor)):
-            logits = tf.convert_to_tensor(logits)
-        
-        # Get logits for the mask token
-        mask_token_logits = logits[0, mask_position + 1]
-        
-        # Apply softmax to calculate probabilities
-        if isinstance(logits, torch.Tensor):
-            probs = torch.nn.functional.softmax(mask_token_logits, dim=0)
-            top_indices = torch.topk(probs, k=top_k).indices.tolist()
-        else:
-            probs = tf.nn.softmax(mask_token_logits)
-            top_indices = tf.math.top_k(probs, k=top_k).indices.numpy()
-        
-        # Convert indices to words
-        return [list(vocab.keys())[list(vocab.values()).index(idx)] for idx in top_indices]
+            """
+            Get top-k predictions for the masked token.
+            
+            Args:
+            logits (numpy.ndarray or torch.Tensor): Model output logits
+            vocab (dict): Vocabulary dictionary
+            mask_position (int): Position of the mask token
+            top_k (int): Number of top predictions to return
+            
+            Returns:
+            list: Top-k predicted words
+            """
+            # Convert logits to tensor if it's not already
+            if not isinstance(logits, (tf.Tensor, torch.Tensor)):
+                logits = tf.convert_to_tensor(logits)
+            
+            # Get logits for the mask token
+            mask_token_logits = logits[0, mask_position + 1]
+            
+            # Apply softmax to calculate probabilities
+            if isinstance(logits, torch.Tensor):
+                probs = torch.nn.functional.softmax(mask_token_logits, dim=0)
+                top_indices = torch.topk(probs, k=top_k).indices.tolist()
+            else:
+                probs = tf.nn.softmax(mask_token_logits)
+                top_indices = tf.math.top_k(probs, k=top_k).indices.numpy()
+            
+            # Convert indices to words
+            return [list(vocab.keys())[list(vocab.values()).index(idx)] for idx in top_indices]
     \end{minted}
     \caption[\texttt{get\_top\_predictions(logits, vocab, mask\_position, top\_k=5)}]{\texttt{get\_top\_predictions(logits, vocab, mask\_position, top\_k=5)}: Deze functie zet de logit-uitvoer van het model om in \glspl{tensor} en past vervolgens \gls{softmax} toe om de waarschijnlijkheden van voorspellingen te berekenen. Het retourneert de top \(k\) voorspellingen op basis van de maskeringstoken en het vocabulaire.}
     \label{lst:gettopk}
@@ -170,42 +170,40 @@ Het script \texttt{main.py}, zoals weergegeven in de codefragmenten \ref{lst:mai
         logging.basicConfig(level=logging.INFO)
         
         def set_log_level(log_level):
-        """Set the logging level."""
-        logging.getLogger().setLevel(log_level)
+            """Set the logging level."""
+            logging.getLogger().setLevel(log_level)
         
         def run_inference(sentence, pipe):
-        """Process sentence with mask, predict masked word."""
-        if "<mask>" not in sentence:
-        logging.debug("No mask token found in the sentence.")
-        return
-        return pipe(sentence)[0]
-        
+            """Process sentence with mask, predict masked word."""
+            if "<mask>" not in sentence:
+                logging.debug("No mask token found in the sentence.")
+                return
+            return pipe(sentence)[0]
+            
         def main(model_path):
-        """Main function to process sentences with the specified model."""
-        logging.info("========================================")
-        
-        # Load the model
-        pipe = pipeline("fill-mask", model=model_path)
-        logging.info(f"Model loaded: {model_path}")
-        
-        # Example sentences
-        sentences = get_sentences()
-        
-        start_total_time = timeit.default_timer()
-        for sentence in sentences:
-        masked_sentence, _ = preprocess_input(sentence)
-        start_time = timeit.default_timer()
-        output = run_inference(masked_sentence, pipe)
-        elapsed_time = timeit.default_timer() - start_time
-        logging.info(f"Original sentence: {sentence}")
-        logging.info(f"Processed sentence: {masked_sentence}")
-        logging.info(f"Prediction: {output}")
-        logging.info(f"Elapsed time: {elapsed_time:.3f} seconds\n")
-        logging.info("")
-        
-        total_time = timeit.default_timer() - start_total_time
-        logging.info(f"Total elapsed time: {total_time:.3f} seconds")
-        logging.info("Average time per sentence: {:.3f} seconds".format(total_time / len(sentences)))
+            """Main function to process sentences with the specified model."""
+            
+            # Load the model
+            pipe = pipeline("fill-mask", model=model_path)
+            logging.info(f"Model loaded: {model_path}")
+            
+            # Example sentences
+            sentences = get_sentences()
+            
+            start_total_time = timeit.default_timer()
+            for sentence in sentences:
+                masked_sentence, _ = preprocess_input(sentence)
+                start_time = timeit.default_timer()
+                output = run_inference(masked_sentence, pipe)
+                elapsed_time = timeit.default_timer() - start_time
+                logging.info(f"Original sentence: {sentence}")
+                logging.info(f"Processed sentence: {masked_sentence}")
+                logging.info(f"Prediction: {output}")
+                logging.info(f"Elapsed time: {elapsed_time:.3f} seconds\n")
+            
+            total_time = timeit.default_timer() - start_total_time
+            logging.info(f"Total elapsed time: {total_time:.3f} seconds")
+            logging.info("Average time per sentence: {:.3f} seconds".format(total_time / len(sentences)))
     \end{minted}
     \caption[\texttt{main.py} (deel 1)]{Het eerste deel van \texttt{main.py} definieert de functies die nodig zijn voor het uitvoeren van \glsxtrshort{mlm}. Het script laadt modellen en verwerkt zinnen met behulp van de \texttt{pipeline} functionaliteit van \gls{huggingface}. De belangrijkste functies zijn \texttt{run\_inference}, die voorspellingen doet voor gemaskeerde woorden, en \texttt{main}, die de zinnen ophaalt, modellen laadt, en de totale verwerkingstijd registreert.}
     \label{lst:main-part1}
@@ -215,39 +213,39 @@ Het script \texttt{main.py}, zoals weergegeven in de codefragmenten \ref{lst:mai
     \begin{minted}[fontsize=\small]{python}
         # main.py
         if __name__ == '__main__':
-        """
-        This script performs masked language modeling using the Transformers pipeline
-        on various Dutch BERT models. It provides a simple way to load and run inference
-        using the high-level pipeline API.
-        
-        Key features:
-        1. Uses Transformers pipeline for easy model loading and inference
-        2. Supports multiple Dutch BERT models
-        3. Preprocesses input sentences to include a mask token
-        4. Runs inference to predict masked words
-        5. Provides logging of original sentences, processed sentences, and predictions
-        
-        Usage:
-        Run the script to process a set of predefined sentences with different Dutch
-        BERT models using the Transformers pipeline.
-        
-        Models used:
-        - DTAI-KULeuven/robbertje-1-gb-non-shuffled5
-        - pdelobelle/robbert-v2-dutch-base
-        - DTAI-KULeuven/robbert-2022-dutch-base
-        - DTAI-KULeuven/robbert-2023-dutch-base
-        - DTAI-KULeuven/robbert-2023-dutch-large
-        """
-        
-        # Uncomment to set debug logging
-        # set_log_level(logging.DEBUG)
-        
-        # Process sentences with different models
-        main("DTAI-KULeuven/robbertje-1-gb-non-shuffled")
-        main("pdelobelle/robbert-v2-dutch-base")
-        main("DTAI-KULeuven/robbert-2022-dutch-base")
-        main("DTAI-KULeuven/robbert-2023-dutch-base")
-        main("DTAI-KULeuven/robbert-2023-dutch-large")
+            """
+            This script performs masked language modeling using the Transformers pipeline
+            on various Dutch BERT models. It provides a simple way to load and run inference
+            using the high-level pipeline API.
+            
+            Key features:
+            1. Uses Transformers pipeline for easy model loading and inference
+            2. Supports multiple Dutch BERT models
+            3. Preprocesses input sentences to include a mask token
+            4. Runs inference to predict masked words
+            5. Provides logging of original sentences, processed sentences, and predictions
+            
+            Usage:
+            Run the script to process a set of predefined sentences with different Dutch
+            BERT models using the Transformers pipeline.
+            
+            Models used:
+            - DTAI-KULeuven/robbertje-1-gb-non-shuffled5
+            - pdelobelle/robbert-v2-dutch-base
+            - DTAI-KULeuven/robbert-2022-dutch-base
+            - DTAI-KULeuven/robbert-2023-dutch-base
+            - DTAI-KULeuven/robbert-2023-dutch-large
+            """
+            
+            # Uncomment to set debug logging
+            # set_log_level(logging.DEBUG)
+            
+            # Process sentences with different models
+            main("DTAI-KULeuven/robbertje-1-gb-non-shuffled")
+            main("pdelobelle/robbert-v2-dutch-base")
+            main("DTAI-KULeuven/robbert-2022-dutch-base")
+            main("DTAI-KULeuven/robbert-2023-dutch-base")
+            main("DTAI-KULeuven/robbert-2023-dutch-large")
     \end{minted}
     \caption[\texttt{main.py} (deel 2)]{Het tweede deel van \texttt{main.py} voert de hoofdtoepassing uit, waarbij gebruik wordt gemaakt van een lijst met vooraf gedefinieerde modellen. Dit gedeelte initialiseert het script door verschillende \gls{robbert}-modellen te testen en de inferentie uit te voeren op de vooraf bepaalde zinnen. Het documenteert de kernfuncties en gebruiksinstructies in de \texttt{docstring} voor verduidelijking en instructies.}
     \label{lst:main-part2}
@@ -268,9 +266,101 @@ Tot slot biedt het script flexibiliteit door meerdere modellen te ondersteunen. 
 Dit script is een essentieel onderdeel van het proof of concept, aangezien het de mogelijkheden van \gls{robbert}-modellen demonstreert met behulp van de high-level pipeline \glsxtrshort{api} van \gls{huggingface}. Het is de basis voor verdere ontwikkeling en evaluatie van de komende integraties. Houd er rekening mee dat dit script een internetverbinding vereist om de \glsxtrshort{api} te kunnen gebruiken.
 
 \subsection{Transformer Bibliotheek: Low-Level API}
-In dit script maken we gebruik van de Transformer-bibliotheek van \gls{huggingface} op een lower-level. Dit script verschilt enigszins van het eerste script, dat de high-level \glsxtrshort{api} via pipelines benutte. Door over te stappen naar een lower-level benadering, krijgen we beter inzicht in de interne werking van de \gls{huggingface} pipeline, wat de overgang naar TensorFlow Lite (\glsxtrshort{tflite}) vergemakkelijkt. 
 
+In dit script maken we gebruik van de Transformer-bibliotheek van \gls{huggingface} op een lower-level. Dit script verschilt enigszins van het eerste script, dat de high-level \glsxtrshort{api} via pipelines benutte. Door over te stappen naar een lower-level benadering, krijgen we beter inzicht in de interne werking van de \gls{huggingface} pipeline, wat de overgang naar \glsxtrlong{tflite} vergemakkelijkt.
 
+Het \texttt{tf-main.py} script, zoals weergegeven in de codefragmenten \ref{lst:low-level-main-part1} en \ref{lst:low-level-main-part2}, voert \glsxtrshort{mlm} uit met behulp van de Transformer-bibliotheek, waarbij we direct interacteren met de model en tokenizer objecten. Dit biedt meer flexibiliteit en controle vergeleken met de high-level pipeline benadering.
+
+\begin{listing} [ht]
+    \begin{minted}[fontsize=\small]{python}
+        # tf-main.py
+        import logging
+        import timeit
+        
+        import torch
+        from optimum.bettertransformer import BetterTransformer
+        from transformers import AutoTokenizer, AutoModelForMaskedLM
+        
+        from utils import preprocess_input, get_top_predictions, get_sentences
+        
+        # Set up logging
+        logging.basicConfig(level=logging.INFO)
+        
+        def set_log_level(log_level):
+            """Set the logging level."""
+            logging.getLogger().setLevel(log_level)
+        
+        def load_model_and_tokenizer(model_name):
+            """Load the model and tokenizer."""
+            tokenizer = AutoTokenizer.from_pretrained(model_name)
+            model = AutoModelForMaskedLM.from_pretrained(model_name)
+            # Apply BetterTransformer to the model for improved performance
+            model = BetterTransformer.transform(model)
+            return model, tokenizer
+    \end{minted}
+    \caption[\texttt{tf-main.py} (deel 1)]{Het eerste deel van \texttt{tf-main.py} laadt de modellen en tokenizers op een lager niveau. Dit geeft meer controle over de modelparameters en laat verbeteringen toe door de integratie van \texttt{BetterTransformer}, wat zorgt voor verhoogde prestaties. Hoewel deze optimalisaties de modellen zouden moeten verbeteren, zullen we later in de evaluatie zien dat dit weinig verschil maakt. Dit komt waarschijnlijk omdat de \texttt{pipeline} \glsxtrshort{api} van \gls{huggingface} deze optimalisaties al intern gebruikt.}
+    \label{lst:low-level-main-part1}
+\end{listing}
+
+Het belangrijkste verschil met het high-level script is de directe interactie met de modellen en tokenizers, waardoor we toegang krijgen tot de interne structuren van de modellen. Hierdoor kunnen we verbeteringen aanbrengen met \texttt{BetterTransformer}, wat de prestaties verbetert door het model te optimaliseren. Echter, zoals later zal blijken in de evaluatiefase, lijkt de verbetering in prestaties beperkt te zijn, mogelijk doordat de high-level \texttt{pipeline} \glsxtrshort{api} van \gls{huggingface} al soortgelijke optimalisaties toepast.
+
+In tegenstelling tot het high-level script, waarbij de \texttt{pipeline} functie automatisch de voorspellingen afhandelt, gebruiken we in deel 2 van het \texttt{tf-main.py} script de functie \texttt{get\_top\_predictions} om handmatig de top voorspellingen te bepalen. Hierbij wordt gebruik gemaakt van \gls{softmax} om de waarschijnlijkheidsverdeling van de modeloutput te berekenen. Dit biedt ons meer inzicht en controle over het voorspelling proces.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{python}
+        # tf-main.py
+        def run_inference(model, tokenizer, input_sentence):
+            """Run model inference on the input sentence."""
+            inputs = tokenizer(input_sentence, return_tensors="pt")
+            logging.debug(f"Input tokens: {inputs}")
+            with torch.no_grad():
+                outputs = model(**inputs)
+            return outputs.logits
+        
+        def main(model_name):
+            """Main function to process sentences with the specified model."""
+            sentences = get_sentences()
+            
+            # Load the model and tokenizer
+            model, tokenizer = load_model_and_tokenizer(model_name)
+            logging.info(f"Model loaded: {model_name}")
+            
+            start_total_time = timeit.default_timer()
+            for input_sentence in sentences:
+                # Preprocess the input
+                processed_sentence, mask_position = preprocess_input(input_sentence)
+                logging.debug(f'Input sentence: {input_sentence}')
+                logging.debug(f'Processed sentence: {processed_sentence}')
+                
+                # Run inference and get top predictions
+                if mask_position is not None:
+                    start_time = timeit.default_timer()
+                    outputs = run_inference(model, tokenizer, processed_sentence)
+                    elapsed_time = timeit.default_timer() - start_time
+                    top_words = get_top_predictions(outputs, tokenizer.get_vocab(), mask_position)
+                    logging.debug(f'Top predicted words: {top_words}')
+                    
+                    for word in top_words[:3]:  # Use top 3 predictions
+                        output_sentence = processed_sentence.replace('<mask>', word)
+                        logging.info(f'Output sentence: {output_sentence}')
+                    
+                    logging.info(f"Elapsed time: {elapsed_time:.3f} seconds\n")
+                else:
+                    logging.info('No mask token found in the input sentence.')
+            
+            total_time = timeit.default_timer() - start_total_time
+            logging.info(f"Total elapsed time: {total_time:.3f} seconds")
+            logging.info("Average time per sentence: {:.3f} seconds".format(total_time / len(sentences)))
+    \end{minted}
+    \caption[\texttt{tf-main.py} (deel 2)]{Het tweede deel van \texttt{tf-main.py} bevat \texttt{run\_inference}, waarbij elke zin wordt verwerkt met behulp van PyTorch tensors. Dit biedt meer controle over de uitvoer van het model en maakt gedetailleerde logging van voorspellingen en verwerkte zinnen mogelijk. Bovendien gebruiken we nu de functie \texttt{get\_top\_predictions} in combinatie met de softmax-functie om zelf de top voorspellingen te bepalen.}
+    \label{lst:low-level-main-part2}
+\end{listing}
+
+Het script meet de tijd die nodig is om elke zin te verwerken, evenals de totale verwerkingstijd voor alle zinnen. Dit gebeurt op een vergelijkbare manier als in het high-level script, met behulp van de \texttt{timeit} module, maar nu met meer inzicht in de verwerkingstappen door direct gebruik van PyTorch.
+
+Dit script is een essentieel onderdeel van de ontwikkeling omdat het de mogelijkheden van \gls{robbert}-modellen verder demonstreert, maar met meer controle en optimalisatie mogelijkheden vergeleken met de high-level pipeline. Daarbij bereidt het de weg voor de integratie met \glsxtrshort{tflite}. Net als het high-level script vereist dit script een internetverbinding voor het laden van de modellen en tokenizers.
+
+Het uitvoerblok van het script \texttt{tf-main.py}, dat doorgaans wordt gestart met \texttt{if \_\_name\_\_ == '\_\_main\_\_':}, is weggelaten om herhaling te vermijden. Dit deel bevat de beschrijving van de scriptfunctie en roept de hoofdprogramma's aan, zoals eerder beschreven in het high-level script.
 
 \subsection{Conversie naar TFLite}
 Het doel van deze stap is om de RobBERT-modellen te converteren naar het \glsxtrshort{tflite}-formaat met behulp van \gls{huggingface} Optimum. Deze conversie maakt het mogelijk om de modellen efficiënt te implementeren op mobiele apparaten. Bovendien biedt deze stap de mogelijkheid om gekwantiseerde modellen als output te genereren, wat de prestaties verder kan verbeteren.
