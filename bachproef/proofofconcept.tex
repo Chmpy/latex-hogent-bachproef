@@ -5,7 +5,15 @@
 \chapter{Proof of Concept}%
 \label{ch:proofofconcept}
 
-De proof of concept bevat een gedetailleerde bespreking van de implementatie van het model, inclusief de vergelijking tussen de verschillende versies van de code, van high-level tot low-level en \glsxtrshort{tflite}. Het doel is om de effectiviteit en efficiëntie van \gls{robbert} op verschillende platformen te evalueren en om de capaciteiten van een niet-gefinetunde \gls{robbert} te concluderen.
+De proof of concept bevat een gedetailleerde bespreking van de implementatie van het model, inclusief de vergelijking tussen de verschillende versies van de code, van high-level tot low-level en \glsxtrshort{tflite}. Het doel is om de effectiviteit en efficiëntie van \gls{robbert} op verschillende platformen te evalueren en om de capaciteiten van een niet-gefinetunde \gls{robbert} te concluderen. In elke integratie die volgt, zijn de volgende modellen getest of gebruikt:
+
+\begin{itemize}
+    \item DTAI-KULeuven/robbertje-1-gb-non-shuffled5
+    \item pdelobelle/robbert-v2-dutch-base
+    \item DTAI-KULeuven/robbert-2022-dutch-base
+    \item DTAI-KULeuven/robbert-2023-dutch-base
+    \item DTAI-KULeuven/robbert-2023-dutch-large
+\end{itemize}
 
 \section{Python Implementatie}
 
@@ -13,9 +21,9 @@ Alle code die in deze sectie wordt besproken, is beschikbaar in de volgende GitH
 
 \subsection{Vereisten en Setup}
 
-In deze sectie worden de vereiste bibliotheken en hun versies besproken die nodig zijn voor de implementatie van de proof of concept in Python. Daarnaast beschrijven we het utility-bestand dat zorgt voor consistent gedrag tussen de scripts.
+In deze sectie worden de vereiste bibliotheken en hun versies besproken voor de implementatie van de proof of concept in Python. Daarnaast beschrijven we het utility-bestand dat zorgt voor consistent gedrag tussen de scripts.
 
-Voor het uitvoeren van de scripts en het installeren van de benodigde bibliotheken wordt Python versie 3.11.5 gebruikt. Het is van cruciaal belang om deze versie te hanteren om ervoor te zorgen dat de scripts correct functioneren. De vereiste bibliotheken zijn gedefinieerd in het \texttt{requirements.txt}-bestand, zoals weergegeven in codefragment \ref{lst:requirements}. 
+Voor het uitvoeren van de scripts en het installeren van de benodigde bibliotheken wordt Python versie \texttt{3.11.5} gebruikt. Het is van cruciaal belang om deze versie te hanteren om ervoor te zorgen dat de scripts correct functioneren. De vereiste bibliotheken zijn gedefinieerd in het \texttt{requirements.txt}-bestand, zoals weergegeven in codefragment \ref{lst:requirements}. 
 
 \begin{listing} [ht]
     \begin{minted}{text}
@@ -145,12 +153,122 @@ Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de v
 \end{listing}
 
 \subsection{Reproductie met High-Level Pipeline}
-In deze fase bespreken we het eerste script waarin \gls{robbert} wordt gebruikt. Zoals eerder vermeld, maken we hierbij gebruik van de high-level \glsxtrshort{api} van \gls{huggingface}, genaamd pipelines. Dit script vormde de basis voor verdere ontwikkeling en testing \autocite{HuggingFace2024Pipe}.
 
+In deze fase bespreken we het eerste script waarin \gls{robbert} wordt gebruikt. Zoals eerder vermeld, maken we hierbij gebruik van de high-level \glsxtrshort{api} van \gls{huggingface}, genaamd pipelines. Dit script vormde de basis voor verdere ontwikkeling en testing.
 
+Het script \texttt{main.py}, zoals weergegeven in de codefragmenten \ref{lst:main-part1} en \ref{lst:main-part2}, voert \glsxtrshort{mlm} uit met behulp van de Transformers pipeline op verschillende \gls{robbert}-modellen. Het script maakt gebruik van de \texttt{pipeline} functionaliteit van \gls{huggingface} om modellen eenvoudig te laden en inferentie uit te voeren. Dit vormt een efficiënte manier om gemaskeerde woorden te voorspellen in vooraf bepaalde zinnen.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{python}
+        # main.py
+        import logging
+        import timeit
+        from transformers import pipeline
+        from utils import preprocess_input, get_sentences
+        
+        # Set up logging
+        logging.basicConfig(level=logging.INFO)
+        
+        def set_log_level(log_level):
+        """Set the logging level."""
+        logging.getLogger().setLevel(log_level)
+        
+        def run_inference(sentence, pipe):
+        """Process sentence with mask, predict masked word."""
+        if "<mask>" not in sentence:
+        logging.debug("No mask token found in the sentence.")
+        return
+        return pipe(sentence)[0]
+        
+        def main(model_path):
+        """Main function to process sentences with the specified model."""
+        logging.info("========================================")
+        
+        # Load the model
+        pipe = pipeline("fill-mask", model=model_path)
+        logging.info(f"Model loaded: {model_path}")
+        
+        # Example sentences
+        sentences = get_sentences()
+        
+        start_total_time = timeit.default_timer()
+        for sentence in sentences:
+        masked_sentence, _ = preprocess_input(sentence)
+        start_time = timeit.default_timer()
+        output = run_inference(masked_sentence, pipe)
+        elapsed_time = timeit.default_timer() - start_time
+        logging.info(f"Original sentence: {sentence}")
+        logging.info(f"Processed sentence: {masked_sentence}")
+        logging.info(f"Prediction: {output}")
+        logging.info(f"Elapsed time: {elapsed_time:.3f} seconds\n")
+        logging.info("")
+        
+        total_time = timeit.default_timer() - start_total_time
+        logging.info(f"Total elapsed time: {total_time:.3f} seconds")
+        logging.info("Average time per sentence: {:.3f} seconds".format(total_time / len(sentences)))
+    \end{minted}
+    \caption[\texttt{main.py} (deel 1)]{Het eerste deel van \texttt{main.py} definieert de functies die nodig zijn voor het uitvoeren van \glsxtrshort{mlm}. Het script laadt modellen en verwerkt zinnen met behulp van de \texttt{pipeline} functionaliteit van \gls{huggingface}. De belangrijkste functies zijn \texttt{run\_inference}, die voorspellingen doet voor gemaskeerde woorden, en \texttt{main}, die de zinnen ophaalt, modellen laadt, en de totale verwerkingstijd registreert.}
+    \label{lst:main-part1}
+\end{listing}
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{python}
+        # main.py
+        if __name__ == '__main__':
+        """
+        This script performs masked language modeling using the Transformers pipeline
+        on various Dutch BERT models. It provides a simple way to load and run inference
+        using the high-level pipeline API.
+        
+        Key features:
+        1. Uses Transformers pipeline for easy model loading and inference
+        2. Supports multiple Dutch BERT models
+        3. Preprocesses input sentences to include a mask token
+        4. Runs inference to predict masked words
+        5. Provides logging of original sentences, processed sentences, and predictions
+        
+        Usage:
+        Run the script to process a set of predefined sentences with different Dutch
+        BERT models using the Transformers pipeline.
+        
+        Models used:
+        - DTAI-KULeuven/robbertje-1-gb-non-shuffled5
+        - pdelobelle/robbert-v2-dutch-base
+        - DTAI-KULeuven/robbert-2022-dutch-base
+        - DTAI-KULeuven/robbert-2023-dutch-base
+        - DTAI-KULeuven/robbert-2023-dutch-large
+        """
+        
+        # Uncomment to set debug logging
+        # set_log_level(logging.DEBUG)
+        
+        # Process sentences with different models
+        main("DTAI-KULeuven/robbertje-1-gb-non-shuffled")
+        main("pdelobelle/robbert-v2-dutch-base")
+        main("DTAI-KULeuven/robbert-2022-dutch-base")
+        main("DTAI-KULeuven/robbert-2023-dutch-base")
+        main("DTAI-KULeuven/robbert-2023-dutch-large")
+    \end{minted}
+    \caption[\texttt{main.py} (deel 2)]{Het tweede deel van \texttt{main.py} voert de hoofdtoepassing uit, waarbij gebruik wordt gemaakt van een lijst met vooraf gedefinieerde modellen. Dit gedeelte initialiseert het script door verschillende \gls{robbert}-modellen te testen en de inferentie uit te voeren op de vooraf bepaalde zinnen. Het documenteert de kernfuncties en gebruiksinstructies in de \texttt{docstring} voor verduidelijking en instructies.}
+    \label{lst:main-part2}
+\end{listing}
+
+Het script begint met het instellen van logging via de \texttt{logging} module om inzicht te geven in de verwerkingsstappen en resultaten. De functie \texttt{set\_log\_level} maakt het mogelijk om het logniveau aan te passen, wat nuttig is voor het controleren van gedetailleerde uitvoer tijdens het debuggen.
+
+De kern van het script is de \texttt{main} functie, die verantwoordelijk is voor het verwerken van zinnen met een gespecificeerd model. Binnen deze functie wordt eerst het model geladen met behulp van de \texttt{pipeline} \glsxtrshort{api} van \gls{huggingface}, wat het eenvoudig maakt om verschillende modellen te gebruiken door enkel het pad naar het model te specificeren.
+
+Vervolgens haalt de functie \texttt{get\_sentences} een lijst op van voorbeeldzinnen die zullen worden gebruikt voor inferentie. Elke zin wordt voorbewerkt met de \texttt{preprocess\_input} functie, die het masker token in de zin plaatst en de positie ervan identificeert. Dit is cruciaal voor \gls{robbert} om de juiste voorspellingen te kunnen maken.
+
+De functie \texttt{run\_inference} neemt de gemaskeerde zin en het geladen model om het gemaskeerde woord te voorspellen. Het controleert of er een \texttt{<mask>} token aanwezig is; zo niet, dan wordt een debugbericht gelogd en wordt de functie beëindigd zonder inferentie. Voor zinnen met een \texttt{<mask>} token retourneert het de topvoorspelling.
+
+Het script meet de tijd die nodig is om elke zin te verwerken, evenals de totale verwerkingstijd voor alle zinnen. Dit gebeurt met de \texttt{timeit} module, die helpt bij het vastleggen van prestatiemetrics die nuttig zijn voor analyse.
+
+Tot slot biedt het script flexibiliteit door meerdere modellen te ondersteunen. Dit maakt het mogelijk om de prestaties van verschillende modellen te vergelijken en te testen binnen dezelfde structuur. De uitvoer wordt gelogd, inclusief de originele en gemaskeerde zinnen, de voorspelde woorden en de benodigde tijd voor elke inferentie.
+
+Dit script is een essentieel onderdeel van het proof of concept, aangezien het de mogelijkheden van \gls{robbert}-modellen demonstreert met behulp van de high-level pipeline \glsxtrshort{api} van \gls{huggingface}. Het is de basis voor verdere ontwikkeling en evaluatie van de komende integraties. Houd er rekening mee dat dit script een internetverbinding vereist om de \glsxtrshort{api} te kunnen gebruiken.
 
 \subsection{Transformer Bibliotheek: Low-Level API}
-In dit script maken we gebruik van de Transformer-bibliotheek van \gls{huggingface} op een lower-level. Dit script verschilt enigszins van het eerste script, dat de high-level \glsxtrshort{api} via pipelines benutte. Door over te stappen naar een lower-level benadering, krijgen we beter inzicht in de interne werking van de \gls{huggingface} pipeline, wat de overgang naar TensorFlow Lite (\glsxtrshort{tflite}) vergemakkelijkt \autocite{HuggingFace2024Transformers}.
+In dit script maken we gebruik van de Transformer-bibliotheek van \gls{huggingface} op een lower-level. Dit script verschilt enigszins van het eerste script, dat de high-level \glsxtrshort{api} via pipelines benutte. Door over te stappen naar een lower-level benadering, krijgen we beter inzicht in de interne werking van de \gls{huggingface} pipeline, wat de overgang naar TensorFlow Lite (\glsxtrshort{tflite}) vergemakkelijkt. 
 
 
 
