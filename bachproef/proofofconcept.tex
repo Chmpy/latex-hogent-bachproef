@@ -459,10 +459,130 @@ De scripts maken gebruik van HuggingFace's \texttt{optimum-cli} om de modellen t
 Door deze conversie krijgen we een veelzijdige set modellen die kunnen worden geëvalueerd op zowel snelheid als nauwkeurigheid, afhankelijk van de behoeften van de toepassing en de beschikbaarheid van hardwarebronnen.
 
 \subsection{Implementatie van TFLite Model in Python}
-Deze sectie beschrijft de implementatie van de geconverteerde \glsxtrshort{tflite}-modellen in een Python-script dat de \glsxtrshort{tflite} interpreter \glsxtrshort{api} gebruikt. Het script voert inferenties uit met deze modellen en maakt gebruik van een aangepaste tokenizer voor de verwerking van invoertekst.
 
+Deze sectie beschrijft de implementatie van de geconverteerde \glsxtrshort{tflite}-modellen in een Python-script dat de \glsxtrshort{tflite} interpreter \glsxtrshort{api} gebruikt. Het script voert inferenties uit met deze modellen en maakt gebruik van een eigen tokenizer voor de verwerking van invoertekst.
 
+Het \texttt{tflite-main.py} script, zoals weergegeven in de codefragmenten \ref{lst:tflite-main-part1}, \ref{lst:tflite-main-part2} en \ref{lst:tflite-main-part3}, demonstreert de werking van de \glsxtrshort{tflite} modellen. In tegenstelling tot het \texttt{tf-main.py} script, dat gebruikmaakt van de volledige Transformer-bibliotheek, biedt dit script een meer gelijkaardige benadering voor inferentie op mobiele apparaten.
 
+\begin{listing}
+    \begin{minted}[fontsize=\small]{python}
+        # tflite-main.py
+        import json
+        import logging
+        import re
+        import timeit
+        
+        import numpy as np
+        import tensorflow as tf
+        from tf_keras.src.utils import pad_sequences
+        
+        from utils import preprocess_input, get_top_predictions, get_sentences
+        
+        # Set up logging
+        logging.basicConfig(level=logging.INFO)
+        
+        def set_log_level(log_level):
+            """Set the logging level."""
+            logging.getLogger().setLevel(log_level)
+        
+        def load_model(model_path):
+            """Load and initialize the TFLite model."""
+            interpreter = tf.lite.Interpreter(model_path=model_path)
+            interpreter.allocate_tensors()
+            signatures = interpreter.get_signature_list()
+            logging.debug(f"Model signatures: {signatures}")
+            return interpreter
+        
+        def tokenize(sentence, vocab):
+            """Tokenize the input sentence using the provided vocabulary."""
+            mask_token_id = vocab.get('<mask>', vocab.get('<unk>'))
+            # Split the sentence on word boundaries and punctuation, but keep <mask> intact
+            split_sentence = re.findall(r'<mask>|\w+|[^\w\s]', sentence, re.UNICODE)
+            logging.debug(f'Split sentence: {split_sentence}')
+            tokenized_sentence = []
+            for token in split_sentence:
+                if token == '<mask>':
+                    tokenized_sentence.append(mask_token_id)
+                elif re.match(r'[^\w\s]', token):
+                    tokenized_sentence.append(vocab.get('Ġ', vocab.get('<unk>')))
+                    tokenized_sentence.append(vocab.get(token, vocab.get('<unk>')))
+                else:
+                    tokenized_sentence.append(vocab.get('Ġ' + token, vocab.get('<unk>')))
+            
+            return tokenized_sentence
+    \end{minted}
+    \caption[\texttt{tflite-main.py} (deel 1)]{Het eerste deel van \texttt{tflite-main.py} laadt en initialiseert de \glsxtrshort{tflite}-modellen en implementeert een aangepaste tokenization methode. Deze methode maakt gebruik van een woordenschatbestand om invoerzinnen te tokeniseren, wat cruciaal is voor de compatibiliteit met de modellen.}
+    \label{lst:tflite-main-part1}
+\end{listing}
+
+In het \texttt{tflite-main.py} script moet de tokenisatie handmatig worden uitgevoerd met de \texttt{tokenize} functie, in plaats van automatisch te worden afgehandeld door de Transformer-bibliotheek zoals in het \texttt{tf-main.py} script. Deze aanpak geeft meer controle over de manier waarop de invoerdata wordt geprepareerd voor inferentie. Daarom verschilt het script ook in de manier waarop data wordt voorbereid, inclusief de toevoeging van padding, start- en eindtokens, en de creatie van de \gls{attentionmask}.
+Het \texttt{tflite-main.py} script verschilt verder van het \texttt{tf-main.py} script doordat het gebruikmaakt van de \glsxtrshort{tflite} specifieke stappen voor inferentie, waar de \glspl{tensor} manueel ingesteld worden. De functie \texttt{run\_inference} in \ref{lst:tflite-main-part2} voert het model uit via de \glsxtrshort{tflite} interpreter. Daarnaast is het belangrijk op te merken dat dit script geen internetverbinding vereist, aangezien de modellen al lokaal zijn opgeslagen na conversie.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{python}
+        # tflite-main.py
+        def run_inference(interpreter, input_ids, attention_mask):
+            """Run inference using the TFLite interpreter."""
+            input_details = interpreter.get_input_details()
+            output_details = interpreter.get_output_details()
+            logging.debug(f"Input details: {input_details}")
+            logging.debug(f"Output details: {output_details}")
+            interpreter.set_tensor(input_details[0]['index'], attention_mask)
+            interpreter.set_tensor(input_details[1]['index'], input_ids)
+            interpreter.invoke()
+            return interpreter.get_tensor(output_details[0]['index'])
+    \end{minted}
+    \caption[\texttt{tflite-main.py} (deel 2)]{Het tweede deel van \texttt{tflite-main.py} behandelt de uitvoering van inferentie met de \glsxtrshort{tflite} interpreter, waarbij de invoer en uitvoer handmatig worden ingesteld via de \glspl{tensor}.}
+    \label{lst:tflite-main-part2}
+\end{listing}
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{python}
+        # tflite-main.py
+        def main(model_dir=None):
+            """Main function to process sentences with the specified TFLite model."""
+            model_path = model_dir + '/model.tflite'
+            vocab_path = model_dir + '/vocab.json'
+            
+            sentences = get_sentences()
+            
+            # Load vocabulary and model
+            with open(vocab_path, 'r') as f:
+                vocab = json.load(f)
+            interpreter = load_model(model_path)
+            logging.info(f"Model loaded: {model_path}")
+            
+            for input_sentence in sentences:
+                # Preprocess and tokenize input
+                processed_sentence, mask_position = preprocess_input(input_sentence)
+                saved_processed_sentence = processed_sentence
+                processed_sentence = tokenize(processed_sentence, vocab)
+                
+                # Prepare input for inference
+                processed_sentence = [vocab['<s>']] + processed_sentence + [vocab['</s>']]
+                processed_sentence = pad_sequences([processed_sentence], maxlen=128, dtype='int64', value=1, padding='post',
+                truncating='post')
+                input_ids = np.array(processed_sentence, dtype=np.int64)
+                attention_mask = np.ones_like(input_ids)
+                
+                # Run inference and get top predictions
+                if mask_position is not None:
+                    output = run_inference(interpreter, input_ids, attention_mask)
+                    top_words = get_top_predictions(output, vocab, mask_position)
+                    
+                    for word in top_words[:3]:  # Use top 3 predictions
+                        output_sentence = saved_processed_sentence.replace('<mask>', word)
+                        logging.info(f'Output sentence: {output_sentence}')
+                        
+                else:
+                    logging.info('No mask token found in the input sentence.')
+    \end{minted}
+    \caption[\texttt{tflite-main.py} (deel 3)]{Het derde deel van \texttt{tflite-main.py} voert de hoofdtoepassing uit, waarbij elke zin wordt verwerkt met behulp van de \glsxtrshort{tflite} interpreter. Het script legt de nadruk op het voorbereiden van de input met behulp van de aangepaste tokenizer en de \glsxtrshort{tflite} specifieke inferentie stappen. Debug- en tijdlogging is verwijderd voor compactheid.}
+    \label{lst:tflite-main-part3}
+\end{listing}
+
+Dit script biedt een alternatieve benadering voor het uitvoeren van inferenties die dichter aanliggen bij de werking van dat op Android. Het uitvoerblok van het script \texttt{tflite-main.py}, dat normaal begint met \texttt{if \_\_name\_\_ == '\_\_main\_\_':}, is weggelaten om herhaling te vermijden. Dit deel roept de hoofdprogramma's aan en zorgt ervoor dat alle benodigde modellen worden verwerkt, vergelijkbaar met het vorige script.
+Debug- en tijdlogging is verwijderd voor \ref{lst:tflite-main-part3} om de code compacter te maken en te laten passen in het document zonder verlies van overzicht.
 
 \section{Android Implementatie}
 
