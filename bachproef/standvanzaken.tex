@@ -290,15 +290,3 @@ Een minder intensieve optie is het gebruik van de \gls{processtextintent}. Hierm
 \subsection{Conclusie}
 
 Elke methode van integratie van \glsxtrshort{tflite} in een Android-applicatie heeft zijn eigen set van voordelen en nadelen. De keuze hangt af van de specifieke behoeften en beperkingen van de toepassing. Hoewel een \glsxtrshort{ime} directe interactie met de gebruiker biedt, kan de complexiteit ervan een barrière vormen. \Gls{services} bieden achtergrondverwerking, maar kunnen ingewikkelder zijn om te implementeren. De \gls{processtextintent} biedt een eenvoudige en efficiënte manier om tekst te verwerken, maar mist de directe interactie van een \glsxtrshort{ime}. Bij het kiezen van de beste aanpak moet rekening worden gehouden met de specifieke gebruiksscenario's en prestatievereisten van de applicatie.
-
-\begin{listing} [ht]
-    \begin{minted}{python}
-        import pandas as pd
-        import seaborn as sns
-        
-        penguins = sns.load_dataset('penguins')
-        sns.relplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
-    \end{minted}
-    
-    \caption[Voorbeeld codefragment]{Voorbeeld van het invoegen van een codefragment.}
-\end{listing}

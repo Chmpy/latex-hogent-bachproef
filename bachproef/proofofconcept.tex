@@ -13,9 +13,136 @@ Alle code die in deze sectie wordt besproken, is beschikbaar in de volgende GitH
 
 \subsection{Vereisten en Setup}
 
-Deze sectie beschrijft de vereiste bibliotheken en hun versies die nodig zijn voor de implementatie van de proof of concept in Python, evenals het utility-bestand dat is geschreven om consistent gedrag over de scripts heen te realiseren.
+In deze sectie worden de vereiste bibliotheken en hun versies besproken die nodig zijn voor de implementatie van de proof of concept in Python. Daarnaast beschrijven we het utility-bestand dat zorgt voor consistent gedrag tussen de scripts.
 
+Voor het uitvoeren van de scripts en het installeren van de benodigde bibliotheken wordt Python versie 3.11.5 gebruikt. Het is van cruciaal belang om deze versie te hanteren om ervoor te zorgen dat de scripts correct functioneren. De vereiste bibliotheken zijn gedefinieerd in het \texttt{requirements.txt}-bestand, zoals weergegeven in codefragment \ref{lst:requirements}. 
 
+\begin{listing} [ht]
+    \begin{minted}{text}
+        # requirements.txt
+        transformers~=4.41.2
+        tensorflow~=2.16.2
+        torch~=2.3.1
+        optimum~=1.20.0
+        numpy~=1.26.4
+    \end{minted}
+    \caption[\texttt{requirements.txt}]{Het \texttt{requirements.txt}-bestand specificeert de versies van bibliotheken die nodig zijn om de scripts te draaien en zorgt voor de juiste compatibiliteit tussen de verschillende Python-pakketten.}
+    \label{lst:requirements}
+\end{listing}
+
+Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de verschillende scripts. Deze functies omvatten:
+
+\textbf{Voorbeeldzinnen}: De functie \texttt{get\_sentences} levert vooraf bepaalde zinnen aan elk script, zoals weergegeven in codefragment \ref{lst:getsentences}. Deze zinnen worden gebruikt voor het testen van de modellen en demonstreren correcte en incorrecte grammaticale structuren met betrekking tot de woorden "die" en "dat".
+
+\begin{listing}
+    \begin{minted}{python}
+        # utils.py
+        def get_sentences():
+        """Get example sentences."""
+        return [
+            "Ik heb een vriend die altijd te laat komt.",  # Correct
+            "Ik weet die ik het kan.",  # Incorrect
+            "Ik weet dat ik het kan.",  # Correct
+            "Daarom is het belangrijk, je moet goed opletten.",  # Incorrect
+            "Ik ken een man die altijd grapjes maakt.",  # Correct
+            "Ze heeft een jurk gekocht die perfect past.",  # Correct
+            "Er is een boek dat ik je echt kan aanraden.",  # Correct
+            "We bezochten een stad die bekend staat om haar architectuur.",  # Correct
+            "Hij las een artikel dat zijn mening veranderde.",  # Correct
+            "Ze vertelde over een ervaring die haar leven veranderde.",  # Correct
+            "Ik zag een film die mij aan het denken zette.",  # Correct
+            "Hij gebruikt een methode die zeer effectief is.",  # Correct
+            "Het kind dat in de tuin speelt, is mijn neefje.",  # Correct
+            "De vraag die ze stelde, was erg moeilijk.",  # Correct
+            "De beslissing dat hij maakte, was erg moeilijk.",  # Incorrect
+            "Dit is de laptop die ik wil kopen.",  # Correct
+            "Dit is de laptop dat ik wil kopen.",  # Incorrect
+            "Het project dat we gestart zijn, verloopt goed.",  # Correct
+            "De vrouw die je daar ziet, is mijn lerares.",  # Correct
+            "De resultaten dat we behaalden, waren indrukwekkend.",  # Incorrect
+            "De resultaten die we behaalden, waren indrukwekkend.",  # Correct
+            "De bloemen die je hebt meegenomen, zijn prachtig.",  # Correct
+            "De informatie dat hij gaf, was nuttig.",  # Incorrect
+            "De informatie die hij gaf, was nuttig.",  # Correct
+            "Het idee dat ze voorstelde, was briljant.",  # Correct
+            "Het idee die ze voorstelde, was briljant.",  # Incorrect
+            "De kat dat op het dak zit, is van ons.",  # Incorrect
+            "De kat die op het dak zit, is van ons.",  # Correct
+            "De film die we gisteren keken, was spannend.",  # Correct
+            "De auto dat ik gisteren zag, was heel mooi.",  # Incorrect
+        ]
+    \end{minted} 
+    \caption[\texttt{get\_sentences()}]{\texttt{get\_sentences()}: Deze functie levert een lijst van voorbeeldzinnen die correct en incorrect gebruik van "die" en "dat" illustreren. Deze zinnen worden gebruikt voor validatie en testing binnen de proof of concept.}
+    \label{lst:getsentences}
+\end{listing}
+
+\textbf{Preprocessing}: De functie \texttt{preprocess\_input} voert uniforme preprocessing uit voor het genereren van een maskeringstoken binnen een zin, zoals getoond in codefragment \ref{lst:preprocessinput}. Deze functie identificeert de positie van de maskeringstoken en vervangt "die" of "dat" door "<mask>", wat essentieel is voor de verwerking door het model.
+
+\begin{listing}
+    \begin{minted}{python}
+        # utils.py
+        def preprocess_input(sentence):
+        """
+        Mask 'die' or 'dat' in the input sentence.
+        
+        Args:
+        sentence (str): Input sentence.
+        
+        Returns:
+        tuple: (preprocessed sentence, mask position or None)
+        """
+        words = sentence.split()
+        mask_position = None
+        for i, word in enumerate(words):
+            if word.lower() in ['die', 'dat']:
+                words[i] = '<mask>'
+                mask_position = i
+                break
+        return ' '.join(words), mask_position
+    \end{minted}
+    \caption[\texttt{preprocess\_input(sentence)}]{\texttt{preprocess\_input(sentence)}: Deze functie voert preprocessing uit op de invoerzinnen door "die" of "dat" te vervangen met "<mask>". Het retourneert zowel de bewerkte zin als de positie van de maskeringstoken.}
+    \label{lst:preprocessinput}
+\end{listing}
+
+\textbf{Top Voorspellingen}: De functie \texttt{get\_top\_predictions} haalt de top voorspellingen op door \gls{softmax} toe te passen op de \glspl{logit} van het model, zoals weergegeven in codefragment \ref{lst:gettopk}. Dit zorgt voor de selectie van de beste voorspellingen op basis van de maskeringstoken en geeft de top \(k\) voorspelde woorden terug. De \glspl{logit} worden eerst omgezet in \glspl{tensor} voordat \gls{softmax} wordt toegepast, om de waarschijnlijkheden van voorspellingen te verkrijgen.
+
+\begin{listing}
+    \begin{minted}{python}
+        # utils.py
+        def get_top_predictions(logits, vocab, mask_position, top_k=5):
+        """
+        Get top-k predictions for the masked token.
+        
+        Args:
+        logits (numpy.ndarray or torch.Tensor): Model output logits
+        vocab (dict): Vocabulary dictionary
+        mask_position (int): Position of the mask token
+        top_k (int): Number of top predictions to return
+        
+        Returns:
+        list: Top-k predicted words
+        """
+        # Convert logits to tensor if it's not already
+        if not isinstance(logits, (tf.Tensor, torch.Tensor)):
+            logits = tf.convert_to_tensor(logits)
+        
+        # Get logits for the mask token
+        mask_token_logits = logits[0, mask_position + 1]
+        
+        # Apply softmax to calculate probabilities
+        if isinstance(logits, torch.Tensor):
+            probs = torch.nn.functional.softmax(mask_token_logits, dim=0)
+            top_indices = torch.topk(probs, k=top_k).indices.tolist()
+        else:
+            probs = tf.nn.softmax(mask_token_logits)
+            top_indices = tf.math.top_k(probs, k=top_k).indices.numpy()
+        
+        # Convert indices to words
+        return [list(vocab.keys())[list(vocab.values()).index(idx)] for idx in top_indices]
+    \end{minted}
+    \caption[\texttt{get\_top\_predictions(logits, vocab, mask\_position, top\_k=5)}]{\texttt{get\_top\_predictions(logits, vocab, mask\_position, top\_k=5)}: Deze functie zet de logit-uitvoer van het model om in \glspl{tensor} en past vervolgens \gls{softmax} toe om de waarschijnlijkheden van voorspellingen te berekenen. Het retourneert de top \(k\) voorspellingen op basis van de maskeringstoken en het vocabulaire.}
+    \label{lst:gettopk}
+\end{listing}
 
 \subsection{Reproductie met High-Level Pipeline}
 In deze fase bespreken we het eerste script waarin \gls{robbert} wordt gebruikt. Zoals eerder vermeld, maken we hierbij gebruik van de high-level \glsxtrshort{api} van \gls{huggingface}, genaamd pipelines. Dit script vormde de basis voor verdere ontwikkeling en testing \autocite{HuggingFace2024Pipe}.
