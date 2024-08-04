@@ -601,7 +601,7 @@ Om de modellen lokaal te gebruiken, plaatsen we handmatig een van de geconvertee
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\linewidth]{androidassets}
-    \caption{De \texttt{assets} map bevat het geconverteerde en gekwantiseerde model en het bijbehorende vocabulairebestand dat nodig is voor de inferentie op het apparaat.}
+    \caption[Assetmap met model en vocabulaire]{De \texttt{assets}-map bevat het geconverteerde en gekwantiseerde model en het bijbehorende vocabulairebestand, die essentieel zijn voor inferentie op het apparaat.}
     \label{fig:androidassets}
 \end{figure}
 
@@ -1065,7 +1065,7 @@ De \texttt{ProcessTextActivity} wordt geactiveerd wanneer een gebruiker tekst se
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{intentexample}
-    \caption{Voorbeeld van het gebruik van de \texttt{ProcessTextActivity} via \texttt{intents} van Android.}
+    \caption[Gebruik van \texttt{ProcessTextActivity} via \texttt{intents}]{Voorbeeld van het gebruik van de \texttt{ProcessTextActivity} om tekstverwerking te initiëren via \texttt{intents} van Android. Dit proces stelt de applicatie in staat om interacties tussen verschillende apps soepel te beheren.}
     \label{fig:intent-example}
 \end{figure}
 
@@ -1213,7 +1213,7 @@ De eerste methode betreft het gebruik van de high-level \gls{huggingface} pipeli
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{speedtest_pipeline_graph.png}
-    \caption{Inferentieprestatie van modellen met de \gls{huggingface} pipeline. De horizontale as toont de verschillende modellen, terwijl de verticale as de totale inferentietijd (in seconden) en de gemiddelde inferentietijd per zin weergeeft.}
+    \caption[Inferentieprestatie met \gls{huggingface} pipeline]{Inferentieprestatie van modellen met de \gls{huggingface} pipeline. De horizontale as toont de verschillende modellen, terwijl de verticale as de totale inferentietijd (in seconden) en de gemiddelde inferentietijd per zin weergeeft, wat inzicht geeft in de efficiëntie van elk model.}
     \label{fig:speedtest-pipeline-graph}
 \end{figure}
 
@@ -1226,7 +1226,7 @@ De tweede methode maakt gebruik van de low-level Transformer-bibliotheek, die me
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{speedtest_transformer_graph.png}
-    \caption{Inferentieprestatie van modellen met de low-level Transformer \glsxtrshort{api}. De horizontale as geeft de verschillende modellen weer, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) aangeeft.}
+    \caption[Inferentieprestatie met Transformer \glsxtrshort{api}]{Inferentieprestatie van modellen met de low-level Transformer \glsxtrshort{api}. De horizontale as geeft de verschillende modellen weer, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) aangeeft, waardoor de effectiviteit van deze benadering zichtbaar wordt.}
     \label{fig:speedtest-transformer-graph}
 \end{figure}
 
@@ -1239,7 +1239,7 @@ De \glsxtrshort{tflite} normale conversie wordt gepresenteerd in \autoref{fig:sp
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{speedtest_tflite_normal_graph.png}
-    \caption{Inferentieprestatie van modellen met de \glsxtrshort{tflite} normale conversie. De horizontale as toont de modellen, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) toont.}
+    \caption[Inferentieprestatie met \glsxtrshort{tflite} normale conversie]{Inferentieprestatie van modellen met de \glsxtrshort{tflite} normale conversie. De horizontale as toont de modellen, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) toont, waarmee de prestaties van de onbewerkte \glsxtrshort{tflite} modellen worden geanalyseerd.}
     \label{fig:speedtest-tflite-normal-graph}
 \end{figure}
 
@@ -1252,7 +1252,7 @@ De gekwantiseerde conversie met \glsxtrshort{tflite}, weergegeven in \autoref{fi
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{speedtest_tflite_quantized_graph.png}
-    \caption{Inferentieprestatie van modellen met de \glsxtrshort{tflite} gekwantiseerde conversie. De horizontale as toont de modellen, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) weergeeft.}
+    \caption[Inferentieprestatie met \glsxtrshort{tflite} gekwantiseerde conversie]{Inferentieprestatie van modellen met de \glsxtrshort{tflite} gekwantiseerde conversie. De horizontale as toont de modellen, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) weergeeft, waarmee de verbeteringen door kwantisering worden geëvalueerd.}
     \label{fig:speedtest-tflite-quantized-graph}
 \end{figure}
 
@@ -1265,7 +1265,7 @@ De evaluatie van de Android-applicatie met gekwantiseerde modellen wordt getoond
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{speedtest_android_quantized_graph.png}
-    \caption{Inferentieprestatie van de Android-applicatie met gekwantiseerde modellen. De horizontale as geeft de modellen weer, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) toont.}
+    \caption[Inferentieprestatie van de Android-applicatie met gekwantiseerde modellen]{Inferentieprestatie van de Android-applicatie met gekwantiseerde modellen. De horizontale as geeft de modellen weer, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) toont, wat inzicht biedt in de prestaties van de applicatie op mobiele apparaten.}
     \label{fig:speedtest-android-quantized-graph}
 \end{figure}
 
