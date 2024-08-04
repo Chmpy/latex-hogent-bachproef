@@ -907,8 +907,7 @@ De functie \texttt{getTopPredictions} (\ref{lst:get-top-predictions}) berekent d
             val probs = softmax(maskTokenLogits)
            
             // Get top-k indices
-            val topIndices = topKIndices(probs, topK)     
-            Log.d(TAG, "Top $topK indices: ${topIndices.contentToString()}")
+            val topIndices = topKIndices(probs, topK)
             
             // Convert indices to words
             val predictions = topIndices.map { index ->
@@ -917,7 +916,7 @@ De functie \texttt{getTopPredictions} (\ref{lst:get-top-predictions}) berekent d
             
             Log.d(TAG, "Top $topK predictions: $predictions")
             return predictions
-            }
+        }
         \end{minted}
     \caption[\texttt{getTopPredictions}]{De \texttt{getTopPredictions} functie berekent de top-\(k\) voorspellingen voor de gemaskeerde token door de \gls{logit}-uitvoer te verwerken en \gls{softmax} toe te passen om de waarschijnlijkheden te berekenen.}
     \label{lst:get-top-predictions}
@@ -1041,9 +1040,7 @@ De \texttt{MainActivity} (\ref{lst:main-activity-part1}, \ref{lst:main-activity-
                         Text("Top predictions: $result")
                         Text("New sentence: $newSentence")
                     }
-                    Button(onClick = {
-                        startSpeedTest()
-                    }) {
+                    Button(onClick = {startSpeedTest() }) {
                         Text("Speed Test")
                     }
                 }
