@@ -594,9 +594,9 @@ Alle code en functionaliteit die in deze sectie wordt besproken, is beschikbaar 
 
 \subsection{Compatibiliteit en Instellingen}
 
-In deze sectie bespreken we de specificaties van de Android-applicatie om compatibiliteit en consistentie met de eerder genoemde scripts en modellen te waarborgen. Het manifestbestand (\autoref{lst:android-manifest}) bevat de nodige instellingen om de applicatie correct te laten functioneren op mobiele apparaten. Hierin worden activiteiten zoals \texttt{ProcessTextActivity}, de bijhorende \texttt{intents} en \gls{services} zoals \texttt{SpeedTestService} gedefinieerd, wat essentieel is voor de verwerking en functionaliteit van de applicatie. 
-Daarnaast zorgt de \texttt{libs.versions.toml} file (\autoref{lst:libs-versions}) voor het beheren van consistente versies van bibliotheken in de gehele applicatie. Deze bevat de versie-informatie voor onze bibliotheken zoals \texttt{Kotlin}, \texttt{TensorFlow}, en \texttt{Compose}.
-Om de modellen lokaal te gebruiken, plaatsen we handmatig een van de geconverteerde en gekwantiseerde modellen en hun vocabulaire in de \texttt{assets} map van de Android-applicatie, zoals weergegeven in \ref{fig:androidassets}.
+In deze sectie bespreken we de specificaties van de Android-applicatie om compatibiliteit en consistentie met de eerder genoemde scripts en modellen te waarborgen. Het manifestbestand (\ref{lst:android-manifest}) bevat de nodige instellingen om de applicatie correct te laten functioneren op mobiele apparaten. Hierin worden activiteiten zoals \texttt{ProcessTextActivity}, de bijhorende \texttt{intents} en \gls{services} zoals \texttt{SpeedTestService} gedefinieerd, wat essentieel is voor de verwerking en functionaliteit van de applicatie. 
+Daarnaast zorgt de \texttt{libs.versions.toml} file (\ref{lst:libs-versions}) voor het beheren van consistente versies van bibliotheken in de gehele applicatie. Deze bevat de versie-informatie voor onze bibliotheken zoals \texttt{Kotlin}, \texttt{TensorFlow}, en \texttt{Compose}.
+Om de modellen lokaal te gebruiken, plaatsen we handmatig een van de geconverteerde en gekwantiseerde modellen en hun vocabulaire in de \texttt{assets} map van de Android-applicatie, zoals weergegeven in \autoref{fig:androidassets}.
 
 \begin{figure}[ht]
     \centering
@@ -954,7 +954,7 @@ De \texttt{MainActivity} (\ref{lst:main-activity-part1}, \ref{lst:main-activity-
                 }
             }
         \end{minted}
-        \caption[\texttt{MainActivity.kt} (deel 1)]{Het eerste deel van \texttt{MainActivity.kt} initialiseert het \glsxtrshort{tflite}-model en laadt het vocabulairebestand, met behulp van functies zoals \texttt{loadVocabulary} uit het utility-object \autoref{lst:load-vocabulary}.}
+        \caption[\texttt{MainActivity.kt} (deel 1)]{Het eerste deel van \texttt{MainActivity.kt} initialiseert het \glsxtrshort{tflite}-model en laadt het vocabulairebestand, met behulp van functies zoals \texttt{loadVocabulary} uit het utility-object \ref{lst:load-vocabulary}.}
         \label{lst:main-activity-part1}
     \end{listing}
     
@@ -1060,9 +1060,9 @@ In dit voorbeeld zijn \texttt{logging} en \texttt{Spacers} verwijderd om de code
 
 Als laatste binnen dit gedeelte behandelen we de implementatie van de \gls{processtextintent} binnen de Android-applicatie. Deze functionaliteit maakt het mogelijk om inferenties uit te voeren op tekst, zowel direct binnen de applicatie als via externe \texttt{intents}. De inferentieprocedure is gelijk aan die in de \texttt{MainActivity} (\ref{lst:main-activity-part2}), maar de gegevensverwerking verschilt enigszins vanwege het gebruik van \texttt{intents}. Deze aanpak verzekert dat de applicatie flexibel is en naadloos samenwerkt met andere apps op het Android-platform.
 
-De \texttt{ProcessTextActivity} wordt geactiveerd wanneer een gebruiker tekst selecteert en de optie "Inference" kiest, zoals weergegeven in \ref{fig:intent-example}. Dit stelt de gebruiker in staat om tekst uit andere applicaties te verwerken.
+De \texttt{ProcessTextActivity} wordt geactiveerd wanneer een gebruiker tekst selecteert en de optie "Inference" kiest, zoals weergegeven in \autoref{fig:intent-example}. Dit stelt de gebruiker in staat om tekst uit andere applicaties te verwerken.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{intentexample}
     \caption{Voorbeeld van het gebruik van de \texttt{ProcessTextActivity} via \texttt{intents} van Android.}
@@ -1190,7 +1190,7 @@ De service, zoals eerder vermeld, wordt gestart vanuit de \texttt{MainActivity} 
             }
         }
     \end{minted}
-    \caption[\texttt{SpeedTestService.kt}]{De \texttt{SpeedTestService} voert batchverwerking en snelheidstesten uit voor het \glsxtrshort{tflite}-model, vergelijkbaar met de Python-scripts. De getoonde code is ingekort, maar functioneert op dezelfde manier als de activities in het project.}
+    \caption[\texttt{SpeedTestService.kt}]{De \texttt{SpeedTestService} voert snelheidstesten uit voor het \glsxtrshort{tflite}-model, vergelijkbaar met de Python-scripts. De getoonde code is ingekort, maar functioneert op dezelfde manier als de activities in het project.}
     \label{lst:speed-test-service}
 \end{listing}
 
@@ -1198,6 +1198,81 @@ In deze service worden zinnen verwerkt door middel van inferentie, de totale tij
 
 \section{Evaluatie en Vergelijking van Inferentie}
 
-Nu we alle code en implementaties hebben besproken, kunnen we overgaan tot de evaluatie en vergelijking van de prestaties van alle scripts en de Android-applicatie. In deze sectie richten we ons op de verschillen of overeenkomsten in hun prestaties en geven we inzicht in waarom deze prestatieverschillen mogelijk bestaan. We zullen enkele belangrijke bevindingen en relevante metingen delen om inzicht te geven in de effectiviteit van elk script en de applicatie.
+In deze sectie evalueren we de prestaties van de verschillende implementaties van de \gls{robbert}-modellen, zoals eerder beschreven. We vergelijken de inferentietijden van de high-level \gls{huggingface} pipeline, de low-level Transformer-bibliotheek, en de \glsxtrshort{tflite}-modellen in zowel hun normale als gekwantiseerde vormen. Daarnaast evalueren we de prestaties van de Android-applicatie die gebruikmaakt van de gekwantiseerde modellen. Deze vergelijkingen helpen ons inzicht te krijgen in de effectiviteit en efficiëntie van elke benadering en maken het mogelijk om de beste aanpak te kiezen op basis van specifieke toepassingsbehoeften.
 
+De evaluatie is uitgevoerd op de volgende apparaten:
+\begin{itemize}
+    \item \textbf{MacBookPro}: M3 Max-processor met 14 cores en 36 GB RAM.
+    \item \textbf{Nothing Phone(2)}: Qualcomm Snapdragon 8+ Gen1 processor met 14GB RAM.
+\end{itemize}
 
+\subsection{High-Level Pipeline Evaluatie}
+
+De eerste methode betreft het gebruik van de high-level \gls{huggingface} pipeline, die een gebruiksvriendelijke interface biedt voor het uitvoeren van modelinferences. Zoals weergegeven in \autoref{fig:speedtest-pipeline-graph}, toont de pipeline goede prestaties met redelijke inferentietijden voor alle modellen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{speedtest_pipeline_graph.png}
+    \caption{Inferentieprestatie van modellen met de \gls{huggingface} pipeline. De horizontale as toont de verschillende modellen, terwijl de verticale as de totale inferentietijd (in seconden) en de gemiddelde inferentietijd per zin weergeeft.}
+    \label{fig:speedtest-pipeline-graph}
+\end{figure}
+
+De grafiek laat zien dat de inferentietijden variëren per model, waarbij het model \texttt{robbert-2023-dutch-large} de hoogste totale tijd heeft. Dit komt doordat grotere modellen meer rekenkracht en tijd vereisen vanwege hun complexiteit. De pipeline biedt een goede balans tussen eenvoud en prestatie, waardoor het een aantrekkelijke keuze is voor veel toepassingen die geen controle over de inferentieprocessen vereisen.
+
+\subsection{Low-Level Transformer API Evaluatie}
+
+De tweede methode maakt gebruik van de low-level Transformer-bibliotheek, die meer controle over de modelverwerking mogelijk maakt. Zoals te zien in \autoref{fig:speedtest-transformer-graph}, zijn de prestaties van deze benadering vergelijkbaar met de pipeline, hoewel de inferentietijden iets hoger kunnen zijn.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{speedtest_transformer_graph.png}
+    \caption{Inferentieprestatie van modellen met de low-level Transformer \glsxtrshort{api}. De horizontale as geeft de verschillende modellen weer, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) aangeeft.}
+    \label{fig:speedtest-transformer-graph}
+\end{figure}
+
+De extra controle die de low-level \glsxtrshort{api} biedt, kan nuttig zijn voor optimalisaties, maar introduceert ook extra overhead die kan leiden tot langere verwerkingstijden. Desondanks blijft de low-level benadering een waardevolle optie voor toepassingen die specifieke eisen stellen aan de verwerking van modeldata.
+
+\subsection{TFLite Normale Conversie Evaluatie}
+
+De \glsxtrshort{tflite} normale conversie wordt gepresenteerd in \autoref{fig:speedtest-tflite-normal-graph}, waarin de modellen zijn geconverteerd naar een formaat dat geschikt is voor gebruik op mobiele apparaten. Deze aanpak is bedoeld om inferenties mogelijk te maken met beperkte middelen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{speedtest_tflite_normal_graph.png}
+    \caption{Inferentieprestatie van modellen met de \glsxtrshort{tflite} normale conversie. De horizontale as toont de modellen, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) toont.}
+    \label{fig:speedtest-tflite-normal-graph}
+\end{figure}
+
+Ons de mogelijkheid geeft om de modellen op apparaten te gebruiken met minder goede hardware zien we dat de inferentietijd langer kan zijn dan de Python-methoden door de aanpassingen van de modellen naar \glsxtrshort{tflite}.
+
+\subsection{TFLite Gekwantisserde Conversie Evaluatie}
+
+De gekwantiseerde conversie met \glsxtrshort{tflite}, weergegeven in \autoref{fig:speedtest-tflite-quantized-graph}, richt zich op het verkorten van inferentietijden door modellen te optimaliseren voor efficiënter gebruik van hardware.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{speedtest_tflite_quantized_graph.png}
+    \caption{Inferentieprestatie van modellen met de \glsxtrshort{tflite} gekwantiseerde conversie. De horizontale as toont de modellen, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) weergeeft.}
+    \label{fig:speedtest-tflite-quantized-graph}
+\end{figure}
+
+De gekwantiseerde modellen laten aanzienlijke verbeteringen zien in inferentietijden, vooral voor complexere modellen zoals \texttt{robbert-2023-dutch-large}. Kwantisering verlaagt de precisie van de berekeningen enigszins, wat de prestaties op hardware met beperkte middelen aanzienlijk verbetert.
+
+\subsection{Android Gekwantisserde Implementatie Evaluatie}
+
+De evaluatie van de Android-applicatie met gekwantiseerde modellen wordt getoond in \autoref{fig:speedtest-android-quantized-graph}. Deze implementatie maakt gebruik van de \glsxtrshort{tflite} gekwantiseerde modellen binnen een mobiele context.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{speedtest_android_quantized_graph.png}
+    \caption{Inferentieprestatie van de Android-applicatie met gekwantiseerde modellen. De horizontale as geeft de modellen weer, terwijl de verticale as de totale en gemiddelde inferentietijd (in seconden) toont.}
+    \label{fig:speedtest-android-quantized-graph}
+\end{figure}
+
+De resultaten tonen aan dat, hoewel de inferentietijden op Android langer zijn dan in een desktopomgeving. Dit komt door de beperking aan middelen van een mobiel apparaat in vergelijking met een desktop, bieden de gekwantiseerde modellen nog steeds aanzienlijke verbeteringen ten opzichte van hun niet-gekwantiseerde tegenhangers.
+
+\subsection{Conclusie en Aanbevelingen}
+
+Uit de evaluaties blijkt dat er aanzienlijke verschillen zijn in de prestaties van de diverse implementaties. De high-level \gls{huggingface} pipeline biedt gebruiksgemak en goede prestaties, terwijl de low-level benadering meer controle biedt ten koste van iets langere inferentietijden. \glsxtrshort{tflite}-modellen, vooral wanneer gekwantiseerd, bieden aanzienlijke voordelen voor mobiele toepassingen met beperkte middelen.
+
+De keuze voor een specifieke methode hangt af van de behoeften van de toepassing, zoals snelheid, nauwkeurigheid en resourcebeschikbaarheid. Toepassingen die eenvoud en snelle implementatie vereisen, profiteren waarschijnlijk van de pipelinebenadering, terwijl toepassingen die op mobiele apparaten moeten draaien baat kunnen hebben bij de \glsxtrshort{tflite}-optimalisaties.
