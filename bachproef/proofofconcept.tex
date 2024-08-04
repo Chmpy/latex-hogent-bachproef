@@ -355,7 +355,7 @@ In tegenstelling tot het high-level script, waarbij de \texttt{pipeline} functie
             logging.info(f"Total elapsed time: {total_time:.3f} seconds")
             logging.info("Average time per sentence: {:.3f} seconds".format(total_time / len(sentences)))
     \end{minted}
-    \caption[\texttt{tf-main.py} (deel 2)]{Het tweede deel van \texttt{tf-main.py} bevat \texttt{run\_inference}, waarbij elke zin wordt verwerkt met behulp van PyTorch tensors. Dit biedt meer controle over de uitvoer van het model en maakt gedetailleerde logging van voorspellingen en verwerkte zinnen mogelijk. Bovendien gebruiken we nu de functie \texttt{get\_top\_predictions} in combinatie met de softmax-functie om zelf de top voorspellingen te bepalen.}
+    \caption[\texttt{tf-main.py} (deel 2)]{Het tweede deel van \texttt{tf-main.py} bevat \texttt{run\_inference}, waarbij elke zin wordt verwerkt met behulp van PyTorch tensors. Dit biedt meer controle over de uitvoer van het model en maakt gedetailleerde \texttt{logging} van voorspellingen en verwerkte zinnen mogelijk. Bovendien gebruiken we nu de functie \texttt{get\_top\_predictions} in combinatie met de softmax-functie om zelf de top voorspellingen te bepalen.}
     \label{lst:low-level-main-part2}
 \end{listing}
 
@@ -928,9 +928,133 @@ Al deze functies zijn noodzakelijk om effectief het gedrag van de Python-scripts
 
 \subsection{Ontwikkeling van de Android-applicatie}
 
-Dit gedeelte beschrijft de ontwikkeling van de Android-applicatie, met de nadruk op de integratie van het \glsxtrshort{tflite}-model. De eerder ontwikkelde Python-code wordt omgezet voor gebruik op Android, met behulp van de \glsxtrlong{tflite} Android-bibliotheek om het model te integreren. De \texttt{MainActivity} fungeert als het centrale onderdeel van de applicatie, waar de inferentie met het \glsxtrshort{tflite}-model wordt uitgevoerd. De inferentieprocedure is consistent met die in de Python-implementatie, met aanvullende functionaliteiten voor Android-specifieke taken.
+In deze sectie beschrijven we de ontwikkeling van de Android-applicatie, met de nadruk op de integratie van het \glsxtrshort{tflite}-model. De eerder ontwikkelde Python-code wordt aangepast voor gebruik op Android. We maken gebruik van de \glsxtrlong{tflite} Android-bibliotheek om het model te integreren en uit te voeren binnen de \texttt{MainActivity}. Het utility-object, besproken in de vorige sectie, speelt een cruciale rol bij het bieden van consistente functionaliteit die overeenkomt met de Python-scripts.
 
+De \texttt{MainActivity} (\ref{lst:main-activity-part1}, \ref{lst:main-activity-part2} en \ref{lst:main-activity-part3}) fungeert als het centrale onderdeel van de applicatie, waar de inferentie met het \glsxtrshort{tflite}-model wordt uitgevoerd. Binnen de \texttt{MainActivity} worden de \texttt{TFLite}-modellen geladen en wordt het vocabulaire ingeladen via \texttt{loadVocabulary} (\ref{lst:load-vocabulary}). De activiteit is verantwoordelijk voor het voorbereiden van de invoer, uitvoeren van de model-inferentie en het verwerken van de resultaten, net zoals in de Python-scripts. Daarnaast verzorgt de \texttt{MainActivity} de integratie van de gebruikersinterface waarin gebruikers zinnen kunnen invoeren voor inferentie, en biedt het ook de mogelijkheid om snelheidsmetingen uit te voeren met de \texttt{SpeedTestService}.
 
+\begin{listing}[ht]
+    \begin{minted}[fontsize=\small]{kotlin}
+        // MainActivity.kt
+        class MainActivity : ComponentActivity() {
+            private lateinit var tflite: Interpreter
+            private lateinit var vocab: Map<String, Int>
+            private val MAX_SEQUENCE_LENGTH = 128
+            
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                
+                // Load the TFLite model and vocabulary
+                tflite = Interpreter(loadModelFile("model.tflite"))
+                vocab = Utils.loadVocabulary(this, "vocab.json")
+                
+                setContent {
+                    MaterialTheme {
+                        MainScreen(::performInference, ::startSpeedTestService)
+                    }
+                }
+            }
+        \end{minted}
+        \caption[\texttt{MainActivity.kt} (deel 1)]{Het eerste deel van \texttt{MainActivity.kt} initialiseert het \glsxtrshort{tflite}-model en laadt het vocabulairebestand, met behulp van functies zoals \texttt{loadVocabulary} uit het utility-object \autoref{lst:load-vocabulary}.}
+        \label{lst:main-activity-part1}
+    \end{listing}
+    
+    \begin{listing}[ht]
+        \begin{minted}[fontsize=\small]{kotlin}
+            // MainActivity.kt
+            private fun loadModelFile(modelName: String): MappedByteBuffer {
+                val fileDescriptor = assets.openFd(modelName)
+                val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+                val fileChannel = inputStream.channel
+                val startOffset = fileDescriptor.startOffset
+                val declaredLength = fileDescriptor.declaredLength
+                return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+            }
+            
+            private fun performInference(input: String): String {
+                val (processedInput, maskPosition) = Utils.preprocessInput(input)
+                if (maskPosition == null) {
+                    return "No mask token found in input"
+                }
+                var inputIds = Utils.tokenize(processedInput, vocab)
+                inputIds = listOf(vocab["<s>"] ?: 0) + inputIds + listOf(vocab["</s>"] ?: 0)
+                inputIds = Utils.padOrTruncate(inputIds, MAX_SEQUENCE_LENGTH, vocab["<pad>"] ?: 1)
+                val attentionMask = Utils.createAttentionMask(inputIds.size)
+                
+                val inputBuffer = LongBuffer.wrap(inputIds.map { it.toLong() }.toLongArray())
+                val maskBuffer = LongBuffer.wrap(attentionMask)
+                val outputBuffer = FloatBuffer.allocate(MAX_SEQUENCE_LENGTH * vocab.size)
+                
+                try {
+                    tflite.runForMultipleInputsOutputs(
+                    arrayOf(maskBuffer, inputBuffer),
+                    mapOf(0 to outputBuffer)
+                    )
+                } catch (e: Exception) {
+                    return "Error during inference: ${e.message}"
+                }
+                
+                var predictions = Utils.getTopPredictions(outputBuffer, vocab, maskPosition)
+                predictions = predictions.map { it.replace("Ġ", "") }
+                
+                return predictions.joinToString(", ")
+            }
+        \end{minted}
+        \caption[\texttt{MainActivity.kt} (deel 2)]{In dit tweede deel van \texttt{MainActivity.kt} worden functies zoals \texttt{performInference} gedefinieerd. Deze functie gebruikt methoden zoals \texttt{preprocessInput} en \texttt{tokenize} uit het utility-object om de invoerdata voor te bereiden.}
+        \label{lst:main-activity-part2}
+    \end{listing}
+    
+    \begin{listing}[ht]
+        \begin{minted}[fontsize=\small]{kotlin}
+            // MainActivity.kt
+            private fun startSpeedTestService() {
+                val intent = Intent(this, SpeedTestService::class.java)
+                startService(intent)
+            }
+            @Composable
+            fun MainScreen(onInference: (String) -> String, startSpeedTest: () -> Unit) {
+                var input by remember { mutableStateOf("") }
+                var result by remember { mutableStateOf("") }
+                var newSentence by remember { mutableStateOf("") }
+                
+                fun getTopPrediction(input: String, prediction: String, maskPosition: Int): String {
+                    if (maskPosition == 0) return ""
+                    val words = input.split(" ")
+                    val updatedWords = words.toMutableList()
+                    updatedWords[maskPosition] = prediction.split(", ").first()
+                    return updatedWords.joinToString(" ")
+                }
+                Column(modifier = Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    TextField(
+                    value = input,
+                    onValueChange = { input = it },
+                    label = { Text("Enter a sentence") },
+                    modifier = Modifier.fillMaxWidth()
+                    )
+                    Button(onClick = {
+                        result = onInference(input)
+                        val (_, maskPosition) = Utils.preprocessInput(input)
+                        newSentence = getTopPrediction(input, result, maskPosition ?: 0)
+                    }) {
+                        Text("Perform Inference")
+                    }
+                    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
+                        Text("Top predictions: $result")
+                        Text("New sentence: $newSentence")
+                    }
+                    Button(onClick = {
+                        startSpeedTest()
+                    }) {
+                        Text("Speed Test")
+                    }
+                }
+            }
+        }
+    \end{minted}
+    \caption[\texttt{MainActivity.kt} (deel 3)]{Het laatste deel van \texttt{MainActivity.kt} omvat de gebruikersinterface en de functie \texttt{MainScreen}, waarin gebruikers interacties zoals het starten van de inferentie en snelheids testen worden afgehandeld.}
+    \label{lst:main-activity-part3}
+\end{listing}
+
+In dit voorbeeld zijn \texttt{logging} en \texttt{Spacers} verwijderd om de code compact te houden en gericht te laten zijn op de kernfunctionaliteit van de applicatie. De functies in \texttt{MainActivity} maken gebruik van de functionaliteit geboden door het utility-object, zoals \texttt{preprocessInput} (\ref{lst:preprocess-input}), \texttt{tokenize} (\ref{lst:tokenize}), en \texttt{getTopPredictions} (\ref{lst:get-top-predictions}), om een consistente en efficiënte uitvoering te garanderen.
 
 \subsection{Integratie met Process Text Intent}
 
