@@ -40,9 +40,10 @@ Voor het uitvoeren van de scripts en het installeren van de benodigde bibliothek
 
 Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de verschillende scripts. Deze functies omvatten:
 
-\textbf{Voorbeeldzinnen}: De functie \texttt{get\_sentences} levert vooraf bepaalde zinnen aan elk script, zoals weergegeven in codefragment \ref{lst:getsentences}. Deze zinnen worden gebruikt voor het testen van de modellen en demonstreren correcte en incorrecte grammaticale structuren met betrekking tot de woorden "die" en "dat".
+\subsubsection{Voorbeeldzinnen}
+De functie \texttt{get\_sentences} levert vooraf bepaalde zinnen aan elk script, zoals weergegeven in codefragment \ref{lst:getsentences}. Deze zinnen worden gebruikt voor het testen van de modellen en demonstreren correcte en incorrecte grammaticale structuren met betrekking tot de woorden "die" en "dat".
 
-\begin{listing} 
+\begin{listing}
     \begin{minted}[fontsize=\small]{python}
         # utils.py
         def get_sentences():
@@ -80,13 +81,14 @@ Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de v
                 "De auto dat ik gisteren zag, was heel mooi.",  # Incorrect
             ]
     \end{minted} 
-    \caption[\texttt{get\_sentences()}]{\texttt{get\_sentences()}: Deze functie levert een lijst van voorbeeldzinnen die correct en incorrect gebruik van "die" en "dat" illustreren. Deze zinnen worden gebruikt voor validatie en testing binnen de proof of concept.}
+    \caption[\texttt{get\_sentences}]{\texttt{get\_sentences}: Deze functie levert een lijst van voorbeeldzinnen die correct en incorrect gebruik van "die" en "dat" illustreren. Deze zinnen worden gebruikt voor validatie en testing binnen de proof of concept.}
     \label{lst:getsentences}
 \end{listing}
 
-\textbf{Preprocessing}: De functie \texttt{preprocess\_input} voert uniforme preprocessing uit voor het genereren van een maskeringstoken binnen een zin, zoals getoond in codefragment \ref{lst:preprocessinput}. Deze functie identificeert de positie van de maskeringstoken en vervangt "die" of "dat" door "<mask>", wat essentieel is voor de verwerking door het model.
+\subsubsection{Preprocessing}
+De functie \texttt{preprocess\_input} voert uniforme preprocessing uit voor het genereren van een maskeringstoken binnen een zin, zoals getoond in codefragment \ref{lst:preprocessinput}. Deze functie identificeert de positie van de maskeringstoken en vervangt "die" of "dat" door "<mask>", wat essentieel is voor de verwerking door het model.
 
-\begin{listing} [ht]
+\begin{listing}
     \begin{minted}[fontsize=\small]{python}
         # utils.py
         def preprocess_input(sentence):
@@ -108,14 +110,15 @@ Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de v
                     break
             return ' '.join(words), mask_position
     \end{minted}
-    \caption[\texttt{preprocess\_input(sentence)}]{\texttt{preprocess\_input(sentence)}: Deze functie voert preprocessing uit op de invoerzinnen door "die" of "dat" te vervangen met "<mask>". Het retourneert zowel de bewerkte zin als de positie van de maskeringstoken.}
+    \caption[\texttt{preprocess\_input}]{\texttt{preprocess\_input}: Deze functie voert preprocessing uit op de invoerzinnen door "die" of "dat" te vervangen met "<mask>". Het retourneert zowel de bewerkte zin als de positie van de maskeringstoken.}
     \label{lst:preprocessinput}
 \end{listing}
 
-\textbf{Top Voorspellingen}: De functie \texttt{get\_top\_predictions} haalt de top voorspellingen op door \gls{softmax} toe te passen op de \glspl{logit} van het model, zoals weergegeven in codefragment \ref{lst:gettopk}. Dit zorgt voor de selectie van de beste voorspellingen op basis van de maskeringstoken en geeft de top \(k\) voorspelde woorden terug. De \glspl{logit} worden eerst omgezet in \glspl{tensor} voordat \gls{softmax} wordt toegepast, om de waarschijnlijkheden van voorspellingen te verkrijgen.
+\subsubsection{Top Voorspellingen}
+De functie \texttt{get\_top\_predictions} haalt de top voorspellingen op door \gls{softmax} toe te passen op de \glspl{logit} van het model, zoals weergegeven in codefragment \ref{lst:gettopk}. Dit zorgt voor de selectie van de beste voorspellingen op basis van de maskeringstoken en geeft de top \(k\) voorspelde woorden terug. De \glspl{logit} worden eerst omgezet in \glspl{tensor} voordat \gls{softmax} wordt toegepast, om de waarschijnlijkheden van voorspellingen te verkrijgen.
 
 \begin{listing}
-    \begin{minted}{python}
+    \begin{minted}[fontsize=\small]{python}
         # utils.py
         def get_top_predictions(logits, vocab, mask_position, top_k=5):
             """
@@ -148,7 +151,7 @@ Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de v
             # Convert indices to words
             return [list(vocab.keys())[list(vocab.values()).index(idx)] for idx in top_indices]
     \end{minted}
-    \caption[\texttt{get\_top\_predictions(logits, vocab, mask\_position, top\_k=5)}]{\texttt{get\_top\_predictions(logits, vocab, mask\_position, top\_k=5)}: Deze functie zet de logit-uitvoer van het model om in \glspl{tensor} en past vervolgens \gls{softmax} toe om de waarschijnlijkheden van voorspellingen te berekenen. Het retourneert de top \(k\) voorspellingen op basis van de maskeringstoken en het vocabulaire.}
+    \caption[\texttt{get\_top\_predictions}]{\texttt{get\_top\_predictions}: Deze functie zet de logit-uitvoer van het model om in \glspl{tensor} en past vervolgens \gls{softmax} toe om de waarschijnlijkheden van voorspellingen te berekenen. Het retourneert de top \(k\) voorspellingen op basis van de maskeringstoken en het vocabulaire.}
     \label{lst:gettopk}
 \end{listing}
 
@@ -518,6 +521,7 @@ Het \texttt{tflite-main.py} script, zoals weergegeven in de codefragmenten \ref{
 In het \texttt{tflite-main.py} script moet de tokenisatie handmatig worden uitgevoerd met de \texttt{tokenize} functie, in plaats van automatisch te worden afgehandeld door de Transformer-bibliotheek zoals in het \texttt{tf-main.py} script. Deze aanpak geeft meer controle over de manier waarop de invoerdata wordt geprepareerd voor inferentie. Daarom verschilt het script ook in de manier waarop data wordt voorbereid, inclusief de toevoeging van padding, start- en eindtokens, en de creatie van de \gls{attentionmask}.
 Het \texttt{tflite-main.py} script verschilt verder van het \texttt{tf-main.py} script doordat het gebruikmaakt van de \glsxtrshort{tflite} specifieke stappen voor inferentie, waar de \glspl{tensor} manueel ingesteld worden. De functie \texttt{run\_inference} in \ref{lst:tflite-main-part2} voert het model uit via de \glsxtrshort{tflite} interpreter. Daarnaast is het belangrijk op te merken dat dit script geen internetverbinding vereist, aangezien de modellen al lokaal zijn opgeslagen na conversie.
 
+
 \begin{listing}
     \begin{minted}[fontsize=\small]{python}
         # tflite-main.py
@@ -586,13 +590,341 @@ Debug- en tijdlogging is verwijderd voor \ref{lst:tflite-main-part3} om de code 
 
 \section{Android Implementatie}
 
-Alle code en functionaliteit die in deze sectie wordt besproken, is beschikbaar in de volgende GitHub-repository: \url{https://github.com/Chmpy/RobBERT_local_Android_example}. Deze repository de Android-applicatie in zijn geheel voor het integreren van \gls{robbert}
+Alle code en functionaliteit die in deze sectie wordt besproken, is beschikbaar in de volgende GitHub-repository: \url{https://github.com/Chmpy/RobBERT_local_Android_example}. Deze repository bevat de Android-applicatie in zijn geheel voor het integreren van \gls{robbert}.
 
 \subsection{Compatibiliteit en Instellingen}
 
-In deze sectie bespreken we de specificaties van de Android-applicatie om compatibiliteit en consistentie met de eerder genoemde scripts en modellen te waarborgen. Het utility-bestand is van cruciaal belang voor het handhaven van uniform gedrag van de \glsxtrshort{tflite}-modellen binnen de applicatie. Daarnaast bevat het manifestbestand de nodige instellingen om de applicatie correct te laten functioneren op mobiele apparaten. Deze elementen zorgen ervoor dat de applicatie consistent presteert in overeenstemming met de Python-implementaties.
+In deze sectie bespreken we de specificaties van de Android-applicatie om compatibiliteit en consistentie met de eerder genoemde scripts en modellen te waarborgen. Het manifestbestand (\autoref{lst:android-manifest}) bevat de nodige instellingen om de applicatie correct te laten functioneren op mobiele apparaten. Hierin worden activiteiten zoals \texttt{ProcessTextActivity}, de bijhorende \texttt{intents} en \gls{services} zoals \texttt{SpeedTestService} gedefinieerd, wat essentieel is voor de verwerking en functionaliteit van de applicatie. 
+Daarnaast zorgt de \texttt{libs.versions.toml} file (\autoref{lst:libs-versions}) voor het beheren van consistente versies van bibliotheken in de gehele applicatie. Deze bevat de versie-informatie voor onze bibliotheken zoals \texttt{Kotlin}, \texttt{TensorFlow}, en \texttt{Compose}.
+Om de modellen lokaal te gebruiken, plaatsen we handmatig een van de geconverteerde en gekwantiseerde modellen en hun vocabulaire in de \texttt{assets} map van de Android-applicatie, zoals weergegeven in \ref{fig:androidassets}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{androidassets}
+    \caption{De \texttt{assets} map bevat het geconverteerde en gekwantiseerde model en het bijbehorende vocabulairebestand dat nodig is voor de inferentie op het apparaat.}
+    \label{fig:androidassets}
+\end{figure}
 
 
+\begin{listing}
+    \begin{minted}[fontsize=\small]{xml}
+        <!-- AndroidManifest.xml -->
+        <activity
+        android:name=".ProcessTextActivity"
+        android:exported="true"
+        android:label="@string/process_text_action_name"
+        android:theme="@android:style/Theme.NoDisplay">
+        <intent-filter>
+        <action android:name="android.intent.action.PROCESS_TEXT" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="text/plain" />
+        </intent-filter>
+        <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="http" />
+        <data android:scheme="https" />
+        </intent-filter>
+        </activity>
+        <service android:name=".SpeedTestService" />
+        <activity
+        android:name=".MainActivity"
+        android:exported="true"
+        android:theme="@style/Theme.RobBERT_local_example">
+        <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+    \end{minted}
+    \caption[AndroidManifest.xml]{Instellingen in het \texttt{AndroidManifest.xml} bestand die de activiteiten en services binnen de applicatie definiëren, waaronder \texttt{ProcessTextActivity} en \texttt{SpeedTestService}.}
+    \label{lst:android-manifest}
+\end{listing}
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{toml}
+        # libs.versions.toml
+        agp = "8.4.0"
+        kotlin = "1.9.0"
+        coreKtx = "1.13.1"
+        lifecycleRuntimeKtx = "2.8.0"
+        activityCompose = "1.9.0"
+        composeBom = "2023.08.00"
+        tensorflow = "2.13.0"
+        gson = "2.10.1"
+    \end{minted}
+    \caption[\texttt{libs.versions.toml}]{De \texttt{libs.versions.toml} file bevat de versie-informatie voor de verschillende gebruikte bibliotheken binnen de Android-applicatie, waarmee compatibiliteit en consistentie worden gegarandeerd.}
+    \label{lst:libs-versions}
+\end{listing}
+
+\subsection{Utility Object}
+
+In dit deel behandelen we de utility-functies die essentieel zijn voor het consistent gedrag van de \glsxtrshort{tflite}-modellen binnen de Android-applicatie. Deze functies, gedefinieerd in het \texttt{Utils.kt} bestand, zorgen voor de verwerking van invoertekst en de voorbereiding van gegevens voor inferentie.
+
+\subsubsection{Preprocessing van Invoer}
+
+De functie \texttt{preprocessInput} (\ref{lst:preprocess-input}) is verantwoordelijk voor het maskeren van de woorden "die" of "dat" in de invoerzin en retourneert de gemaskeerde zin samen met de positie van de maskering.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Mask "die" or "dat" in the input sentence.
+        *
+        * @param sentence The input sentence.
+        * @return A pair containing the preprocessed sentence and the position of the mask, or null if no mask was applied.
+        */
+        fun preprocessInput(sentence: String): Pair<String, Int?> {
+            Log.d(TAG, "Preprocessing input: $sentence")
+            val words = sentence.split(" ")
+            var maskPosition: Int? = null
+            val processedWords = words.mapIndexed { index, word ->
+                if (word.lowercase() in listOf("die", "dat") && maskPosition == null) {
+                    maskPosition = index
+                    "<mask>"
+                } else {
+                    word
+                }
+            }
+            val result = Pair(processedWords.joinToString(" "), maskPosition)
+            Log.d(TAG, "Preprocessed result: $result")
+            return result
+        }
+    \end{minted}
+    \caption[\texttt{preprocessInput}]{De \texttt{preprocessInput} functie maskeert de woorden "die" of "dat" in de invoerzin en geeft de gemaskeerde zin en de positie van het masker terug.}
+    \label{lst:preprocess-input}
+\end{listing}
+
+\subsubsection{Vocabulaire Laden}
+
+De functie \texttt{loadVocabulary} (\ref{lst:load-vocabulary}) laadt het vocabulaire in vanuit een JSON-bestand in de \texttt{assets} map. Het retourneert een map waarin de sleutels de woorden zijn en de waarden de bijbehorende indices.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Load vocabulary from a JSON file located in the assets folder.
+        *
+        * @param context The context from which to access the assets.
+        * @param filename The name of the JSON file containing the vocabulary.
+        * @return A map representing the vocabulary, where keys are words and values are their corresponding indices.
+        */
+        fun loadVocabulary(context: Context, filename: String): Map<String, Int> {
+            Log.d(TAG, "Loading vocabulary from $filename")
+            val json = context.assets.open(filename).bufferedReader().use { it.readText() }
+            val vocab: Map<String, Int> =
+            Gson().fromJson(json, object : TypeToken<Map<String, Int>>() {}.type)
+            Log.d(TAG, "Vocabulary loaded. Size: ${vocab.size}")
+            return vocab
+        }
+    \end{minted}
+    \caption[\texttt{loadVocabulary}]{De \texttt{loadVocabulary} functie laadt het vocabulaire vanuit een JSON-bestand in de \texttt{assets} map en retourneert een map van woorden en hun indices.}
+    \label{lst:load-vocabulary}
+\end{listing}
+
+\subsubsection{Tokenisatie}
+
+De \texttt{tokenize} functie (\ref{lst:tokenize}) converteert een zin naar een lijst van tokens op basis van het vocabulaire. Dit proces is essentieel voor het voorbereiden van de gegevens voor modelinference, omdat het de invoer omzet in een formaat dat het model kan verwerken.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Tokenize a sentence using the provided vocabulary.
+        *
+        * @param sentence The input sentence to tokenize.
+        * @param vocab The vocabulary map to use for tokenization.
+        * @return A list of integers representing the tokenized sentence.
+        */
+        fun tokenize(sentence: String, vocab: Map<String, Int>): List<Int> {
+            Log.d(TAG, "Tokenizing sentence: $sentence")
+            val maskTokenId = vocab["<mask>"] ?: vocab["<unk>"] ?: 0
+            val pattern = Regex("<mask>|\\w+|[^\\w\\s]")
+            val splitSentence = pattern.findAll(sentence).map { it.value }.toList()
+            Log.d(TAG, "Split sentence: $splitSentence")
+            val tokenizedSentence = mutableListOf<Int>()
+            for (token in splitSentence) {
+                when {
+                    token == "<mask>" -> tokenizedSentence.add(maskTokenId)
+                    token.matches(Regex("[^\\w\\s]")) -> {
+                        (vocab["Ġ"] ?: vocab["<unk>"])?.let { tokenizedSentence.add(it) }
+                        (vocab[token] ?: vocab["<unk>"])?.let { tokenizedSentence.add(it) }
+                    }
+                    else -> {
+                        (vocab["Ġ$token"] ?: vocab["<unk>"])?.let { tokenizedSentence.add(it) }
+                    }
+                }
+            }
+            Log.d(TAG, "Tokenized sentence: $tokenizedSentence")
+            return tokenizedSentence
+        }
+    \end{minted}
+    \caption[\texttt{tokenize}]{De \texttt{tokenize} functie zet een zin om in een lijst van tokens op basis van het opgegeven vocabulaire.}
+    \label{lst:tokenize}
+\end{listing}
+
+\subsubsection{Aanmaken van Attention Mask}
+
+De functie \texttt{createAttentionMask} (\ref{lst:create-attention-mask}) genereert een \gls{attentionmask} voor een gegeven aantal tokens, waarbij alle waarden worden ingesteld op 1 om de volledige context te prioritiseren.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Create an attention mask for a given number of tokens.
+        *
+        * @param tokenCount The number of tokens for which to create the attention mask.
+        * @return A long array representing the attention mask, with all values set to 1.
+        */
+        fun createAttentionMask(tokenCount: Int): LongArray {
+            Log.d(TAG, "Creating attention mask of length $tokenCount")
+            return LongArray(tokenCount) { 1L }
+        }
+    \end{minted}
+    \caption[\texttt{createAttentionMask}]{De \texttt{createAttentionMask} functie creëert een aandachtmasker voor een gespecificeerd aantal tokens, waarbij alle waarden worden ingesteld op 1.}
+    \label{lst:create-attention-mask}
+\end{listing}
+
+\subsubsection{Padding en Truncatie}
+
+De functie \texttt{padOrTruncate} (\ref{lst:pad-or-truncate}) vult of snijdt een lijst van token-ID's af tot een gespecificeerde maximale lengte. Dit zorgt ervoor dat alle zinnen een uniforme lengte hebben voor verwerking door het model.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Pad or truncate a list of token IDs to a specified maximum length.
+        *
+        * @param ids The list of token IDs to pad or truncate.
+        * @param maxLength The maximum length of the resulting list.
+        * @param padToken The token ID to use for padding.
+        * @return A list of token IDs padded or truncated to the specified length.
+        */
+        fun padOrTruncate(ids: List<Int>, maxLength: Int, padToken: Int): List<Int> {
+            val result = if (ids.size > maxLength) {
+                ids.take(maxLength)
+            } else {
+                ids + List(maxLength - ids.size) { padToken }
+            }
+            Log.d(TAG, "Padding/truncating complete. New length: ${result.size}")
+            return result
+        }
+    \end{minted}
+    \caption[\texttt{padOrTruncate}]{De \texttt{padOrTruncate} functie past padding of truncatie toe op een lijst van token-ID's, zodat deze overeenkomt met een gespecificeerde maximale lengte.}
+    \label{lst:pad-or-truncate}
+\end{listing}
+
+\subsubsection{Softmax}
+
+De \texttt{softmax} functie (\ref{lst:softmax}) wordt gebruikt om de \glspl{logit} om te zetten in waarschijnlijkheden. Het is een belangrijke stap in het verkrijgen van de waarschijnlijkheidsverdeling over de mogelijke voorspellingen, wat essentieel is voor het identificeren van de meest waarschijnlijke voorspelling voor de gemaskeerde token.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Apply softmax to a float array.
+        *
+        * @param input The float array.
+        * @return A float array representing the probabilities after applying softmax.
+        */
+        private fun softmax(input: FloatArray): FloatArray {
+            val max = input.maxOrNull() ?: 0f
+            val exp = input.map { exp((it - max).toDouble()).toFloat() }
+            val sum = exp.sum()
+            return exp.map { it / sum }.toFloatArray()
+        }
+    \end{minted}
+    \caption[\texttt{softmax}]{De \texttt{softmax} functie zet logits om in waarschijnlijkheden.}
+    \label{lst:softmax}
+\end{listing}
+
+\subsubsection{Top-K Indices}
+
+De \texttt{topKIndices} functie (\ref{lst:top-k-indices}) identificeert de indices van de top-\(k\) voorspellingen op basis van de waarschijnlijkheden. Deze functie sorteert de waarschijnlijkheden op aflopende volgorde en selecteert de indices van de hoogste waarden, dit geeft ons de meest relevante voorspellingen.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Get the top-k indices of a float array.
+        *
+        * @param x The float array.
+        * @param k The number of top indices to retrieve.
+        * @return An array of the top-k indices.
+        */
+        private fun topKIndices(x: FloatArray, k: Int): IntArray {
+            return x.withIndex()
+            .sortedByDescending { it.value }
+            .take(k)
+            .map { it.index }
+            .toIntArray()
+        }
+    \end{minted}
+    \caption[\texttt{topKIndices}]{De \texttt{topKIndices} functie identificeert de indices van de top-\(k\) voorspellingen op basis van de gesorteerde waarschijnlijkheden.}
+    \label{lst:top-k-indices}
+\end{listing}
+
+\subsubsection{Top-K Voorspellingen}
+
+De functie \texttt{getTopPredictions} (\ref{lst:get-top-predictions}) berekent de top-\(k\) voorspellingen voor het gemaskeerde token door de logit-uitvoer te verwerken. Hierbij worden de \texttt{softmax} (\ref{lst:softmax}) en \texttt{topKIndices} (\ref{lst:top-k-indices}) functies gebruikt om de waarschijnlijkheden te berekenen en de beste voorspellingen te selecteren.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // Utils.kt
+        /**
+        * Get top-k predictions for the masked token.
+        *
+        * @param logits The model output logits as a FloatBuffer.
+        * @param vocab The vocabulary map.
+        * @param maskPosition The position of the mask token, or null if no mask is present.
+        * @param topK The number of top predictions to return.
+        * @return A list of the top-k predicted words.
+        */
+        fun getTopPredictions(
+        logits: FloatBuffer,
+        vocab: Map<String, Int>,
+        maskPosition: Int? = null,
+        topK: Int = 5
+        ): List<String> {
+            
+            Log.d(TAG, "Getting top predictions for mask position: $maskPosition")
+            
+            if (maskPosition == null) {
+                Log.e(TAG, "Mask position is null. Cannot get predictions.")
+                return emptyList()
+            }
+            
+            Log.d(TAG, "Logits shape: ${logits.capacity()}")
+            
+            // Divide the logits into vocab.size chunks
+            val dividedLogits = logits.array().toList().chunked(vocab.size)
+            
+            // Get logits for the mask token
+            val maskTokenLogits = dividedLogits[maskPosition + 1].toFloatArray()
+            
+            // Apply softmax
+            val probs = softmax(maskTokenLogits)
+           
+            // Get top-k indices
+            val topIndices = topKIndices(probs, topK)     
+            Log.d(TAG, "Top $topK indices: ${topIndices.contentToString()}")
+            
+            // Convert indices to words
+            val predictions = topIndices.map { index ->
+                vocab.entries.find { it.value == index }?.key ?: "<unk>"
+            }
+            
+            Log.d(TAG, "Top $topK predictions: $predictions")
+            return predictions
+            }
+        \end{minted}
+    \caption[\texttt{getTopPredictions}]{De \texttt{getTopPredictions} functie berekent de top-\(k\) voorspellingen voor de gemaskeerde token door de \gls{logit}-uitvoer te verwerken en \gls{softmax} toe te passen om de waarschijnlijkheden te berekenen.}
+    \label{lst:get-top-predictions}
+\end{listing}
+
+\subsubsection{Conclusie}
+Al deze functies zijn noodzakelijk om effectief het gedrag van de Python-scripts te repliceren binnen de Android-omgeving. Ze zorgen ervoor dat de invoer correct wordt verwerkt en geformatteerd voor inferentie, vergelijkbaar met hoe dit in Python wordt gedaan.
 
 \subsection{Ontwikkeling van de Android-applicatie}
 
