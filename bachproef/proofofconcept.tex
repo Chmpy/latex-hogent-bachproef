@@ -1139,6 +1139,63 @@ Het verwerken van de geselecteerde tekst gebeurt in de functie \texttt{handleSel
 
 Om de code compact te houden en de kernfunctionaliteit te benadrukken, is \texttt{logging} verwijderd uit deze fragmenten (\ref{lst:process-text-check} en \ref{lst:process-handle-selected-text}). De \texttt{ProcessTextActivity} biedt een voorbeeld van hoe de applicatie externe input kan verwerken gebruik makend van \glsxtrshort{tflite}.
 
+\subsection{Implementatie van de SpeedTestService}
+
+De \texttt{SpeedTestService} (\ref{lst:speed-test-service}) is ontwikkeld om snelheidstesten uit te voeren op dezelfde manier als de Python-scripts. Deze \texttt{service} is verantwoordelijk voor het uitvoeren van inferenties op een reeks vooraf gedefinieerde zinnen, waardoor de prestaties van het \glsxtrshort{tflite}-model op het Android-platform worden geëvalueerd.
+
+De service, zoals eerder vermeld, wordt gestart vanuit de \texttt{MainActivity} (\ref{lst:main-activity-part3}). De snelheidstest wordt uitgevoerd in een aparte thread, zodat de applicatie en het apparaat responsief blijft tijdens het uitvoeren van de batchverwerking.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // SpeedTestService.kt
+        class SpeedTestService : Service() {
+            private lateinit var tflite: Interpreter
+            private lateinit var vocab: Map<String, Int>
+            private val MAX_SEQUENCE_LENGTH = 128
+            
+            override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+                // Load model and vocabulary
+                tflite = Interpreter(loadModelFile("model.tflite"))
+                vocab = Utils.loadVocabulary(this, "vocab.json")
+                
+                // Run the speed test in a separate thread
+                Thread {
+                    runSpeedTest()
+                    stopSelf()  // Stop the service after completing the task
+                }.start()
+                
+                return START_STICKY
+            }
+            
+            private fun runSpeedTest() {
+                val sentences = listOf(
+                "Ik heb een vriend die altijd te laat komt.",
+                "Ik weet die ik het kan.",
+                // More sentences...
+                )
+                val totalTime = measureExecutionTime {
+                    for (sentence in sentences) {
+                        performInference(sentence)
+                    }
+                }
+            }
+            
+            // Additional methods for loading the model, performing inference, etc.
+            
+            private inline fun measureExecutionTime(block: () -> Unit): Double {
+                val elapsedTimeMillis = measureTimeMillis {
+                    block()
+                }
+                return elapsedTimeMillis / 1000.0 // Convert milliseconds to seconds
+            }
+        }
+    \end{minted}
+    \caption[\texttt{SpeedTestService.kt}]{De \texttt{SpeedTestService} voert batchverwerking en snelheidstesten uit voor het \glsxtrshort{tflite}-model, vergelijkbaar met de Python-scripts. De getoonde code is ingekort, maar functioneert op dezelfde manier als de activities in het project.}
+    \label{lst:speed-test-service}
+\end{listing}
+
+In deze service worden zinnen verwerkt door middel van inferentie, de totale tijd en gemiddelde tijd die nodig is om alle zinnen te verwerken wordt geregistreerd. Deze aanpak biedt inzicht in de efficiëntie van het model op het Android.
+
 \section{Evaluatie en Vergelijking van Inferentie}
 
 Nu we alle code en implementaties hebben besproken, kunnen we overgaan tot de evaluatie en vergelijking van de prestaties van alle scripts en de Android-applicatie. In deze sectie richten we ons op de verschillen of overeenkomsten in hun prestaties en geven we inzicht in waarom deze prestatieverschillen mogelijk bestaan. We zullen enkele belangrijke bevindingen en relevante metingen delen om inzicht te geven in de effectiviteit van elk script en de applicatie.
