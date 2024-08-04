@@ -5,14 +5,49 @@
 \chapter{Conclusie}%
 \label{ch:conclusie}
 
-% TODO: Trek een duidelijke conclusie, in de vorm van een antwoord op de
-% onderzoeksvra(a)g(en). Wat was jouw bijdrage aan het onderzoeksdomein en
-% hoe biedt dit meerwaarde aan het vakgebied/doelgroep? 
-% Reflecteer kritisch over het resultaat. In Engelse teksten wordt deze sectie
-% ``Discussion'' genoemd. Had je deze uitkomst verwacht? Zijn er zaken die nog
-% niet duidelijk zijn?
-% Heeft het onderzoek geleid tot nieuwe vragen die uitnodigen tot verder 
-%onderzoek?
+In dit onderzoek hebben we de haalbaarheid en effectiviteit onderzocht van een privacybewust spelling- en grammaticacontrole-toetsenbord voor Android, met de focus op de integratie van \gls{robbert} en \glsxtrlong{tflite}. Dit hoofdstuk biedt een samenvatting van de bevindingen en een kritische reflectie op de resultaten, inclusief de uitdagingen en toekomstige mogelijkheden binnen dit onderzoeksdomein.
 
-\lipsum[76-80]
+\section{Beantwoording van Onderzoeksvragen}
 
+\subsubsection{Welke taalproblemen kunnen worden gecorrigeerd met technologieën zoals BERT en RobBERT?}
+
+Technologieën zoals \gls{bert} en \gls{robbert} zijn effectief in het corrigeren van grammaticale fouten en het verbeteren van het tekstbegrip, met name bij contextuele uitdagingen zoals het correcte gebruik van de Nederlandse woorden "die" en "dat". Deze modellen blinken uit in het herkennen van contextuele patronen, waardoor ze waardevol zijn voor een breed scala aan \glsxtrlong{nlp}-toepassingen, waaronder tekstclassificatie en sentimentanalyse.
+
+\subsubsection{Hoe kan een dergelijk toetsenbord initieel de Nederlandse taal ondersteunen met de flexibiliteit voor uitbreiding naar andere talen?}
+
+Initieel kan dit gedaan worden door correct gebruik te maken van het \gls{robbert} model. Echter een uitdaging bestaat om uit te breiden naar andere talen. Het model zou ook de RoBERTa-structuur moeten hanteren en gebruik maken van een \glsxtrlong{bpe}. Deze zou ook uniform moeten worden geïmplementeerd voor zowel Python als Kotlin. Op het moment van schrijven van deze scriptie bestaat er nog geen \glsxtrshort{bpe}-bibliotheek specifiek voor Kotlin, wat een obstakel vormt voor de taaluitbreiding en integratie binnen de Android-omgeving.
+
+\subsubsection{Op welke wijze kan dit toetsenbord worden aangepast voor diverse gebruikssituaties buiten de initiële implementatie?}
+
+Een toetsenbord kan worden aangepast voor diverse gebruikssituaties door configuraties te ondersteunen die specifieke \glsxtrshort{nlp}-taken mogelijk maken, zoals spellingcorrectie, grammatica-analyse en contextuele suggesties. Hierbij moet wel kenbaar worden gemaakt dat voor elk van de specifieke functies een andere versie van het model nodig is die \texttt{gefinetuned} is op deze functies.
+
+\subsubsection{Wat is de ideale balans tussen nauwkeurigheid en privacy in de ontwikkeling van dit toetsenbord?}
+
+De ideale balans tussen nauwkeurigheid en privacy hangt af van de gebruikersvoorkeuren en het gebruik. Voor gebruikers die bereid zijn iets langer te wachten op inferentie, kunnen grotere modellen worden ingezet die nauwkeuriger zijn en lokaal draaien, waardoor de privacy behouden blijft. Als snelheid belangrijker is, kunnen kleinere modellen worden gebruikt die sneller resultaten leveren, maar mogelijks minderen in nauwkeurigheid. Hopelijk in de toekomst kunnen verdere optimalisaties van \glsxtrshort{tflite}-modellen zowel snelheid als nauwkeurigheid verbeteren. Het is belangrijk om de juiste keuze te maken op basis van de behoeften van de gebruiker.
+
+\subsubsection{Hoe kan de gebruiker de controle over zijn of haar persoonlijke data behouden?}
+
+Gebruikers behouden controle over hun persoonlijke gegevens doordat alle verwerking lokaal op het apparaat plaatsvindt. Dit voorkomt dat gegevens extern worden opgeslagen of verwerkt, waardoor de risico's van datalekken worden verminderd. Dit onderzoek laat zien dat \glsxtrshort{nlp}-taken met \gls{robbert} kunnen worden uitgevoerd zonder dat persoonlijke gegevens de beveiligde omgeving van het mobiele apparaat verlaten.
+
+\subsubsection{Wat zijn de gevolgen voor de prestaties van het toetsenbord bij de integratie van spelling- en grammaticacontrole?}
+
+De voorspelling is dat de impact op prestaties van het toetsenbord sterk af hangt van hoe vaak en op welke manier inferentie wordt uitgevoerd. Als inferentie bij elke toetsaanslag, elk woord, of elke zin gebeurt, kan dit leiden tot een aanzienlijke daling van de apparaatprestaties door verhoogde rekenbelasting. Door inferentie alleen uit te voeren wanneer de gebruiker er expliciet voor kiest, kan de impact worden verminderd.
+
+\subsubsection{Is de beoogde oplossing voldoende schaalbaar om meerdere talen en uitgebreide gebruikssituaties te ondersteunen?}
+
+In termen van schaalbaarheid ligt de grootste uitdaging in het effectief beheren van verschillende modellen met uiteenlopende functionaliteiten. Het is essentieel om een flexibele architectuur te ontwikkelen die modelselectie mogelijk maakt en eenvoudig kan worden aangepast aan specifieke taken. Dit stelt het toetsenbord in staat om dynamisch te schakelen tussen modellen op basis van de behoeften van de gebruiker en de context van de invoer.
+
+\subsubsection{Welke technische uitdagingen moeten worden overwonnen om hoge prestaties en schaalbaarheid te garanderen?}
+
+Het ontwikkelen van een \glsxtrshort{ime} is een complex proces dat veel werk vereist om alle moderne functionaliteiten na te bootsen.  De \gls{fine-tuning} van modellen voor verschillende functionaliteiten in verschillende talen is daarbij ook een grootschalige taak.
+
+\section{Discussie}
+
+Ik had gehoopt dat het volledig implementeren van het toetsenbord een realiseerbaar doel zou zijn voor deze scriptie. Dit bleek echter door de complexiteit van de taak en het gebrek aan voorafgaand onderzoek rond dit specifieke thema een te grote uitdaging om binnen de tijds- en resourcebeperkingen te voltooien. Deze studie biedt echter wel de technische basis en inzichten die noodzakelijk zijn voor de verdere ontwikkeling van een privacybewuste \glsxtrshort{ime}.
+Een interessante overweging voor toekomstig onderzoek is het gebruik van gefinetunede modellen met tekstclassificatie die als toegankelijkheidsoptie kunnen dienen. Deze functie kan helpen emoties zoals boosheid of verdriet in tekstberichten te detecteren, wat nuttig kan zijn voor mensen die moeite hebben met het begrijpen van emoties.
+Het is ook vermeldenswaardig dat recentelijk een soortgelijk project publiek is gemaakt: \url{https://keyboard.futo.org/}. Dit toetsenbord streeft naar dezelfde doelen als deze scriptie, maar hanteert een andere aanpak, zonder gebruik van \glsxtrlong{tflite}.
+
+\section{Bijdrage aan het Onderzoeksdomein}
+
+Dit onderzoek heeft waardevolle inzichten geleverd in de implementatie van privacybewuste \glsxtrshort{nlp}-technologieën op mobiele apparaten. De bevindingen benadrukken de mogelijkheid om krachtige taalmodellen zoals \gls{robbert} effectief te gebruiken binnen de beperkingen van mobiele hardware. Hoewel het ontwikkelen van een volledig functionele \glsxtrshort{ime} niet is voltooid, biedt deze studie diepgaande inzichten en technische kennis die essentieel zijn voor de implementatie van \gls{robbert} op Android met \glsxtrlong{tflite}. Deze inzichten vormen een fundament voor toekomstige innovaties en kunnen ontwikkelaars ondersteunen bij het realiseren van een privacybewust toetsenbord of andere \glsxtrlong{nlp} applicaties.
+Daarnaast bieden deze bevindingen mogelijkheden voor de ontwikkeling van nieuwe functies, zoals het integreren van emotieherkenning om gebruikers feedback te geven over de toon van hun berichten, of het implementeren van contextuele suggesties die gebruikers kunnen helpen bij het schrijven van complexere zinnen. Ook kan de uitbreiding naar andere talen worden overwogen, waarbij taalmodellen worden ontwikkeld die op een efficiënte manier cross-linguïstische \glsxtrshort{nlp} ondersteuning bieden. Het uiteindelijke doel blijft om gebruikers een krachtig en veilig hulpmiddel te bieden voor effectieve communicatie in een steeds meer data-gedreven wereld.
