@@ -638,7 +638,7 @@ Om de modellen lokaal te gebruiken, plaatsen we handmatig een van de geconvertee
         </intent-filter>
         </activity>
     \end{minted}
-    \caption[AndroidManifest.xml]{Instellingen in het \texttt{AndroidManifest.xml} bestand die de activiteiten en services binnen de applicatie definiëren, waaronder \texttt{ProcessTextActivity} en \texttt{SpeedTestService}.}
+    \caption[AndroidManifest.xml]{Instellingen in het \texttt{AndroidManifest.xml} bestand die de activiteiten en \gls{services} binnen de applicatie definiëren, waaronder \texttt{ProcessTextActivity} en \texttt{SpeedTestService}.}
     \label{lst:android-manifest}
 \end{listing}
 
@@ -1058,10 +1058,86 @@ In dit voorbeeld zijn \texttt{logging} en \texttt{Spacers} verwijderd om de code
 
 \subsection{Integratie met Process Text Intent}
 
-Als laatste binnen dit gedeelte behandelen we de implementatie van de \gls{processtextintent} binnen de Android-applicatie. Deze functionaliteit maakt het mogelijk om inferenties uit te voeren op tekst, zowel direct binnen de applicatie als via externe intents. De inferentieprocedure is gelijk aan die in de \texttt{MainActivity}, maar de gegevensverwerking verschilt enigszins vanwege het gebruik van Android-specifieke methoden. Deze aanpak verzekert dat de applicatie flexibel is en naadloos samenwerkt met andere apps op het Android-platform.
+Als laatste binnen dit gedeelte behandelen we de implementatie van de \gls{processtextintent} binnen de Android-applicatie. Deze functionaliteit maakt het mogelijk om inferenties uit te voeren op tekst, zowel direct binnen de applicatie als via externe \texttt{intents}. De inferentieprocedure is gelijk aan die in de \texttt{MainActivity} (\ref{lst:main-activity-part2}), maar de gegevensverwerking verschilt enigszins vanwege het gebruik van \texttt{intents}. Deze aanpak verzekert dat de applicatie flexibel is en naadloos samenwerkt met andere apps op het Android-platform.
 
+De \texttt{ProcessTextActivity} wordt geactiveerd wanneer een gebruiker tekst selecteert en de optie "Inference" kiest, zoals weergegeven in \ref{fig:intent-example}. Dit stelt de gebruiker in staat om tekst uit andere applicaties te verwerken.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{intentexample}
+    \caption{Voorbeeld van het gebruik van de \texttt{ProcessTextActivity} via \texttt{intents} van Android.}
+    \label{fig:intent-example}
+\end{figure}
 
+\texttt{ProcessTextActivity} begint door te controleren of de intent van het type \texttt{ACTION\_PROCESS\_TEXT} is en of de tekst bewerkbaar is. Als aan deze voorwaarden is voldaan, wordt de geselecteerde tekst opgehaald en verwerkt (\ref{lst:process-text-check}). Deze aanpak zorgt ervoor dat de applicatie correct reageert op intents en alleen tekst verwerkt die kan worden aangepast.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // ProcessTextActivity.kt
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            
+            // Check if the intent is for processing text and is not read-only
+            if (intent?.action == Intent.ACTION_PROCESS_TEXT &&
+            intent.type == "text/plain" &&
+            !intent.getBooleanExtra("readonly", false)
+            ) {
+                val text = intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT)
+                
+                if (text == null) {
+                    Toast.makeText(this, "No text to process", Toast.LENGTH_SHORT).show()
+                    finish()
+                    return
+                }
+                
+                tflite = Interpreter(loadModelFile("model.tflite"))
+                vocab = Utils.loadVocabulary(this, "vocab.json")
+                
+                handleSelectedText(text)
+                
+            } else {
+                Toast.makeText(this, "Text cannot be modified", Toast.LENGTH_SHORT).show()
+            }
+            finish()
+        }
+    \end{minted}
+    \caption[\texttt{ProcessTextActivity.kt} (deel 1)]{Het eerste deel van \texttt{ProcessTextActivity.kt} controleert of de intent van het juiste type is en haalt de geselecteerde tekst op voor verwerking.}
+    \label{lst:process-text-check}
+\end{listing}
+
+Het verwerken van de geselecteerde tekst gebeurt in de functie \texttt{handleSelectedText} (\ref{lst:process-handle-selected-text}). Hierin wordt de \texttt{maskPosition} met behulp van \texttt{preprocessInput} (\ref{lst:preprocess-input}) opgehaald voor later gebruik en vervolgens wordt de inferentie uitgevoert.
+
+\begin{listing}
+    \begin{minted}[fontsize=\small]{kotlin}
+        // ProcessTextActivity.kt
+        private fun handleSelectedText(selectedText: String) {
+            
+            // Preprocess the input text and get the mask position
+            val (_, maskPosition) = Utils.preprocessInput(selectedText)
+            
+            if (maskPosition == null) {
+                Toast.makeText(this, "No mask token found in input", Toast.LENGTH_SHORT).show()
+                return
+            }
+            
+            // Perform inference and get the top prediction, then replace the mask token with the prediction
+            var feedback = performInference(selectedText).split(", ").first()
+            feedback = feedback.replace("Ġ", "")
+            val feedbackText = selectedText.split(" ").toMutableList().apply {
+                set(maskPosition, feedback)
+            }.joinToString(" ")
+            
+            // Set the result with the processed text
+            val intent = Intent(Intent.EXTRA_PROCESS_TEXT)
+            intent.putExtra(Intent.EXTRA_PROCESS_TEXT, feedbackText)
+            setResult(RESULT_OK, intent)
+        }
+    \end{minted}
+    \caption[\texttt{ProcessTextActivity.kt} (deel 2)]{Het tweede deel van \texttt{ProcessTextActivity.kt} verwerkt de geselecteerde tekst en past inferentie toe om de gemaskeerde woorden te voorspellen en te vervangen.}
+    \label{lst:process-handle-selected-text}
+\end{listing}
+
+Om de code compact te houden en de kernfunctionaliteit te benadrukken, is \texttt{logging} verwijderd uit deze fragmenten (\ref{lst:process-text-check} en \ref{lst:process-handle-selected-text}). De \texttt{ProcessTextActivity} biedt een voorbeeld van hoe de applicatie externe input kan verwerken gebruik makend van \glsxtrshort{tflite}.
 
 \section{Evaluatie en Vergelijking van Inferentie}
 
