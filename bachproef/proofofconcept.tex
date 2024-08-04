@@ -1268,6 +1268,16 @@ De evaluatie van de Android-applicatie met gekwantiseerde modellen wordt getoond
 
 De resultaten tonen aan dat, hoewel de inferentietijden op Android langer zijn dan in een desktopomgeving. Dit komt door de beperking aan middelen van een mobiel apparaat in vergelijking met een desktop, bieden de gekwantiseerde modellen nog steeds aanzienlijke verbeteringen ten opzichte van hun niet-gekwantiseerde tegenhangers.
 
+\subsection{Kwaliteit van Inferentie}
+
+Naast de evaluatie van inferentietijden is het van belang om de kwaliteit van de inferentie te beoordelen bij de verschillende modellen en implementaties. Opvallend was dat er geen merkbaar verschil was in de inferentiekwaliteit tussen de normale, \glsxtrshort{tflite}, en gekwantiseerde \glsxtrshort{tflite}-modellen in de diverse scenario's. Dit suggereert dat de optimalisaties voor \glsxtrshort{tflite} voornamelijk gericht zijn op het verbeteren van de prestaties, zonder afbreuk te doen aan de nauwkeurigheid van de modellen, met dank aan optimum van \gls{huggingface}.
+
+Een opmerkelijke bevinding was dat wanneer een specifieke zin consistent niet correct werd voorspeld, dit probleem zich voordeed in alle verschillende modelversies. Dit duidt mogelijks op een uitdagingen in inferentiekwaliteit in verband met de modelkenmerken.
+
+Wat betreft de nauwkeurigheid van de zinnen met gebruik van "die/dat", viel \texttt{robbert-2022-dutch-base} op doordat het de meeste fouten maakte, wat verrassend is gezien het feit dat dit model zich in het midden van de lijn van beschikbare modellen bevindt. Deze observatie benadrukt de noodzaak om rekening te houden met specifieke modelkenmerken en datasets bij de selectie van een model voor bepaalde toepassingen.
+
+Deze analyse van de inferentiekwaliteit toont aan dat, hoewel er variabiliteit bestaat in prestaties tussen de verschillende modellen, de keuze van het model en de bijbehorende datasets een aanzienlijke invloed kunnen hebben op de uiteindelijke nauwkeurigheid en betrouwbaarheid van de inferentie.
+
 \subsection{Conclusie en Aanbevelingen}
 
 Uit de evaluaties blijkt dat er aanzienlijke verschillen zijn in de prestaties van de diverse implementaties. De high-level \gls{huggingface} pipeline biedt gebruiksgemak en goede prestaties, terwijl de low-level benadering meer controle biedt ten koste van iets langere inferentietijden. \glsxtrshort{tflite}-modellen, vooral wanneer gekwantiseerd, bieden aanzienlijke voordelen voor mobiele toepassingen met beperkte middelen.
