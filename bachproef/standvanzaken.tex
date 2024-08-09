@@ -171,13 +171,15 @@ Hoewel \glsxtrshort{tflite} veel voordelen biedt, zijn er ook enkele beperkingen
 
 \subsection{Optimalisatie met Hugging Face Optimum}
 
-\gls{huggingface} Optimum is een toolkit die geavanceerde optimalisatietechnieken biedt voor het verbeteren van de prestaties van \gls{transformer}-modellen. Het ondersteunt de export van modellen naar verschillende formaten, waaronder \glsxtrshort{tflite}. Optimum maakt gebruik van kwantisatie en andere technieken om modellen efficiënter te maken zonder significante verliezen in nauwkeurigheid ~\autocite{HuggingFace2024Overview}.
+\gls{huggingface} Optimum is een toolkit die geavanceerde optimalisatietechnieken biedt om de prestaties van \gls{transformer}-modellen te verbeteren. De toolkit maakt het mogelijk om modellen te exporteren naar verschillende formaten, waaronder \glsxtrshort{tflite}, en maakt gebruik van technieken zoals kwantisatie om de efficiëntie van modellen te verhogen zonder significante verliezen in nauwkeurigheid ~\autocite{HuggingFace2024Overview}.
 
-In dit onderzoek maken we gebruik van \gls{huggingface} Optimum omdat dit de gemakkelijkste manier was die we vonden om een \glsxtrshort{tflite}-versie van een model te verkrijgen. Dit maakt het ook eenvoudiger om met \gls{robbert} te werken, aangezien, behalve het originele model, alle andere versies alleen beschikbaar zijn in Pytorch-formaat. Dit zou anders nog meer stappen voor conversie betekenen.
+De \gls{huggingface} Transformer Library, waarop Optimum is gebouwd, biedt daarnaast een grote hoeveelheid aan tools en \glsxtrshort{api}'s die het werken met \gls{transformer}-modellen vereenvoudigen. De library ondersteunt het downloaden en trainen van state-of-the-art voorgetrainde modellen en biedt essentiële componenten zoals configuraties, modellen, tokenizers, en pipelines. Deze componenten maken het gemakkelijk om complexe \glsxtrshort{nlp}-taken uit te voeren zonder diepgaande kennis van de onderliggende modelarchitecturen ~\autocite{HuggingFace2024Transformers}. 
+
+In dit onderzoek is gekozen voor \gls{huggingface} Optimum omdat het een directe en efficiënte manier biedt om een \glsxtrshort{tflite}-versie van een model te genereren. Dit was vooral van belang voor het werken met \gls{robbert}, waarvan de meeste versies alleen in PyTorch beschikbaar zijn. Door gebruik te maken van Optimum, konden we de conversie van deze modellen naar \glsxtrshort{tflite} vereenvoudigen, wat anders een complex en tijdrovend proces zou zijn geweest.
 
 \subsection{Conclusie}
 
-\Gls{tensorflow}} en \glsxtrshort{tflite} vormen een krachtig duo voor het ontwikkelen en implementeren van \glsxtrshort{ml}-modellen op een breed scala aan apparaten. Terwijl \Gls{tensorflow}} een robuuste infrastructuur biedt voor modeltraining, maakt \glsxtrshort{tflite} het mogelijk om deze modellen efficiënt uit te voeren op mobiele en embedded apparaten. Ondanks enkele beperkingen, kunnen tools zoals \gls{huggingface} Optimum helpen bij het overwinnen van deze uitdagingen door geavanceerde optimalisatietechnieken te bieden.
+\Gls{tensorflow}} en \glsxtrshort{tflite} vormen een krachtig duo voor het ontwikkelen en implementeren van \glsxtrshort{ml}-modellen op verschillende soorten apparaten. Terwijl \Gls{tensorflow}} een robuuste infrastructuur biedt voor modeltraining, maakt \glsxtrshort{tflite} het mogelijk om deze modellen efficiënt uit te voeren op mobiele en embedded apparaten. Ondanks enkele beperkingen, kunnen tools zoals \gls{huggingface} Optimum helpen bij het overwinnen van deze uitdagingen door geavanceerde optimalisatietechnieken te bieden.
 
 \section{Integratie van TFlite in een Android Applicatie}
 
