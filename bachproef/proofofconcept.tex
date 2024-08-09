@@ -1102,7 +1102,7 @@ De \texttt{ProcessTextActivity} wordt geactiveerd wanneer een gebruiker tekst se
     \label{lst:process-text-check}
 \end{listing}
 
-Het verwerken van de geselecteerde tekst gebeurt in de functie \texttt{handleSelectedText} (\ref{lst:process-handle-selected-text}). Hierin wordt de \texttt{maskPosition} met behulp van \texttt{preprocessInput} (\ref{lst:preprocess-input}) opgehaald voor later gebruik en vervolgens wordt de inferentie uitgevoert.
+Het verwerken van de geselecteerde tekst gebeurt in de functie \texttt{handleSelected\-Text} (\ref{lst:process-handle-selected-text}). Hierin wordt de \texttt{maskPosition} met behulp van \texttt{preprocessInput} (\ref{lst:preprocess-input}) opgehaald voor later gebruik en vervolgens wordt de inferentie uitgevoert.
 
 \begin{listing}
     \begin{minted}[fontsize=\small]{kotlin}
@@ -1231,7 +1231,7 @@ De extra controle die de low-level \glsxtrshort{api} biedt, kan nuttig zijn voor
 
 \subsection{TFLite Normale Conversie Evaluatie}
 
-De \glsxtrshort{tflite} evaluatie met normale conversie wordt gepresenteerd in \autoref{fig:speedtest-tflite-normal-graph}, waarin de modellen zijn geconverteerd naar een formaat dat geschikt is voor gebruik op mobiele apparaten. Deze aanpak is bedoeld om inferenties mogelijk te maken met beperkte middelen.
+De \glsxtrshort{tflite} evaluatie met normale conversie wordt gepresenteerd in \autoref{fig:speedtest-tflite-normal-graph}, waar\-in de modellen zijn geconverteerd naar een formaat dat geschikt is voor gebruik op mobiele apparaten. Deze aanpak is bedoeld om inferenties mogelijk te maken met beperkte middelen.
 
 \begin{figure}[H]
     \centering
@@ -1282,4 +1282,4 @@ Deze analyse van de inferentiekwaliteit toont aan dat, hoewel er variabiliteit b
 
 Uit de evaluaties blijkt dat er aanzienlijke verschillen zijn in de prestaties van de diverse implementaties. De high-level \gls{huggingface} pipeline biedt gebruiksgemak en goede prestaties, terwijl de low-level benadering meer controle biedt ten koste van iets langere inferentietijden. \glsxtrshort{tflite}-modellen, vooral wanneer gekwantiseerd, bieden aanzienlijke voordelen voor mobiele toepassingen met beperkte middelen.
 
-De keuze voor een specifieke methode hangt af van de behoeften van de toepassing, zoals snelheid, nauwkeurigheid en resourcebeschikbaarheid. Toepassingen die eenvoud en snelle implementatie vereisen, profiteren waarschijnlijk van de pipelinebenadering gekoppeld met een licht model, als er benodigheid is voor draaien op mobiele apparaten, dan hebben deze zeker baat van de \glsxtrshort{tflite}-optimalisaties.
+De keuze voor een specifieke methode hangt af van de behoeften van de toepassing, zoals snelheid, nauwkeurigheid en resourcebeschikbaarheid. Toepassingen die eenvoud en snelle implementatie vereisen, profiteren waarschijnlijk van de pipelinebenadering gekoppeld met een licht model, als er benodigheid is voor draai\-en op mobiele apparaten, dan hebben deze zeker baat van de \glsxtrshort{tflite}-optimalisaties.

@@ -44,7 +44,7 @@ De recente vooruitgang in taalmodellen heeft geleid tot opmerkelijke prestaties,
 
 Voor de Nederlandse taal heeft RobBERT zich onderscheiden als een geoptimaliseerde tegenhanger van BERT, gebaseerd op de RoBERTa-be\-na\-de\-ring. Recentelijk zijn gedistilleerde versies van het RobBERT-model geïntroduceerd, ge\-naa\-md RobBERTje. Deze distillaties variëren in het gebruik van distillatiecorpus, inclusief het al dan niet schudden en samenvoegen van opeenvolgende zinnen. ~\autocite{Delobelle2021}
 
-Vergelijkend onderzoek tussen distillatiearchitecturen heeft aangetoond dat RobBERTje-mo\-del\-len vergelijkbare prestaties leveren, ongeacht of ze worden getraind met geschudde of niet-geschudde datasets. Bovendien bleek dat het willekeurig samenvoegen van opeenvolgende zinnen resulteerde in modellen die sneller trainen en beter presteren op taken met lange sequenties. De keuze van distillatiearchitectuur bleek ook van invloed te zijn, waarbij de grotere DistilBERT-arch\-i\-tec\-tuur aanzienlijk beter presteerde dan de Bort-hyperparametrisering ~\autocite{Delobelle2021}.
+Vergelijkend onderzoek tussen distillatiearchitecturen heeft aangetoond dat \\ RobBERTje-mo\-del\-len vergelijkbare prestaties leveren, ongeacht of ze worden getraind met geschudde of niet-geschudde datasets. Bovendien bleek dat het willekeurig samenvoegen van opeenvolgende zinnen resulteerde in modellen die sneller trainen en beter presteren op taken met lange sequenties. De keuze van distillatiearchitectuur bleek ook van invloed te zijn, waarbij de grotere DistilBERT-arch\-i\-tec\-tuur aanzienlijk beter presteerde dan de Bort-hyperparametrisering ~\autocite{Delobelle2021}.
 
 Deze gedistilleerde modellen bieden niet alleen efficiëntere training en lichtgewicht implementatie, maar vertonen ook minder genderstereotype bias dan hun 'leraar'-model. Dit maakt RobBERTje een krachtig pre-trained model voor verschillende Nederlandse taaltaken, met verbeterde resultaten, vooral bij kleinere datasets. ~\autocite{Delobelle2022}
 
@@ -64,9 +64,9 @@ Het samenvoegen van deze benaderingen - optimalisatie op basis van letterfrequen
 
 In het kader van een geavanceerd toetsenbord voor Android-apparaten ontwikkelen, speelt TensorFlow een cruciale rol als kerncomponent. Het is een open-source machine learning-bibliotheek, dat een krachtig platform biedt voor het creëren en trainen van machine learning-modellen. Deze modellen worden geoptimaliseerd met TensorFlow Lite, wat essentieel is voor de implementatie op mobiele apparaten. De veelzijdigheid en prestatiegerichtheid van TensorFlow maken het een ideale keuze om geavanceerde spelling- en grammaticacontrole mogelijk te maken op het lokale niveau van het Android-apparaat.
 
-Firebase, als een uitgebreid ontwikkelingsplatform, faciliteert de integratie van TensorFlow-mo\-del\-len in Android-apps. Firebase ML stelt ontwikkelaars in staat om machine learning-func\-tio\-na\-li\-teit rechtstreeks in hun apps te implementeren. Deze integratie met Firebase is van bijzonder belang omdat het lokale implementatie op het Android-apparaat mogelijk maakt, zonder externe serverafhankelijkheden. Dit draagt niet alleen bij aan de efficiëntie van de implementatie, maar waarborgt ook de privacy van gebruikers, aangezien gegevens niet extern worden verwerkt.
+Firebase, als een uitgebreid ontwikkelingsplatform, faciliteert de integratie van \\ TensorFlow-mo\-del\-len in Android-apps. Firebase ML stelt ontwikkelaars in staat om machine learning-func\-tio\-na\-li\-teit rechtstreeks in hun apps te implementeren. Deze integratie met Firebase is van bijzonder belang omdat het lokale implementatie op het Android-apparaat mogelijk maakt, zonder externe serverafhankelijkheden. Dit draagt niet alleen bij aan de efficiëntie van de implementatie, maar waarborgt ook de privacy van gebruikers, aangezien gegevens niet extern worden verwerkt.
 
-Een relevante codelab van \textcite{ulukaya2023} illustreert concreet hoe TensorFlow en Firebase kunnen worden samengevoegd. In dit scenario werden TensorFlow-modellen gekoppeld aan Firebase en vervolgens geïntegreerd in Android-applicaties. Deze integratie benadrukt de mogelijkheid om machine learning-modellen direct op het apparaat te laten draaien, wat niet alleen snelheid en efficiëntie oplevert, maar ook voldoet aan privacyrichtlijnen door gegevensverwerking op het apparaat zelf te houden.
+Een relevante codelab van \textcite{ulukaya2023} illustreert concreet hoe TensorFlow en Firebase kunnen worden samengevoegd. In dit scenario werden Tensor\-Flow-modellen gekoppeld aan Firebase en vervolgens geïntegreerd in Android-applicaties. Deze integratie benadrukt de mogelijkheid om machine learning-mo\-del\-len direct op het apparaat te laten draaien, wat niet alleen snelheid en efficiëntie oplevert, maar ook voldoet aan privacyrichtlijnen door gegevensverwerking op het apparaat zelf te houden.
 
 Door gebruik te maken van TensorFlow en Firebase als centrale tools in de ontwikkeling van het toetsenbord, wordt beoogd geavanceerde func\-tio\-na\-li\-teit te bieden, evenals een geoptimaliseerde implementatie die inspeelt op gebruikersbehoeften en privacyvereisten op een Android-apparaat.
 
@@ -134,7 +134,7 @@ In deze sectie worden de verwachte resultaten van het onderzoek besproken, waarb
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\linewidth]{nlp_correctness_graph.png}
-    \caption{Mogelijke grafiek die correctheid van lokale NLP-verwerking vergelijkt met externe serverafhankelijke benaderingen. De x-as vertegenwoordigt verschillende gebruiksscenario's, terwijl de y-as de nauwkeurigheid aangeeft als een percentage.}
+    \caption[Mogelijke grafiek over NLP-verwerkingscorrectheid]{Mogelijke grafiek die correctheid van lokale NLP-verwerking vergelijkt met externe serverafhankelijke benaderingen. De x-as vertegenwoordigt verschillende gebruiksscenario's, terwijl de y-as de nauwkeurigheid aangeeft als een percentage.}
     \label{fig:nlp_correctness}
 \end{figure}
 
@@ -145,7 +145,7 @@ Figuur \ref{fig:nlp_correctness} visualiseert de vermoedelijke prestatievoordele
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\linewidth]{user_feedback_chart.png}
-    \caption{Mogelijke staafdiagram van gebruikersfeedback over toetsenbord functies. De x-as geeft verschillende functies weer, terwijl de y-as de mate van tevredenheid aangeeft op een schaal van 1 tot 5.}
+    \caption[Mogelijke staafdiagram van gebruikersfeedback]{Mogelijke staafdiagram van gebruikersfeedback over toetsenbord functies. De x-as geeft verschillende functies weer, terwijl de y-as de mate van tevredenheid aangeeft op een schaal van 1 tot 5.}
     \label{fig:user_feedback}
 \end{figure}
 

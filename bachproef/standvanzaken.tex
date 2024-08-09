@@ -13,7 +13,7 @@
 
 \subsection{Evolutie en Toepassingen van NLP}
 
-\glsxtrshort{nlp} is geëvolueerd van eenvoudige batchverwerking naar geavanceerde real-time verwerking, met toepassingen in machinevertaling, spamdetectie, informatie-extractie, samenvatting en \gls{qa}-systemen~\autocite{Cambria2014, Khurana2017}. Deze studie zal dieper ingaan op \glsxtrlong{mlm}, waar later meer over wordt uitgelegd.
+\glsxtrshort{nlp} is geëvolueerd van eenvoudige batchverwerking naar geavanceerde real-time verwerking, met toepassingen in machinevertaling, spamdetectie, informatie-ex\-tractie, samenvatting en \gls{qa}-systemen~\autocite{Cambria2014, Khurana2017}. Deze studie zal dieper ingaan op \glsxtrlong{mlm}, waar later meer over wordt uitgelegd.
 
 \subsection{Relevantie voor privacy}
 
@@ -23,7 +23,7 @@ Wat \glsxtrshort{nlp} bijzonder relevant maakt voor het privacyprobleem is de mo
 
 \Gls{bert} (Bidirectional Encoder Representations from Transformers) is een \gls{transformer}-gebaseerd model dat aanzienlijke vooruitgang heeft geboekt in verschillende \glsxtrshort{nlp}-taken. Het model is ontworpen om contextuele informatie in beide richtingen van een tekst te begrijpen, wat resulteert in verbeterde prestaties vergeleken met eerdere modellen ~\autocite{Delobelle2020}.
 
-Volgens ~\textcite{Singh2023} zijn \gls{transformer} neurale netwerken een soort deep learning-netwerk dat uitblinkt in multimodale activiteiten, taalinterpretatie en beeldverwerking.
+Volgens ~\textcite{Singh2023} zijn \gls{transformer} neurale netwerken een soort deep learn\-ing-netwerk dat uitblinkt in multimodale activiteiten, taalinterpretatie en beeldverwerking.
 
 \gls{robbert} is een Nederlands taalmodel gebaseerd op RoBERTa, een geoptimaliseerde versie van \gls{bert}. Het doel van \gls{robbert} is om de prestaties van \glsxtrshort{nlp}-taken in het Nederlands te verbeteren door gebruik te maken van een specifiek op de Nederlandse taal getraind model ~\autocite{Delobelle2021}.
 
@@ -201,7 +201,7 @@ Een \glsxtrshort{tflite} model in een Android-app neemt gegevens in, verwerkt ze
 Er zijn verschillende manieren om een runtime-omgeving voor het uitvoeren van modellen in je Android-app te gebruiken:
 
 \begin{itemize}
-    \item \textbf{\glsxtrshort{tflite} in Google Play services runtime omgeving}: Deze optie is ruimte-efficiënt omdat het dynamisch wordt geladen, wat de app-grootte kleiner houdt. Google Play services gebruikt automatisch de meest recente stabiele versie van de \glsxtrshort{tflite} runtime, wat extra functies en betere prestaties biedt.
+    \item \textbf{\glsxtrshort{tflite} in Google Play services runtime omgeving}: Deze optie is ruimte-effi\-ciënt omdat het dynamisch wordt geladen, wat de app-grootte kleiner houdt. Google Play services gebruikt automatisch de meest recente stabiele versie van de \glsxtrshort{tflite} runtime, wat extra functies en betere prestaties biedt.
     \item \textbf{Stand-alone \glsxtrshort{tflite} runtime omgeving}: Deze optie voegt extra code toe aan je app, waardoor je meer controle hebt over de \glsxtrshort{ml}-runtime in je app, maar de app-downloadgrootte toeneemt. Dit is nuttig voor apparaten zonder Google Play services of als je de \glsxtrshort{ml}-runtime nauwkeurig wilt beheren. ~\autocite{TensorFlowLite2024Android}.
 \end{itemize}
 
@@ -236,7 +236,7 @@ Een \glsxtrshort{ime}, zoals een toetsenbord, kan worden aangepast om \glsxtrsho
 
 \begin{table} [H]
     \centering
-    \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
+    \begin{tabular}{p{0.47\textwidth} p{0.47\textwidth}}
         \toprule
         \textbf{Voordelen} & \textbf{Nadelen} \\
         \midrule
@@ -255,12 +255,12 @@ Een andere manier om \glsxtrshort{tflite} te integreren is via Android \gls{serv
 \begin{itemize}
     \item \textbf{Foreground \gls{services}}: Voeren taken uit die duidelijk zichtbaar moeten zijn voor de gebruiker, zoals muziek afspelen.
     \item \textbf{Background \gls{services}}: Voeren taken uit die niet direct zichtbaar zijn voor de gebruiker, zoals gegevenssynchronisatie.
-    \item \textbf{Bound \gls{services}}: Bieden een client-server interface die interactie mogelijk maakt tussen componenten zoals een activiteit en service.
+    \item \textbf{Bound \gls{services}}: Bieden een client-server interface die interactie mogelijk \\maakt tussen componenten zoals een activiteit en service.
 \end{itemize}
 
 \begin{table} [H]
     \centering
-    \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
+    \begin{tabular}{p{0.47\textwidth} p{0.47\textwidth}}
         \toprule
         \textbf{Voordelen} & \textbf{Nadelen} \\
         \midrule
@@ -277,7 +277,7 @@ Een minder intensieve optie is het gebruik van de \gls{processtextintent}. Hierm
 
 \begin{table} [H]
     \centering
-    \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
+    \begin{tabular}{p{0.47\textwidth} p{0.47\textwidth}}
         \toprule
         \textbf{Voordelen} & \textbf{Nadelen} \\
         \midrule

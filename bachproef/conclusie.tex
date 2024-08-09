@@ -11,15 +11,15 @@ In dit onderzoek hebben we de haalbaarheid en effectiviteit onderzocht van een p
 
 \subsubsection{Welke taalproblemen kunnen worden gecorrigeerd met technologieën zoals BERT en RobBERT?}
 
-Technologieën zoals \gls{bert} en \gls{robbert} zijn effectief in het corrigeren van grammaticale fouten en het verbeteren van het tekstbegrip, met name bij contextuele uitdagingen zoals het correcte gebruik van de Nederlandse woorden "die" en "dat". Deze modellen blinken uit in het herkennen van contextuele patronen, waardoor ze waardevol zijn voor een breed scala aan \glsxtrlong{nlp}-toepassingen, waaronder tekstclassificatie en sentimentanalyse.
+Technologieën zoals \gls{bert} en \gls{robbert} zijn effectief in het corrigeren van grammaticale fouten en het verbeteren van het tekstbegrip, met name bij contextuele uitdagingen zoals het correcte gebruik van de Nederlandse woorden ``die'' en ``dat''. Deze modellen blinken uit in het herkennen van contextuele patronen, waardoor ze waardevol zijn voor een meedere \glsxtrlong{nlp}-toepas\-singen, waaronder tekstclassificatie en sentimentanalyse.
 
 \subsubsection{Hoe kan een dergelijk toetsenbord initieel de Nederlandse taal ondersteunen met de flexibiliteit voor uitbreiding naar andere talen?}
 
-Initieel kan dit gedaan worden door correct gebruik te maken van het \gls{robbert} model. Echter een uitdaging bestaat om uit te breiden naar andere talen. Het model zou ook de RoBERTa-structuur moeten hanteren en gebruik maken van een \glsxtrlong{bpe}. Deze zou ook uniform moeten worden geïmplementeerd voor zowel Python als Kotlin. Op het moment van schrijven van deze scriptie bestaat er nog geen \glsxtrshort{bpe}-bibliotheek specifiek voor Kotlin, wat een obstakel vormt voor de taaluitbreiding en integratie binnen de Android-omgeving.
+Initieel kan dit gedaan worden door correct gebruik te maken van het \gls{robbert} model. Echter een uitdaging bestaat om uit te breiden naar andere talen. Het model zou ook de RoBERTa-structuur moeten hanteren en gebruik maken van \glsxtrlong{bpe}. Deze zou ook uniform moeten worden geïmplementeerd voor zowel Python als Kotlin. Op het moment van het schrijven van deze scriptie bestaat er nog geen \glsxtrshort{bpe}-bibliotheek specifiek voor Kotlin, wat een obstakel vormt voor de taaluitbreiding en integratie binnen de Android-omgeving.
 
 \subsubsection{Op welke wijze kan dit toetsenbord worden aangepast voor diverse gebruikssituaties buiten de initiële implementatie?}
 
-Een toetsenbord kan worden aangepast voor diverse gebruikssituaties door configuraties te ondersteunen die specifieke \glsxtrshort{nlp}-taken mogelijk maken, zoals spellingcorrectie, grammatica-analyse en contextuele suggesties. Hierbij moet wel kenbaar worden gemaakt dat voor elk van de specifieke functies een andere versie van het model nodig is die \texttt{gefinetuned} is op deze functies.
+Een toetsenbord kan worden aangepast voor diverse gebruikssituaties door configuraties te ondersteunen die specifieke \glsxtrshort{nlp}-taken mogelijk maken, zoals spellingcorrectie, grammatica-analyse en contextuele suggesties. Hierbij moet wel kenbaar worden gemaakt dat voor elk van de specifieke functies een andere versie van het model nodig is die \gefinetuned is voor deze functionaliteit.
 
 \subsubsection{Wat is de ideale balans tussen nauwkeurigheid en privacy in de ontwikkeling van dit toetsenbord?}
 
