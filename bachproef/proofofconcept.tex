@@ -41,7 +41,7 @@ Voor het uitvoeren van de scripts en het installeren van de benodigde bibliothek
 Het utility-bestand bevat functies die zorgen voor consistent gedrag tussen de verschillende scripts. Deze functies omvatten:
 
 \subsubsection{Voorbeeldzinnen}
-De functie \texttt{get\_sentences} levert vooraf bepaalde zinnen aan elk script, zoals weergegeven in codefragment \ref{lst:getsentences}. Deze zinnen worden gebruikt voor het testen van de modellen en demonstreren correcte en incorrecte grammaticale structuren met betrekking tot de woorden "die" en "dat".
+De functie \texttt{get\_sentences} levert vooraf bepaalde zinnen aan elk script, zoals weergegeven in codefragment \ref{lst:getsentences}. Deze zinnen worden gebruikt voor het testen van de modellen en demonstreren correcte en incorrecte grammaticale structuren met betrekking tot de woorden ``die'' of ``dat''.
 
 \begin{listing}
     \begin{minted}[fontsize=\small]{python}
@@ -81,12 +81,12 @@ De functie \texttt{get\_sentences} levert vooraf bepaalde zinnen aan elk script,
                 "De auto dat ik gisteren zag, was heel mooi.",  # Incorrect
             ]
     \end{minted} 
-    \caption[\texttt{get\_sentences}]{\texttt{get\_sentences}: Deze functie levert een lijst van voorbeeldzinnen die correct en incorrect gebruik van "die" en "dat" illustreren. Deze zinnen worden gebruikt voor validatie en testing binnen de proof of concept.}
+    \caption[\texttt{get\_sentences}]{\texttt{get\_sentences}: Deze functie levert een lijst van voorbeeldzinnen die correct en incorrect gebruik van``die'' of ``dat'' illustreren. Deze zinnen worden gebruikt voor validatie en testing binnen de proof of concept.}
     \label{lst:getsentences}
 \end{listing}
 
 \subsubsection{Preprocessing}
-De functie \texttt{preprocess\_input} voert uniforme preprocessing uit voor het genereren van een maskeringstoken binnen een zin, zoals getoond in codefragment \ref{lst:preprocessinput}. Deze functie identificeert de positie van de maskeringstoken en vervangt "die" of "dat" door "<mask>", wat essentieel is voor de verwerking door het model.
+De functie \texttt{preprocess\_input} voert uniforme preprocessing uit voor het genereren van een maskeringstoken binnen een zin, zoals getoond in codefragment \ref{lst:preprocessinput}. Deze functie identificeert de positie van de maskeringstoken en vervangt ``die'' of ``dat'' door "<mask>", wat essentieel is voor de verwerking door het model.
 
 \begin{listing}
     \begin{minted}[fontsize=\small]{python}
@@ -110,7 +110,7 @@ De functie \texttt{preprocess\_input} voert uniforme preprocessing uit voor het 
                     break
             return ' '.join(words), mask_position
     \end{minted}
-    \caption[\texttt{preprocess\_input}]{\texttt{preprocess\_input}: Deze functie voert preprocessing uit op de invoerzinnen door "die" of "dat" te vervangen met "<mask>". Het retourneert zowel de bewerkte zin als de positie van de maskeringstoken.}
+    \caption[\texttt{preprocess\_input}]{\texttt{preprocess\_input}: Deze functie voert preprocessing uit op de invoerzinnen door ``die'' of ``dat'' te vervangen met "<mask>". Het retourneert zowel de bewerkte zin als de positie van de maskeringstoken.}
     \label{lst:preprocessinput}
 \end{listing}
 
@@ -594,7 +594,7 @@ Alle code en functionaliteit die in deze sectie wordt besproken, is beschikbaar 
 
 \subsection{Compatibiliteit en Instellingen}
 
-In deze sectie bespreken we de specificaties van de Android-applicatie om compatibiliteit en consistentie met de eerder genoemde scripts en modellen te waarborgen. Het manifestbestand (\ref{lst:android-manifest}) bevat de nodige instellingen om de applicatie correct te laten functioneren op mobiele apparaten. Hierin worden activiteiten zoals \texttt{ProcessTextActivity}, de bijhorende \texttt{intents} en \gls{services} zoals \texttt{SpeedTestService} gedefinieerd, wat essentieel is voor de verwerking en functionaliteit van de applicatie. 
+In deze sectie bespreken we de specificaties van de Android-applicatie om compatibiliteit en consistentie met de eerder genoemde scripts en modellen te waarborgen. Het \texttt{manifestbestand} (\ref{lst:android-manifest}) bevat de nodige instellingen om de applicatie correct te laten functioneren op mobiele apparaten. Hierin worden activiteiten zoals \texttt{ProcessTextActivity}, de bijhorende \texttt{intents} en \gls{services} zoals \texttt{SpeedTestService} gedefinieerd, wat essentieel is voor de verwerking en functionaliteit van de applicatie. 
 Daarnaast zorgt de \texttt{libs.versions.toml} file (\ref{lst:libs-versions}) voor het beheren van consistente versies van bibliotheken in de gehele applicatie. Deze bevat de versie-informatie voor onze bibliotheken zoals \texttt{Kotlin}, \texttt{TensorFlow}, en \texttt{Compose}.
 Om de modellen lokaal te gebruiken, plaatsen we handmatig een van de geconverteerde en gekwantiseerde modellen en hun vocabulaire in de \texttt{assets} map van de Android-applicatie, zoals weergegeven in \autoref{fig:androidassets}.
 
@@ -664,7 +664,7 @@ In dit deel behandelen we de utility-functies die essentieel zijn voor het consi
 
 \subsubsection{Preprocessing van Invoer}
 
-De functie \texttt{preprocessInput} (\ref{lst:preprocess-input}) is verantwoordelijk voor het maskeren van de woorden "die" of "dat" in de invoerzin en retourneert de gemaskeerde zin samen met de positie van de maskering.
+De functie \texttt{preprocessInput} (\ref{lst:preprocess-input}) is verantwoordelijk voor het maskeren van de woorden ``die'' of ``dat'' in de invoerzin en retourneert de gemaskeerde zin samen met de positie van de maskering.
 
 \begin{listing}
     \begin{minted}[fontsize=\small]{kotlin}
@@ -692,7 +692,7 @@ De functie \texttt{preprocessInput} (\ref{lst:preprocess-input}) is verantwoorde
             return result
         }
     \end{minted}
-    \caption[\texttt{preprocessInput}]{De \texttt{preprocessInput} functie maskeert de woorden "die" of "dat" in de invoerzin en geeft de gemaskeerde zin en de positie van het masker terug.}
+    \caption[\texttt{preprocessInput}]{De \texttt{preprocessInput} functie maskeert de woorden ``die'' of ``dat'' in de invoerzin en geeft de gemaskeerde zin en de positie van het masker terug.}
     \label{lst:preprocess-input}
 \end{listing}
 
@@ -788,7 +788,7 @@ De functie \texttt{createAttentionMask} (\ref{lst:create-attention-mask}) genere
 
 \subsubsection{Padding en Truncatie}
 
-De functie \texttt{padOrTruncate} (\ref{lst:pad-or-truncate}) vult of snijdt een lijst van token-ID's af tot een gespecificeerde maximale lengte. Dit zorgt ervoor dat alle zinnen een uniforme lengte hebben voor verwerking door het model.
+De functie \texttt{padOrTruncate} (\ref{lst:pad-or-truncate}) vult of snijdt een lijst van tokens af tot een gespecificeerde maximale lengte. Dit zorgt ervoor dat alle zinnen een uniforme lengte hebben voor verwerking door het model.
 
 \begin{listing}
     \begin{minted}[fontsize=\small]{kotlin}
@@ -811,7 +811,7 @@ De functie \texttt{padOrTruncate} (\ref{lst:pad-or-truncate}) vult of snijdt een
             return result
         }
     \end{minted}
-    \caption[\texttt{padOrTruncate}]{De \texttt{padOrTruncate} functie past padding of truncatie toe op een lijst van token-ID's, zodat deze overeenkomt met een gespecificeerde maximale lengte.}
+    \caption[\texttt{padOrTruncate}]{De \texttt{padOrTruncate} functie past padding of truncatie toe op een lijst van tokens, zodat deze overeenkomt met een gespecificeerde maximale lengte.}
     \label{lst:pad-or-truncate}
 \end{listing}
 
@@ -867,7 +867,7 @@ De \texttt{topKIndices} functie (\ref{lst:top-k-indices}) identificeert de indic
 
 \subsubsection{Top-K Voorspellingen}
 
-De functie \texttt{getTopPredictions} (\ref{lst:get-top-predictions}) berekent de top-\(k\) voorspellingen voor het gemaskeerde token door de logit-uitvoer te verwerken. Hierbij worden de \texttt{softmax} (\ref{lst:softmax}) en \texttt{topKIndices} (\ref{lst:top-k-indices}) functies gebruikt om de waarschijnlijkheden te berekenen en de beste voorspellingen te selecteren.
+De functie \texttt{getTopPredictions} (\ref{lst:get-top-predictions}) berekent de top-\(k\) voorspellingen voor xe gemaskeerde token door de logit-uitvoer te verwerken. Hierbij worden de \texttt{softmax} (\ref{lst:softmax}) en \texttt{topKIndices} (\ref{lst:top-k-indices}) functies gebruikt om de waarschijnlijkheden te berekenen en de beste voorspellingen te selecteren.
 
 \begin{listing}
     \begin{minted}[fontsize=\small]{kotlin}
@@ -929,9 +929,9 @@ Al deze functies zijn noodzakelijk om effectief het gedrag van de Python-scripts
 
 In deze sectie beschrijven we de ontwikkeling van de Android-applicatie, met de nadruk op de integratie van het \glsxtrshort{tflite}-model. De eerder ontwikkelde Python-code wordt aangepast voor gebruik op Android. We maken gebruik van de \glsxtrlong{tflite} Android-bibliotheek om het model te integreren en uit te voeren binnen de \texttt{MainActivity}. Het utility-object, besproken in de vorige sectie, speelt een cruciale rol bij het bieden van consistente functionaliteit die overeenkomt met de Python-scripts.
 
-De \texttt{MainActivity} (\ref{lst:main-activity-part1}, \ref{lst:main-activity-part2} en \ref{lst:main-activity-part3}) fungeert als het centrale onderdeel van de applicatie, waar de inferentie met het \glsxtrshort{tflite}-model wordt uitgevoerd. Binnen de \texttt{MainActivity} worden de \texttt{TFLite}-modellen geladen en wordt het vocabulaire ingeladen via \texttt{loadVocabulary} (\ref{lst:load-vocabulary}). De activiteit is verantwoordelijk voor het voorbereiden van de invoer, uitvoeren van de model-inferentie en het verwerken van de resultaten, net zoals in de Python-scripts. Daarnaast verzorgt de \texttt{MainActivity} de integratie van de gebruikersinterface waarin gebruikers zinnen kunnen invoeren voor inferentie, en biedt het ook de mogelijkheid om snelheidsmetingen uit te voeren met de \texttt{SpeedTestService}.
+De \texttt{MainActivity} (\ref{lst:main-activity-part1}, \ref{lst:main-activity-part2} en \ref{lst:main-activity-part3}) fungeert als het centrale onderdeel van de applicatie, waar de inferentie met het \glsxtrshort{tflite}-model wordt uitgevoerd. Binnen de \texttt{MainActivity} worden de \glsxtrshort{tflite}-modellen geladen en wordt het vocabulaire ingeladen via \texttt{loadVocabulary} (\ref{lst:load-vocabulary}). De activiteit is verantwoordelijk voor het voorbereiden van de invoer, uitvoeren van de model-inferentie en het verwerken van de resultaten, net zoals in de Python-scripts. Daarnaast verzorgt de \texttt{MainActivity} de integratie van de gebruikersinterface waarin gebruikers zinnen kunnen invoeren voor inferentie, en biedt het ook de mogelijkheid om snelheidsmetingen uit te voeren met de \texttt{SpeedTestService}.
 
-\begin{listing}[ht]
+\begin{listing}
     \begin{minted}[fontsize=\small]{kotlin}
         // MainActivity.kt
         class MainActivity : ComponentActivity() {
@@ -957,7 +957,7 @@ De \texttt{MainActivity} (\ref{lst:main-activity-part1}, \ref{lst:main-activity-
         \label{lst:main-activity-part1}
     \end{listing}
     
-    \begin{listing}[ht]
+    \begin{listing}
         \begin{minted}[fontsize=\small]{kotlin}
             // MainActivity.kt
             private fun loadModelFile(modelName: String): MappedByteBuffer {
@@ -1002,7 +1002,7 @@ De \texttt{MainActivity} (\ref{lst:main-activity-part1}, \ref{lst:main-activity-
         \label{lst:main-activity-part2}
     \end{listing}
     
-    \begin{listing}[ht]
+    \begin{listing}
         \begin{minted}[fontsize=\small]{kotlin}
             // MainActivity.kt
             private fun startSpeedTestService() {
@@ -1205,7 +1205,7 @@ De evaluatie is uitgevoerd op de volgende apparaten:
 
 \subsection{High-Level Pipeline Evaluatie}
 
-De eerste methode betreft het gebruik van de high-level \gls{huggingface} pipeline, die een gebruiksvriendelijke interface biedt voor het uitvoeren van modelinferences. Zoals weergegeven in \autoref{fig:speedtest-pipeline-graph}, toont de pipeline goede prestaties met redelijke inferentietijden voor alle modellen.
+De eerste evaluatie betreft het gebruik van de high-level \gls{huggingface} pipeline, die een gebruiksvriendelijke interface biedt voor het uitvoeren van modelinferences. Zoals weergegeven in \autoref{fig:speedtest-pipeline-graph}, toont de pipeline goede prestaties met redelijke inferentietijden voor alle modellen.
 
 \begin{figure}[H]
     \centering
@@ -1218,7 +1218,7 @@ De grafiek laat zien dat de inferentietijden variëren per model, waarbij het mo
 
 \subsection{Low-Level Transformer API Evaluatie}
 
-De tweede methode maakt gebruik van de low-level Transformer-bibliotheek, die meer controle over de modelverwerking mogelijk maakt. Zoals te zien in \autoref{fig:speedtest-transformer-graph}, zijn de prestaties van deze benadering vergelijkbaar met de pipeline, hoewel de inferentietijden iets hoger kunnen zijn.
+De tweede evaluatie maakt gebruik van de low-level Transformer-bibliotheek, die meer controle over de modelverwerking mogelijk maakt. Zoals te zien in \autoref{fig:speedtest-transformer-graph}, zijn de prestaties van deze benadering vergelijkbaar met de pipeline, hoewel de inferentietijden iets hoger kunnen zijn.
 
 \begin{figure}[H]
     \centering
@@ -1231,7 +1231,7 @@ De extra controle die de low-level \glsxtrshort{api} biedt, kan nuttig zijn voor
 
 \subsection{TFLite Normale Conversie Evaluatie}
 
-De \glsxtrshort{tflite} normale conversie wordt gepresenteerd in \autoref{fig:speedtest-tflite-normal-graph}, waarin de modellen zijn geconverteerd naar een formaat dat geschikt is voor gebruik op mobiele apparaten. Deze aanpak is bedoeld om inferenties mogelijk te maken met beperkte middelen.
+De \glsxtrshort{tflite} evaluatie met normale conversie wordt gepresenteerd in \autoref{fig:speedtest-tflite-normal-graph}, waarin de modellen zijn geconverteerd naar een formaat dat geschikt is voor gebruik op mobiele apparaten. Deze aanpak is bedoeld om inferenties mogelijk te maken met beperkte middelen.
 
 \begin{figure}[H]
     \centering
@@ -1244,7 +1244,7 @@ Ons de mogelijkheid geeft om de modellen op apparaten te gebruiken met minder go
 
 \subsection{TFLite Gekwantisserde Conversie Evaluatie}
 
-De gekwantiseerde conversie met \glsxtrshort{tflite}, weergegeven in \autoref{fig:speedtest-tflite-quantized-graph}, richt zich op het verkorten van inferentietijden door modellen te optimaliseren voor efficiënter gebruik van hardware.
+De gekwantiseerde conversie evaluatie met \glsxtrshort{tflite}, weergegeven in \autoref{fig:speedtest-tflite-quantized-graph}, richt zich op het verkorten van inferentietijden door modellen te optimaliseren voor efficiënter gebruik van hardware.
 
 \begin{figure}[H]
     \centering
@@ -1274,7 +1274,7 @@ Naast de evaluatie van inferentietijden is het van belang om de kwaliteit van de
 
 Een opmerkelijke bevinding was dat wanneer een specifieke zin consistent niet correct werd voorspeld, dit probleem zich voordeed in alle verschillende modelversies. Dit duidt mogelijks op een uitdagingen in inferentiekwaliteit in verband met de modelkenmerken.
 
-Wat betreft de nauwkeurigheid van de zinnen met gebruik van "die/dat", viel \texttt{robbert-2022-dutch-base} op doordat het de meeste fouten maakte, wat verrassend is gezien het feit dat dit model zich in het midden van de lijn van beschikbare modellen bevindt. Deze observatie benadrukt de noodzaak om rekening te houden met specifieke modelkenmerken en datasets bij de selectie van een model voor bepaalde toepassingen.
+Wat betreft de nauwkeurigheid van de zinnen met gebruik van ``die'' of ``dat'', viel \texttt{robbert-2022-dutch-base} op doordat het de meeste fouten maakte, wat verrassend is gezien het feit dat dit model zich in het midden van de lijn van beschikbare modellen bevindt. Deze observatie benadrukt de noodzaak om rekening te houden met specifieke modelkenmerken en datasets bij de selectie van een model voor bepaalde toepassingen.
 
 Deze analyse van de inferentiekwaliteit toont aan dat, hoewel er variabiliteit bestaat in prestaties tussen de verschillende modellen, de keuze van het model en de bijbehorende datasets een aanzienlijke invloed kunnen hebben op de uiteindelijke nauwkeurigheid en betrouwbaarheid van de inferentie.
 
@@ -1282,4 +1282,4 @@ Deze analyse van de inferentiekwaliteit toont aan dat, hoewel er variabiliteit b
 
 Uit de evaluaties blijkt dat er aanzienlijke verschillen zijn in de prestaties van de diverse implementaties. De high-level \gls{huggingface} pipeline biedt gebruiksgemak en goede prestaties, terwijl de low-level benadering meer controle biedt ten koste van iets langere inferentietijden. \glsxtrshort{tflite}-modellen, vooral wanneer gekwantiseerd, bieden aanzienlijke voordelen voor mobiele toepassingen met beperkte middelen.
 
-De keuze voor een specifieke methode hangt af van de behoeften van de toepassing, zoals snelheid, nauwkeurigheid en resourcebeschikbaarheid. Toepassingen die eenvoud en snelle implementatie vereisen, profiteren waarschijnlijk van de pipelinebenadering, terwijl toepassingen die op mobiele apparaten moeten draaien baat kunnen hebben bij de \glsxtrshort{tflite}-optimalisaties.
+De keuze voor een specifieke methode hangt af van de behoeften van de toepassing, zoals snelheid, nauwkeurigheid en resourcebeschikbaarheid. Toepassingen die eenvoud en snelle implementatie vereisen, profiteren waarschijnlijk van de pipelinebenadering gekoppeld met een licht model, als er benodigheid is voor draaien op mobiele apparaten, dan hebben deze zeker baat van de \glsxtrshort{tflite}-optimalisaties.

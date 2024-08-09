@@ -33,30 +33,30 @@ Volgens ~\textcite{Singh2023} zijn \gls{transformer} neurale netwerken een soort
 
 \gls{robbert} en soortgelijke modellen kunnen diverse \glsxtrshort{nlp}-taken uitvoeren, zoals sentimentanalyse, naamherkenning en co-referentie resolutie. Deze modellen verschillen van meer bekende GPT-varianten, die voornamelijk worden gebruikt voor generatieve taken zoals tekstcreatie en vertaling. Terwijl GPT-modellen vaak worden gebruikt om nieuwe tekst te genereren, zijn \gls{bert}-achtige modellen, zoals \gls{robbert}, beter geschikt voor taken waarbij begrip en analyse van bestaande tekst centraal staan ~\autocite{Devlin2019}.
 
-Een belangrijk voordeel van een voorgetraind model zoals \gls{robbert} is dat het eenvoudig kan worden aangepast aan specifieke taken door middel van \gls{fine-tuning} ~\autocite{Howard2018}. Dit elimineert de noodzaak om het model telkens opnieuw vanaf het begin te trainen. Dit proces maakt gebruik van relatief kleine, gelabelde datasets om het model verder te trainen voor specifieke toepassingen, wat resulteert in snellere en nauwkeurigere resultaten. \Gls{fine-tuning} zorgt ervoor dat de kracht en efficiëntie van het voorgetrainde model behouden blijven, terwijl het model wordt geoptimaliseerd voor specifieke taken zoals sentimentanalyse, naamherkenning of co-referentie resolutie ~\autocite{Delobelle2022}.
+Een belangrijk voordeel van een voorgetraind model zoals \gls{robbert} is dat het eenvoudig kan worden aangepast aan specifieke taken door middel van \gls{fine-tuning} ~\autocite{Howard2018}. Dit elimineert de noodzaak om het model telkens opnieuw vanaf het begin te trainen. Dit proces maakt gebruik van relatief kleine, gelabelde datasets om het model verder te trainen voor specifieke toepassingen, wat resulteert in snellere en nauwkeurigere resultaten. \Gls{fine-tuning} zorgt ervoor dat de kracht en efficiëntie van het voorgetrainde model behouden blijven, terwijl kan het model ook geoptimaliseerd worden voor specifieke taken zoals sentimentanalyse, naamherkenning of co-referentie resolutie ~\autocite{Delobelle2022}.
 
 \subsection{Hoe werkt BERT: Theoretisch overzicht}
 
-Zoals eerder vermeld maakt \gls{bert} gebruik van een \gls{transformer}, dit is een aandachtsmechanisme dat helpt bij het begrijpen van de relaties tussen woorden in een tekst. De \gls{transformer} bestaat uit een encoder die de tekst leest en een decoder die voorspellingen doet ~\autocite{Horev2018}.
+Zoals eerder vermeld, maakt \gls{bert} gebruik van de \gls{transformer}-architectuur, een model dat het aandachtsmechanisme, specifiek het zelf-aandacht mechanisme, als kerncomponent gebruikt om de relaties tussen woorden in een tekst te begrijpen. De \gls{transformer} bestaat uit een encoder-decoderstructuur, maar in het geval van \gls{bert} wordt alleen de encoder gebruikt om de tekst te verwerken ~\autocite{Horev2018}.
 
-In tegenstelling tot modellen die de tekst van links naar rechts of van rechts naar links lezen, leest de \gls{transformer}-encoder de complete reeks woorden tegelijkertijd. Dit maakt het mogelijk om de context van een woord te begrijpen op basis van de woorden eromheen ~\autocite{Horev2018}. 
+In tegenstelling tot modellen die tekst sequentieel van links naar rechts of van rechts naar links verwerken, leest de \gls{transformer}-encoder de volledige reeks woorden tegelijkertijd (bidirectioneel in het geval van \gls{bert}). Dit maakt het mogelijk om de context van een woord te begrijpen op basis van alle omringende woorden, wat resulteert in een effectiever vastleggen van betekenis en relaties in de tekst ~\autocite{Horev2018}.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{bert_explained.jpg}
-    \caption{Een overzicht van de \gls{transformer}-encoder door ~\autocite{Horev2018}}
+    \caption{Een overzicht van de \gls{bert} \gls{transformer}-encoder door ~\autocite{Horev2018}}
     \label{fig:bert_explained}
 \end{figure}
 
-Figuur \ref{fig:bert_explained} toont hoe de \gls{transformer}-encoder werkt. De invoer is een reeks woorden die worden omgezet in vectoren en vervolgens verwerkt worden in een neuraal netwerk. De uitvoer is een reeks vectoren, waarbij elke vector overeenkomt met een invoerwoord.
+Figuur \ref{fig:bert_explained} toont hoe de \gls{transformer}-encoder van \gls{bert} werkt. De invoer is een reeks woorden die worden omgezet in vectoren en vervolgens verwerkt worden in een neuraal netwerk. De uitvoer is een reeks vectoren, waarbij elke vector overeenkomt met een invoerwoord.
  
 \subsection{Hoe werkt RobBERT: Praktisch voorbeeld}
 
-Nu we een minimaal theoretisch overzicht hebben over hoe een model werkt, kunnen we deze informatie relateren aan een praktisch voorbeeld van hoe het \gls{robbert}-model kan worden toegepast om een veelgemaakte fout met de woorden "die" en "dat" in het Nederlands te detecteren. In de onderstaande figuur \ref{fig:robbert_example} is een high-level workflow te zien.
+Nu we een minimaal theoretisch overzicht hebben over hoe een model werkt, kunnen we deze informatie relateren aan een praktisch voorbeeld van hoe het \gls{robbert}-model kan worden toegepast om een veelgemaakte fout met de woorden ``die'' en ``dat'' in het Nederlands te detecteren. In de onderstaande figuur \ref{fig:robbert_example} is een high-level workflow te zien.
 
 \subsubsection{Wat kan RobBERT en wat is MLM?}
 
-\gls{robbert} is in staat tot verschillende \glsxtrshort{nlp}-taken, waaronder de \glsxtrfull{mlm} taak, ook bekend als de \textit{fill-mask} taak. Bij deze taak wordt een woord in een zin gemaskeerd en het model moet het ontbrekende woord voorspellen. Dit helpt het model om een dieper begrip van de context en de relaties tussen woorden in een zin te ontwikkelen. Een voorbeeld hiervan is het invullen van de zin "Ik heb een vriend <mask> altijd te laat komt." waarbij het model het gemaskeerde woord "<mask>" moet vervangen door "die" ~\autocite{HuggingFace2024FillMask}.
+\gls{robbert} is in staat tot verschillende \glsxtrshort{nlp}-taken, waaronder de \glsxtrfull{mlm} taak, ook bekend als de \textit{fill-mask} taak. Bij deze taak wordt een woord in een zin gemaskeerd en het model moet het ontbrekende woord voorspellen. Dit helpt het model om een dieper begrip van de context en de relaties tussen woorden in een zin te ontwikkelen. Een voorbeeld hiervan is het invullen van de zin "Ik heb een vriend <mask> altijd te laat komt." waarbij het model het gemaskeerde woord "<mask>" moet vervangen door ``die'' ~\autocite{HuggingFace2024FillMask}.
 
 RobBERT kan verder worden getraind voor specifieke taken zoals \gls{text-classification} en \gls{qa} systemen. \Gls{text-classification} omvat het toewijzen van categorieën aan tekstfragmenten, zoals het bepalen van de sentiment (positief of negatief) van een recensie. ~\autocite{HuggingFace2024TextClass} \Gls{qa} systemen houden in dat het model antwoorden geeft op vragen op basis van een gegeven tekstpassage ~\autocite{HuggingFace2024QA}.
 
@@ -73,7 +73,7 @@ In deze studie zullen we echter geen verdere \gls{fine-tuning} uitvoeren omdat d
 
 Preprocessing verwijst naar de stap waarbij ruwe data wordt omgezet in een bruikbaar formaat voor verdere analyse, inclusief tokenisatie ~\autocite{Chai2022}. ~\textcite{Friedman2023} benadrukt dat dit een cruciale eerste stap is in de verwerking van programmeertalen en inputgegevens voor neurale netwerken. Het helpt complexe vormen te reduceren tot hun basiselementen, wat essentieel is voor verdere analyse en verwerking. Hierbij wordt elk woord, met behulp van een woordenboek dat gekoppeld is aan het specifieke model, omgezet in een geheel getal dat het woord vertegenwoordigt.
 
-Verdere preprocessing omvat het labelen van woorden voor maskering. Bijvoorbeeld, woorden zoals "die" en "dat" worden omgezet naar een token dat de maskeringstoken numeriek vertegenwoordigt in het woordenboek.
+Verdere preprocessing omvat het labelen van woorden voor maskering. Bijvoorbeeld, woorden zoals ``die'' en ``dat'' worden omgezet naar de token dat de maskeringstoken numeriek vertegenwoordigt in het woordenboek.
 
 Een belangrijk onderdeel van \gls{robbert}'s preprocessing is het tokenisatieproces, dat gebruik maakt van \glsxtrfull{bpe}. \glsxtrshort{bpe} is een subwoordtokenisatie-algoritme dat woorden opsplitst in kleinere eenheden, genaamd subwoorden of tokens. Dit proces is bijzonder nuttig voor talen met een rijke morfologie en helpt bij het omgaan met onbekende of zelden voorkomende woorden ~\autocite{Sennrich2016}.
 
@@ -99,15 +99,15 @@ Nu alle data voorbereid is, komen we bij de laatste stap voordat we het model ku
 
 De inferentiestap omvat het gebruik van het getrainde model om voorspellingen te doen op basis van nieuwe, niet eerder geziene data. In onze use case, waarbij we werken met een model zoals \gls{robbert}, betekent dit dat we de voorbereide en getokeniseerde invoerdata, die is omgezet naar \glspl{tensor}, door het model halen om resultaten te genereren. Het model gebruikt de contextuele representaties die zijn geleerd tijdens het trainingsproces om de meest waarschijnlijke output te bepalen.
 
-Bijvoorbeeld, in een taak waarbij we willen bepalen of het correcte verwijswoord in een zin "die" of "dat" moet zijn, wordt de invoertekst eerst getokeniseerd en voorbewerkt zoals eerder beschreven. De getokeniseerde tekst wordt vervolgens omgezet in een \gls{tensor} en door het model gehaald. Het \gls{robbert}-model genereert \glspl{logit}, numerieke waarden die de niet-genormaliseerde waarschijnlijkheden van alle mogelijke woorden in zijn vocabulaire vertegenwoordigen ~\autocite{Google2024}.
+Bijvoorbeeld, in een taak waarbij we willen bepalen of het correcte verwijswoord in een zin ``die'' of ``dat'' moet zijn, wordt de invoertekst eerst getokeniseerd en voorbewerkt zoals eerder beschreven. De getokeniseerde tekst wordt vervolgens omgezet in een \gls{tensor} en door het model gehaald. Het \gls{robbert}-model genereert \glspl{logit}, numerieke waarden die de niet-genormaliseerde waarschijnlijkheden van alle mogelijke woorden in zijn vocabulaire vertegenwoordigen ~\autocite{Google2024}.
 
-Omdat het model niet specifiek is getraind om enkel "die" en "dat" te onderscheiden, zal het \glspl{logit} genereren voor alle mogelijke woorden die het kent. Deze kunnen dan worden gebruikt om de waarschijnlijkheid van elk woord te bepalen en uiteindelijk te kiezen welk woord het beste past in context van de zin.
+Omdat het model niet specifiek is getraind om enkel ``die'' of ``dat'' te onderscheiden, zal het \glspl{logit} genereren voor alle mogelijke woorden die het kent. Deze kunnen dan worden gebruikt om de waarschijnlijkheid van elk woord te bepalen en uiteindelijk te kiezen welk woord het beste past in context van de zin.
 
 De inferentie kwaliteit is sterk afhankelijk van hoe nauwkeurig het model is hoe representatief de trainingsdata is. Een goed getraind \gls{robbert}-model kan complexe taalkundige patronen in Nederlandse teksten herkennen en nauwkeurige voorspellingen doen over welk woord correct is in verschillende contexten ~\autocite{Delobelle2020}
 
 Inferentie vereist ook dat het model efficiënt kan omgaan met de gegeven invoerdata. Dit betekent dat zowel de preprocessing, de \gls{attentionmask}, als de tensorconversie nauwkeurig moeten zijn uitgevoerd om ervoor te zorgen dat het model de data correct interpreteert en verwerkt. Eventuele fouten in deze stappen kunnen leiden tot onnauwkeurige of verkeerde voorspellingen, wat de betrouwbaarheid van het model vermindert ~\autocite{Jain2020}.
 
-Samengevat, bij de inferentiestap wordt de voorbereidende data door het model gehaald om de gewenste output te genereren, wat in onze use case betekent dat \gls{robbert} gebruikt wordt om het correcte gebruik van "die" of "dat" in Nederlandse zinnen te bepalen door \glspl{logit} te produceren die de basis vormen voor de uiteindelijke voorspelling.
+Samengevat, bij de inferentiestap wordt de voorbereidende data door het model gehaald om de gewenste output te genereren, wat in onze use case betekent dat \gls{robbert} gebruikt wordt om het correcte gebruik van ``die'' of ``dat'' in Nederlandse zinnen te bepalen door \glspl{logit} te produceren die de basis vormen voor de uiteindelijke voorspelling.
 
 \subsubsection{Postprocessing}
 
@@ -121,12 +121,12 @@ De \gls{softmax}}-functie normaliseert de \glspl{logit}, zodat ze een geldige wa
 
 waarbij \(z_i\) de \gls{logit} is voor de \(i\)-de klasse, en de som in de noemer loopt over alle mogelijke klassen. Door deze transformatie krijgen we de waarschijnlijkheden dat elk woord of elke klasse de juiste voorspelling is ~\autocite{Phillips2023}.
 
-In onze use case, waarbij we willen bepalen of het correcte verwijswoord in een zin "die" of "dat" moet zijn, genereren we \glspl{logit} voor het volledige vocabulaire van het model. Dit betekent dat we de waarschijnlijkheid verkrijgen voor elk woord in het vocabulaire. Na de \gls{softmax}-functie toe te passen, kunnen we deze waarschijnlijkheden gebruiken om te bepalen welk woord het beste zou passen volgens het model
+In onze use case, waarbij we willen bepalen of het correcte verwijswoord in een zin ``die'' of ``dat'' moet zijn, genereren we \glspl{logit} voor het volledige vocabulaire van het model. Dit betekent dat we de waarschijnlijkheid verkrijgen voor elk woord in het vocabulaire. Na de \gls{softmax}-functie toe te passen, kunnen we deze waarschijnlijkheden gebruiken om te bepalen welk woord het beste zou passen volgens het model
 
 Het proces van postprocessing verloopt als volgt:
 \begin{enumerate}
 \item \textbf{Bereken de \gls{softmax}-waarden}: Pas de \gls{softmax}-functie toe op de \glspl{logit} om een waarschijnlijkheidsverdeling te krijgen.
-\item \textbf{Selecteer de voorspelling}: Kies de klasse met de hoogste waarschijnlijkheid.
+\item \textbf{Selecteer de voorspelling}: Verkrijg het gegeven met de hoogste waarschijnlijkheid.
 \end{enumerate}
 
 Door deze stappen kunnen we de waarschijnlijkheden terugbotsen tegen het vocabulaire van het model en de voorspelling teruggeven aan de gebruiker, wat ons helpt om het correcte verwijswoord in een zin te bepalen.
@@ -135,7 +135,7 @@ Door deze stappen kunnen we de waarschijnlijkheden terugbotsen tegen het vocabul
 
 \gls{bert} en \gls{robbert} zijn belangrijke vooruitgangen in \glsxtrshort{nlp}. \gls{bert}'s bidirectionele aanpak maakt het mogelijk om contextuele informatie uit beide richtingen van een tekst te begrijpen, wat leidt tot betere prestaties in diverse \glsxtrshort{nlp}-taken. \gls{robbert}, getraind op Nederlandse tekst, verbetert de prestaties voor Nederlandse \glsxtrshort{nlp}-taken door gebruik te maken van de geoptimaliseerde RoBERTa-architectuur.
 
-Het voorgetrainde \gls{robbert}-model kan eenvoudig worden aangepast aan specifieke toepassingen door \gls{fine-tuning}, wat zowel tijd als rekenkracht bespaart. We hebben een voorbeeld besproken van het gebruik van \gls{robbert} om fouten met de verwijswoorden "die" en "dat" in het Nederlands te detecteren. Door de invoerdata te tokeniseren, voor te verwerken en door het model te halen, kunnen we nauwkeurig bepalen welk verwijswoord correct is in de context.
+Het voorgetrainde \gls{robbert}-model kan eenvoudig worden aangepast aan specifieke toepassingen door \gls{fine-tuning}, wat zowel tijd als rekenkracht bespaart. We hebben een voorbeeld besproken van het gebruik van \gls{robbert} om fouten met de verwijswoorden ``die'' of ``dat'' in het Nederlands te detecteren. Door de invoerdata te tokeniseren, voor te verwerken en door het model te halen, kunnen we nauwkeurig bepalen welk verwijswoord correct is in de context.
 
 \gls{robbert} toont aan hoe gespecialiseerde taalmodellen bijdragen aan nauwkeurige en efficiënte \glsxtrshort{nlp}, essentieel voor toepassingen zoals tekstanalyse en sentimentanalyse.
     
@@ -145,7 +145,7 @@ Nu we wat meer weten over \gls{bert} en \gls{robbert} stappen we over naar het o
 
 \subsection{Wat is Tensorflow?}
 
-\Gls{tensorflow}} is een open-source softwarebibliotheek ontwikkeld door Google Brain voor \glsxtrshort{ml} en artificiële intelligentie toepassingen. Het biedt een uitgebreide, flexibele ecosysteem van hulpmiddelen, bibliotheken en community resources die onderzoekers en ontwikkelaars in staat stellen om \glsxtrshort{ml}-aangedreven applicaties te bouwen en in te zetten. \Gls{tensorflow}} ondersteunt zowel deep learning-models als neurale netwerken en biedt een robuuste infrastructuur voor het trainen en implementeren van deze modellen op verschillende platforms, van datacenters tot edge devices ~\autocite{TensorFlow2024About}.
+\Gls{tensorflow}} is een open-source softwarebibliotheek ontwikkeld door Google Brain voor \glsxtrshort{ml} en artificiële intelligentie toepassingen. Het biedt een uitgebreide, flexibele ecosysteem van hulpmiddelen, bibliotheken en community resources die onderzoekers en ontwikkelaars in staat stellen om \glsxtrshort{ml}-aangedreven applicaties te bouwen en in te zetten. \Gls{tensorflow}} ondersteunt zowel deep learning-models als neurale netwerken en biedt een sterke infrastructuur voor het trainen en implementeren van deze modellen op verschillende platforms, van datacenters tot edge devices ~\autocite{TensorFlow2024About}.
 
 \subsection{TFLite: Een Inleiding}
 
@@ -187,7 +187,7 @@ Het voorgaande hoofdstuk beschreef wat \glsxtrshort{tflite} is en wat het kan, n
 
 \subsection{Uitvoeren van Modellen op Android}
 
-Een \glsxtrshort{tflite} model in een Android-app neemt gegevens in, verwerkt ze en genereert een voorspelling op basis van het model. Hiervoor is een speciale runtime-omgeving nodig, en de gegevens die naar het model worden doorgegeven moeten in een specifiek formaat zijn, een \gls{tensor} genaamd. Bij het uitvoeren van een inferentie genereert het model resultaten als nieuwe \glspl{tensor}, die vervolgens door de Android-app worden gebruikt om actie te ondernemen, zoals het tonen van resultaten aan de gebruiker of het uitvoeren van extra logica ~\autocite{TensorFlowLite2024Android}. In figuur \ref{fig:tensorflowandroidexecutionworkflow} wordt dit visueel weergegven.
+Een \glsxtrshort{tflite} model in een Android-app neemt gegevens in, verwerkt ze en genereert een voorspelling op basis van het model. Hiervoor is een speciale runtime-omgeving nodig, en de gegevens die naar het model worden doorgegeven moeten in een specifiek formaat zijn, dat van een \gls{tensor}. Bij het uitvoeren van een inferentie genereert het model resultaten als nieuwe \glspl{tensor}, die vervolgens door de Android-app worden gebruikt om actie te ondernemen, zoals het tonen van resultaten aan de gebruiker of het uitvoeren van extra logica ~\autocite{TensorFlowLite2024Android}. In figuur \ref{fig:tensorflowandroidexecutionworkflow} wordt dit visueel weergegven.
 
 \begin{figure}[ht]
     \centering
@@ -220,7 +220,7 @@ Hoewel de Task \glsxtrshort{api} wordt aanbevolen voor de meeste gebruikssituati
 
 \subsection{Conclusie}
 
-In dit hoofdstuk hebben we besproken hoe \glsxtrlong{tflite} kan worden geïntegreerd in Android-applicaties. We hebben gekeken naar de uitvoering van modellen, de verschillende runtime-omgevingen en de ontwikkelings-\glsxtrshort{api}'s die beschikbaar zijn. Voor onze toepassing kiezen we voor de stand-alone \glsxtrshort{tflite} runtime en de Interpreter \glsxtrshort{api} om meer controle en flexibiliteit te hebben bij het uitvoeren van \glsxtrshort{ml}-modellen op Android. Verdere details en uitleg over deze keuzes zullen duidelijk worden in de Proof of Concept.
+In dit hoofdstuk hebben we besproken hoe \glsxtrlong{tflite} kan worden geïntegreerd in Android-applicaties. We hebben gekeken naar de uitvoering van modellen, de verschillende runtime-omgevingen en de ontwikkelings-\glsxtrshort{api}'s die beschikbaar zijn. Voor onze toepassing kiezen we voor de stand-alone \glsxtrshort{tflite} runtime en de Interpreter \glsxtrshort{api} om meer controle en flexibiliteit te hebben bij het uitvoeren van \glsxtrshort{ml}-modellen op Android. Verdere details en uitleg over deze keuzes zullen duidelijk worden in hoodstuk \ref{ch:methodologie} en \ref{ch:proofofconcept}.
 
 \section{Android Development}
 
@@ -234,7 +234,7 @@ Er zijn verschillende manieren om \glsxtrshort{tflite} in een Android-applicatie
 
 Een \glsxtrshort{ime}, zoals een toetsenbord, kan worden aangepast om \glsxtrshort{tflite} te integreren voor het uitvoeren van \glsxtrshort{ml}-taken zoals tekstvoorspelling of autocorrectie. Het ontwikkelen van een \glsxtrshort{ime} heeft echter aanzienlijke uitdagingen ~\autocite{Android2024IME}:
 
-\begin{table} [ht]
+\begin{table} [H]
     \centering
     \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
         \toprule
@@ -258,7 +258,7 @@ Een andere manier om \glsxtrshort{tflite} te integreren is via Android \gls{serv
     \item \textbf{Bound \gls{services}}: Bieden een client-server interface die interactie mogelijk maakt tussen componenten zoals een activiteit en service.
 \end{itemize}
 
-\begin{table} [ht]
+\begin{table} [H]
     \centering
     \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
         \toprule
@@ -275,7 +275,7 @@ Een andere manier om \glsxtrshort{tflite} te integreren is via Android \gls{serv
 
 Een minder intensieve optie is het gebruik van de \gls{processtextintent}. Hiermee kan een applicatie tekst ontvangen en verwerken met behulp van een \glsxtrshort{tflite} model ~\autocite{Android2024Intent}. Dit is bijzonder nuttig voor toepassingen zoals tekstclassificatie, sentimentanalyse of simpele tekst correctie.
 
-\begin{table} [ht]
+\begin{table} [H]
     \centering
     \begin{tabular}{p{0.5\textwidth} p{0.5\textwidth}}
         \toprule
